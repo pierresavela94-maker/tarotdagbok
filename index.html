@@ -460,6 +460,42 @@
                 "maj-15": `<path d="M10 14a4 4 0 0 1-5-5l2-2a4 4 0 0 1 5 5"/><path d="M14 10a4 4 0 0 1 5 5l-2 2a4 4 0 0 1-5-5"/><path d="M9 15l6-6"/>`,
                 "maj-16": `<path d="M8 21V9l4-4 4 4v12"/><path d="M6 9h12"/><path d="M13 2l-3 6h4l-3 6"/>`,
                 "maj-17": `<polygon points="12,2 14.6,8.5 21.5,9.2 16.2,13.8 17.8,20.6 12,17 6.2,20.6 7.8,13.8 2.5,9.2 9.4,8.5"/>`,
+                "maj-18": `<path d="M16 4a8 8 0 1 0 0 16 6.5 6.5 0 0 1 0-16z"/><path d="M4 19c3-1 5 1 8 0s5 1 8 0" opacity="0.6"/>`,
+                "maj-19": `<circle cx="12" cy="12" r="5"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1"/>`,
+                "maj-20": `<path d="M4 14l10-6v12L4 14z"/><path d="M14 11c2.5 0 4.5 1.5 4.5 3s-2 3-4.5 3"/><path d="M18 8l2-2M19 14h2M18 20l2 2"/>`,
+                "maj-21": `<ellipse cx="12" cy="12" rx="7" ry="9.5"/><path d="M8 7c1.5 1 6.5 1 8 0M8 17c1.5-1 6.5-1 8 0"/><circle cx="12" cy="12" r="2.5"/>`
+            };
+
+            return wrap(majorIcons[id] || `<polygon points="12,2 14.8,8.5 22,9.3 16.5,14 18.2,21 12,17.3 5.8,21 7.5,14 2,9.3 9.2,8.5"/>`);
+        }
+
+        // Hämta aktiv Google Sheets-URL
+        function getSheetsUrl() {
+            if (DEFAULT_SHEETS_URL && DEFAULT_SHEETS_URL.trim() !== "") {
+                return DEFAULT_SHEETS_URL.trim();
+            }
+            try {
+                return (localStorage.getItem(SHEETS_URL_KEY) || "").trim();
+            } catch (e) {
+                return "";
+            }
+        }
+
+        // Uppdatera statuspricken i sidhuvudet
+        function setSyncStatus(state, text) {
+            const dot = document.getElementById('sync-dot');
+            const label = document.getElementById('sync-text');
+            if (label) label.textContent = text;
+            if (!dot) return;
+            if (state === 'syncing') {
+                dot.className = "w-2 h-2 rounded-full bg-amber-400 animate-pulse";
+            } else if (state === 'error') {
+                dot.className = "w-2 h-2 rounded-full bg-rose-500";
+            } else {
+                dot.className = "w-2 h-2 rounded-full bg-emerald-400";
+            }
+        }
+
         // Byt flik mellan Dagens Kort, Dagbok och Synk/Backup
         function switchTab(tab) {
             const viewToday = document.getElementById('view-today');
@@ -861,27 +897,6 @@
                     </article>
                 `;
             }).join('');
-        }
-
-        // Byt flik mellan Dagens Kort och Dagbok
-        function switchTab(tab) {
-            const viewToday = document.getElementById('view-today');
-            const viewHistory = document.getElementById('view-history');
-            const tabToday = document.getElementById('tab-today');
-            const tabHistory = document.getElementById('tab-history');
-
-            if (tab === 'today') {
-                viewToday.classList.remove('hidden');
-                viewHistory.classList.add('hidden');
-                tabToday.className = "flex-1 sm:flex-none px-4 py-2 rounded-lg text-sm font-medium transition-all bg-mystic-700 text-mystic-goldLight shadow";
-                tabHistory.className = "flex-1 sm:flex-none px-4 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 transition-all flex items-center justify-center gap-2";
-            } else {
-                viewToday.classList.add('hidden');
-                viewHistory.classList.remove('hidden');
-                tabHistory.className = "flex-1 sm:flex-none px-4 py-2 rounded-lg text-sm font-medium transition-all bg-mystic-700 text-mystic-goldLight shadow flex items-center justify-center gap-2";
-                tabToday.className = "flex-1 sm:flex-none px-4 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 transition-all";
-                renderHistory();
-            }
         }
 
         // Hantering av borttagningsmodal
