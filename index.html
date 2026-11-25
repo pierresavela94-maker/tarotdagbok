@@ -73,14 +73,17 @@
 
             <!-- Fliknavigering -->
             <nav class="flex bg-mystic-950 p-1 rounded-xl border border-mystic-700/60 w-full sm:w-auto">
-                <button onclick="switchTab('today')" id="tab-today" class="flex-1 sm:flex-none px-4 py-2 rounded-lg text-sm font-medium transition-all bg-mystic-700 text-mystic-goldLight shadow">
+                <button onclick="switchTab('today')" id="tab-today" class="flex-1 sm:flex-none px-3.5 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all bg-mystic-700 text-mystic-goldLight shadow">
                     Dagens Kort
                 </button>
-                <button onclick="switchTab('history')" id="tab-history" class="flex-1 sm:flex-none px-4 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 transition-all flex items-center justify-center gap-2">
+                <button onclick="switchTab('history')" id="tab-history" class="flex-1 sm:flex-none px-3.5 py-2 rounded-lg text-xs sm:text-sm font-medium text-slate-400 hover:text-slate-200 transition-all flex items-center justify-center gap-1.5">
                     <span>Dagbok</span>
                     <span id="entry-count" class="bg-mystic-800 text-mystic-gold text-xs px-2 py-0.5 rounded-full">0</span>
                 </button>
-                <button onclick="switchTab('settings')" id="tab-settings" title="Synk & Backup" aria-label="Synk och Backup" class="px-3.5 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 transition-all flex items-center justify-center">
+                <button onclick="switchTab('crystals')" id="tab-crystals" class="flex-1 sm:flex-none px-3.5 py-2 rounded-lg text-xs sm:text-sm font-medium text-slate-400 hover:text-slate-200 transition-all flex items-center justify-center gap-1">
+                    <span>Kristaller</span>
+                </button>
+                <button onclick="switchTab('settings')" id="tab-settings" title="Synk & Backup" aria-label="Synk och Backup" class="px-3 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 transition-all flex items-center justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="12" cy="12" r="3"></circle>
                         <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
@@ -238,7 +241,62 @@
             </div>
         </section>
 
-        <!-- VY 3: INSTÄLLNINGAR (SYNK & BACKUP) -->
+        <!-- VY 3: KRISTALLGUIDE -->
+        <section id="view-crystals" class="hidden space-y-6">
+            <div class="px-1">
+                <h2 class="font-serif text-xl font-semibold text-mystic-goldLight">Kristallguide & Skötsel</h2>
+                <p class="text-xs text-slate-400 mt-0.5">Utforska kristallernas energier, hur du renar dem och hur du laddar dem med ny kraft.</p>
+            </div>
+
+            <!-- Generell guide: Rening & Uppladdning -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="bg-mystic-900 border border-mystic-700/60 rounded-2xl p-5 space-y-2.5 shadow-xl">
+                    <div class="flex items-center gap-2 text-mystic-goldLight font-serif font-semibold text-base">
+                        <span>💨</span>
+                        <h3>Så renar du kristaller</h3>
+                    </div>
+                    <ul class="text-xs text-slate-300 space-y-2 leading-relaxed">
+                        <li><strong class="text-mystic-gold">Rökelse (Salvia / Palo Santo):</strong> För kristallen genom röken i ca 30 sekunder för att rensa bort tung energi.</li>
+                        <li><strong class="text-mystic-gold">Selenit eller Bergkristall:</strong> Lägg dina kristaller på en selenitplatta över natten – selenit renar andra stenar automatiskt.</li>
+                        <li><strong class="text-mystic-gold">Ljud (Klangskål):</strong> Ljudvibrationer rensar kristaller skonsamt utan slitage.</li>
+                        <li><strong class="text-rose-300">Obs om vatten:</strong> Många kristaller (t.ex. Selenit, Malakit, Pyrit, Lepidolit) löses upp eller tar skada av vatten!</li>
+                    </ul>
+                </div>
+
+                <div class="bg-mystic-900 border border-mystic-700/60 rounded-2xl p-5 space-y-2.5 shadow-xl">
+                    <div class="flex items-center gap-2 text-mystic-goldLight font-serif font-semibold text-base">
+                        <span>🌕</span>
+                        <h3>Så laddar du upp dem</h3>
+                    </div>
+                    <ul class="text-xs text-slate-300 space-y-2 leading-relaxed">
+                        <li><strong class="text-mystic-gold">Månljus (Fullmåne):</strong> Lägg kristallerna på fönsterbrädan över natten. Passar <em>alla</em> kristaller och ger mjuk, intuitiv energi.</li>
+                        <li><strong class="text-mystic-gold">Solljus:</strong> Ger stark, aktiv energi – men bara korta stunder (lila/rosa stenar som Ametist & Rosenkvarts bleks i direkt sol).</li>
+                        <li><strong class="text-mystic-gold">Jordkontakt:</strong> Gräv ner stenen i en blomkruka eller i naturen i ett dygn för djup grundning.</li>
+                        <li><strong class="text-mystic-gold">Intention:</strong> Håll kristallen i handen, blunda och tänk tydligt på vad du vill att den ska hjälpa dig med.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Sök & Filter för kristaller -->
+            <div class="bg-mystic-900/90 border border-mystic-700/60 rounded-2xl p-4 sm:p-5 space-y-3 shadow-xl">
+                <input type="text" id="crystal-search" oninput="renderCrystals()" placeholder="Sök kristall eller egenskap (t.ex. Ametist, sömn, kärlek, skydd)..." class="w-full bg-mystic-950 border border-mystic-700 rounded-xl px-4 py-2.5 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-mystic-gold">
+                <div id="crystal-filters" class="flex flex-wrap gap-1.5">
+                    <button type="button" onclick="setCrystalFilter('Alla')" class="crystal-filter-btn px-3 py-1 rounded-full text-xs font-medium bg-mystic-700 text-mystic-goldLight border border-mystic-gold/40">Alla</button>
+                    <button type="button" onclick="setCrystalFilter('Lugn & Sömn')" class="crystal-filter-btn px-3 py-1 rounded-full text-xs font-medium bg-mystic-950 text-slate-400 border border-mystic-700 hover:text-slate-200">Lugn & Sömn</button>
+                    <button type="button" onclick="setCrystalFilter('Kärlek & Hjärta')" class="crystal-filter-btn px-3 py-1 rounded-full text-xs font-medium bg-mystic-950 text-slate-400 border border-mystic-700 hover:text-slate-200">Kärlek & Hjärta</button>
+                    <button type="button" onclick="setCrystalFilter('Skydd & Grundning')" class="crystal-filter-btn px-3 py-1 rounded-full text-xs font-medium bg-mystic-950 text-slate-400 border border-mystic-700 hover:text-slate-200">Skydd & Grundning</button>
+                    <button type="button" onclick="setCrystalFilter('Energi & Mod')" class="crystal-filter-btn px-3 py-1 rounded-full text-xs font-medium bg-mystic-950 text-slate-400 border border-mystic-700 hover:text-slate-200">Energi & Mod</button>
+                    <button type="button" onclick="setCrystalFilter('Intuition & Klarhet')" class="crystal-filter-btn px-3 py-1 rounded-full text-xs font-medium bg-mystic-950 text-slate-400 border border-mystic-700 hover:text-slate-200">Intuition & Klarhet</button>
+                </div>
+            </div>
+
+            <!-- Lista med kristallkort -->
+            <div id="crystals-list" class="grid grid-cols-1 gap-4">
+                <!-- Fylls i dynamiskt av JavaScript -->
+            </div>
+        </section>
+
+        <!-- VY 4: INSTÄLLNINGAR (SYNK & BACKUP) -->
         <section id="view-settings" class="hidden space-y-6">
             <div class="px-1">
                 <h2 class="font-serif text-xl font-semibold text-mystic-goldLight">Synk & Säkerhetskopiering</h2>
@@ -405,6 +463,167 @@
             isReversed: false,
             isUnlocked: false
         };
+        let activeCrystalCategory = "Alla";
+
+        /**
+         * DATABAS MED VANLIGA KRISTALLER, EGENSKAPER, RENING & UPPLADDNING
+         */
+        const CRYSTAL_GUIDE = [
+            {
+                name: "Ametist",
+                colorHex: "#a855f7",
+                category: "Lugn & Sömn",
+                chakra: "Tredje ögat & Kronchakrat",
+                waterSafe: true,
+                keywords: "Lugn, bättre sömn, intuition, stresslindring",
+                purpose: "En av de mest älskade kristallerna för att stilla ett överaktivt sinne, minska stress och ge djupare sömn. Stärker även din intuition vid tarotläggning.",
+                cleanse: "Rökelse, selenitplatta eller skölj kort i ljummet vatten.",
+                charge: "Månljus (undvik direkt solljus då den vackra lila färgen bleks i solen)."
+            },
+            {
+                name: "Rosenkvarts",
+                colorHex: "#f472b6",
+                category: "Kärlek & Hjärta",
+                chakra: "Hjärtchakrat",
+                waterSafe: true,
+                keywords: "Självkärlek, värme, förlåtelse, harmoni",
+                purpose: "Den villkorslösa kärlekens sten. Hjälper dig att öppna hjärtat, vara snällare mot dig själv och bjuda in mer värme och trygghet i relationer.",
+                cleanse: "Rökelse, selenit eller rinnande vatten.",
+                charge: "Månljus eller på en bergkristallkluster (bleks i starkt solljus)."
+            },
+            {
+                name: "Bergkristall",
+                colorHex: "#e2e8f0",
+                category: "Intuition & Klarhet",
+                chakra: "Alla chakran (särskilt Kronchakrat)",
+                waterSafe: true,
+                keywords: "Klarhet, fokus, energiförstärkare, balans",
+                purpose: "Kallas 'Mästarläkaren'. Den rensar dimmiga tankar, ger mental skärpa och förstärker energin hos alla andra kristaller och intentioner.",
+                cleanse: "Tål nästan allt: vatten, rökelse, klangskål eller jord.",
+                charge: "Både månljus och solljus (tänk på brandrisk om den ligger som ett förstoringsglas i fönstret)."
+            },
+            {
+                name: "Svart Turmalin",
+                colorHex: "#475569",
+                category: "Skydd & Grundning",
+                chakra: "Rotchakrat",
+                waterSafe: true,
+                keywords: "Beskydd, grundning, trygghet, rensar negativitet",
+                purpose: "Fungerar som en energimässig sköld som absorberar och omvandlar tung energi och stress från omgivningen. Hjälper dig att landa tryggt i kroppen.",
+                cleanse: "Rökelse, jordkontakt eller skölj snabbt i vatten och torka torrt.",
+                charge: "Månljus, solljus eller genom att vila i en blomkruka/jord."
+            },
+            {
+                name: "Citrin",
+                colorHex: "#facc15",
+                category: "Energi & Mod",
+                chakra: "Solar plexus",
+                waterSafe: true,
+                keywords: "Livsglädje, självförtroende, överflöd, kreativitet",
+                purpose: "Solsken på burk! Sprider optimism, kreativitet, handlingskraft och hjälper dig att våga ta plats och attrahera framgång.",
+                cleanse: "Behöver sällan renas då den inte håller kvar tung energi, men gillar rökelse eller vatten.",
+                charge: "Korta stunder i morgonsol eller i månljus (äkta citrin kan blekna i stark middagssol)."
+            },
+            {
+                name: "Selenit",
+                colorHex: "#f8fafc",
+                category: "Intuition & Klarhet",
+                chakra: "Kronchakrat",
+                waterSafe: false,
+                keywords: "Renhet, hög vibration, frid, rensar andra stenar",
+                purpose: "Skapar omedelbar frid och ljus i ett rum. Dess unika egenskap är att den renar och laddar andra kristaller som läggs på eller bredvid den.",
+                cleanse: "Självrenande! Kan även renas med rökelse. OBS: Tål absolut INTE vatten (löses upp).",
+                charge: "Månljus."
+            },
+            {
+                name: "Månsten",
+                colorHex: "#93c5fd",
+                category: "Intuition & Klarhet",
+                chakra: "Sakralchakrat & Tredje ögat",
+                waterSafe: true,
+                keywords: "Intuition, cykler, nystart, mjukhet",
+                purpose: "Stark koppling till månens faser, kvinnlig energi och känslomässig balans. Perfekt följeslagare när du drar tarotkort eller går igenom förändringar.",
+                cleanse: "Rökelse, selenit eller skölj kort i svalt vatten.",
+                charge: "Fullmåneljus är den allra bästa uppladdningen för månsten."
+            },
+            {
+                name: "Tigeröga",
+                colorHex: "#d97706",
+                category: "Energi & Mod",
+                chakra: "Solar plexus & Rotchakrat",
+                waterSafe: true,
+                keywords: "Mod, beslutsamhet, fokus, inre styrka",
+                purpose: "Ger mod när du tvekar, stärker självkänslan och hjälper dig att hålla fokus och fatta kloka, jordnära beslut.",
+                cleanse: "Rökelse, selenit eller kort sköljning i vatten.",
+                charge: "Solljus eller månljus."
+            },
+            {
+                name: "Rökkvarts",
+                colorHex: "#78716c",
+                category: "Skydd & Grundning",
+                chakra: "Rotchakrat",
+                waterSafe: true,
+                keywords: "Släppa oro, grundning, lugn i stormen",
+                purpose: "Hjälper dig att släppa taget om oro, ältande och gammal stress genom att jorda energin ner i marken.",
+                cleanse: "Rinnande vatten, rökelse eller selenit.",
+                charge: "Månljus eller vila mot jorden."
+            },
+            {
+                name: "Grön Aventurin",
+                colorHex: "#34d399",
+                category: "Kärlek & Hjärta",
+                chakra: "Hjärtchakrat",
+                waterSafe: true,
+                keywords: "Tur, nya möjligheter, hjärtats lugn, tillit",
+                purpose: "Kallas 'möjligheternas sten'. Lugnar oroliga känslor i bröstet och bjuder in tur, nyfikenhet och framåtanda.",
+                cleanse: "Vatten, rökelse eller selenit.",
+                charge: "Månljus eller i naturen bland växter."
+            },
+            {
+                name: "Lepidolit",
+                colorHex: "#c084fc",
+                category: "Lugn & Sömn",
+                chakra: "Hjärtchakrat & Kronchakrat",
+                waterSafe: false,
+                keywords: "Djup avslappning, inre frid, släppa ångest",
+                purpose: "Innehåller naturligt spår av litium och är känd som en av de mest rogivande stenarna vid oro, stress och överväldigande känslor.",
+                cleanse: "Rökelse, selenit eller ljud. OBS: Tål INTE vatten (flagar och tar skada).",
+                charge: "Månljus."
+            },
+            {
+                name: "Karneol",
+                colorHex: "#f97316",
+                category: "Energi & Mod",
+                chakra: "Sakralchakrat",
+                waterSafe: true,
+                keywords: "Kreativitet, livslust, värme, mod",
+                purpose: "Väcker skaparglädje, passion och motivation när du känner dig trött eller fast i gamla hjulspår.",
+                cleanse: "Vatten, rökelse eller selenit.",
+                charge: "Solljus eller månljus."
+            },
+            {
+                name: "Labradorit",
+                colorHex: "#2dd4bf",
+                category: "Intuition & Klarhet",
+                chakra: "Tredje ögat & Halschakrat",
+                waterSafe: false,
+                keywords: "Magi, intuition, energiskydd, transformation",
+                purpose: "Magi- och intuitionsstenen! Skyddar din aura från att dräneras av andra människor och stärker din inre vägledning.",
+                cleanse: "Rökelse, selenit eller klangskål (undvik att lägga den i blöt i vatten).",
+                charge: "Månljus."
+            },
+            {
+                name: "Pyrit",
+                colorHex: "#eab308",
+                category: "Skydd & Grundning",
+                chakra: "Solar plexus",
+                waterSafe: false,
+                keywords: "Handlingskraft, överflöd, beskydd, viljestyrka",
+                purpose: "Kallas 'narrens guld'. Ger stark drivkraft, skyddar mot negativ energi och hjälper dig att omsätta idéer till verklighet.",
+                cleanse: "Rökelse eller selenit. OBS: Tål INTE vatten (innehåller järn och kan rosta/avge ämnen).",
+                charge: "Månljus eller korta stunder i solljus."
+            }
+        ];
 
         // Genererar skräddarsydd guldfärgad SVG-ikon för valt tarotkort
         function getCardSvg(cardId) {
@@ -779,11 +998,6 @@
             const userNotes = document.getElementById('user-notes').value.trim();
             const afterNotes = document.getElementById('after-notes').value.trim();
 
-            if (!userNotes) {
-                showToast("Skriv gärna ner dina tankar innan du sparar.");
-                return;
-            }
-
             const newEntry = {
                 id: Date.now().toString(),
                 date: dateVal,
@@ -802,40 +1016,38 @@
             journalEntries.sort((a, b) => String(b.date).localeCompare(String(a.date)));
             persistEntriesToStorage();
             renderHistory();
-            resetForm();
-            showToast("Dagens kort är sparat i dagboken!");
 
-            await postToSheets({ action: "add", entry: newEntry });
-        }
-
-        // Återställ formuläret efter sparning
-        function resetForm() {
-            setTodayDate();
+            // Återställ formuläret för nästa dag
             document.getElementById('card-search').value = "";
             populateCardSelect();
             document.getElementById('card-select').value = "";
             document.getElementById('user-notes').value = "";
             document.getElementById('after-notes').value = "";
-            currentState = { selectedCardId: "", isReversed: false, isUnlocked: false };
             setOrientation(false);
+            setTodayDate();
             selectCard();
+
+            showToast("Kortet och din tolkning har sparats!");
+            await postToSheets({ action: "add", entry: newEntry });
         }
 
-        // Rendera alla sparade inlägg i fliken Dagbok
+        // Rendera alla sparade dagboksinlägg i fliken Dagbok
         function renderHistory() {
-            const listEl = document.getElementById('entries-list');
-            const countEl = document.getElementById('entry-count');
             const entries = getEntries();
+            const countBadge = document.getElementById('entry-count');
+            if (countBadge) countBadge.textContent = entries.length;
 
-            if (countEl) countEl.textContent = entries.length;
+            const listEl = document.getElementById('entries-list');
             if (!listEl) return;
 
             if (entries.length === 0) {
                 listEl.innerHTML = `
-                    <div class="bg-mystic-900/60 border border-dashed border-mystic-700 rounded-2xl p-8 text-center space-y-2">
-                        <p class="text-2xl">🔮</p>
-                        <h3 class="font-serif text-base font-semibold text-mystic-goldLight">Din dagbok är tom ännu</h3>
-                        <p class="text-xs text-slate-400 max-w-sm mx-auto">När du har dragit dagens kort och sparat din tolkning kommer alla dina kort att samlas här så att du kan följa din utveckling.</p>
+                    <div class="bg-mystic-900/60 border border-dashed border-mystic-700 rounded-2xl p-10 text-center space-y-2">
+                        <p class="text-3xl">🔮</p>
+                        <h3 class="font-serif text-lg font-semibold text-mystic-goldLight">Din dagbok är tom ännu</h3>
+                        <p class="text-sm text-slate-400 max-w-md mx-auto">
+                            Gå till fliken "Dagens Kort", välj det kort du dragit och skriv ner dina tankar för att fylla ditt första blad.
+                        </p>
                     </div>
                 `;
                 return;
@@ -843,56 +1055,169 @@
 
             listEl.innerHTML = entries.map(entry => {
                 const orientationBadge = entry.isReversed
-                    ? `<span class="text-[11px] px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-300 border border-amber-500/30">Upp & ner</span>`
-                    : `<span class="text-[11px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-300 border border-emerald-500/30">Rättvänt</span>`;
+                    ? `<span class="text-xs px-2.5 py-0.5 rounded-full bg-amber-500/10 text-amber-300 border border-amber-500/30">Upp & ner</span>`
+                    : `<span class="text-xs px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-300 border border-emerald-500/30">Rättvänt</span>`;
 
-                const afterSection = entry.afterNotes
-                    ? `
-                        <div class="p-3 rounded-xl bg-mystic-950/70 border border-mystic-800">
-                            <span class="text-[11px] uppercase tracking-wider text-mystic-gold font-semibold">Lärdom & Eftertanke</span>
-                            <p class="text-xs text-slate-300 mt-1 leading-relaxed whitespace-pre-line">${escapeHtml(entry.afterNotes)}</p>
-                        </div>
-                    `
-                    : "";
+                const rotateStyle = entry.isReversed ? 'style="transform: rotate(180deg);"' : '';
+
+                const afterNotesHtml = entry.afterNotes ? `
+                    <div class="mt-3 pt-3 border-t border-mystic-800/80">
+                        <span class="text-xs uppercase tracking-wider text-mystic-gold font-semibold">Lärdom & Eftertanke</span>
+                        <p class="text-sm text-slate-300 mt-1 whitespace-pre-line leading-relaxed">${escapeHtml(entry.afterNotes)}</p>
+                    </div>
+                ` : '';
 
                 return `
                     <article class="bg-mystic-900/90 border border-mystic-700/60 rounded-2xl p-5 sm:p-6 shadow-lg space-y-4">
                         <div class="flex items-start justify-between gap-4 border-b border-mystic-800 pb-4">
                             <div class="flex items-center gap-3.5">
-                                <div class="w-12 h-14 rounded-xl bg-mystic-950 border border-mystic-gold/50 flex items-center justify-center text-mystic-gold shrink-0" style="${entry.isReversed ? 'transform: rotate(180deg);' : ''}">
+                                <div class="w-11 h-14 rounded-lg bg-mystic-950 border border-mystic-gold/50 flex items-center justify-center text-mystic-gold shrink-0" ${rotateStyle}>
                                     ${getCardSvg(entry.cardId)}
                                 </div>
                                 <div>
                                     <div class="flex flex-wrap items-center gap-2">
-                                        <span class="text-xs font-medium text-mystic-gold">${escapeHtml(entry.date)}</span>
+                                        <span class="text-xs font-medium text-slate-400">${escapeHtml(entry.date)}</span>
                                         ${orientationBadge}
                                     </div>
-                                    <h3 class="font-serif text-lg sm:text-xl font-bold text-white mt-0.5">${escapeHtml(entry.cardName)}</h3>
-                                    <p class="text-xs text-slate-400">${escapeHtml(entry.cardArcana)}</p>
+                                    <h3 class="font-serif text-lg font-bold text-white mt-0.5">${escapeHtml(entry.cardName)}</h3>
+                                    <p class="text-xs text-mystic-gold">${escapeHtml(entry.cardArcana)}</p>
                                 </div>
                             </div>
-                            <button onclick="openDeleteModal('${escapeHtml(entry.id)}')" title="Ta bort inlägg" class="text-slate-500 hover:text-rose-400 p-2 rounded-lg hover:bg-mystic-800 transition">
+                            <button onclick="openDeleteModal('${escapeHtml(entry.id)}')" title="Ta bort inlägg" class="text-slate-500 hover:text-rose-400 p-1.5 rounded-lg hover:bg-mystic-800 transition">
                                 🗑️
                             </button>
                         </div>
 
-                        <div class="space-y-3">
-                            <div>
-                                <span class="text-xs uppercase tracking-wider text-slate-400 font-semibold">Min egen tolkning</span>
-                                <p class="text-sm text-slate-200 mt-1 leading-relaxed whitespace-pre-line">${escapeHtml(entry.userNotes)}</p>
-                            </div>
+                        <div>
+                            <span class="text-xs uppercase tracking-wider text-slate-400 font-semibold">Din egen tolkning</span>
+                            <p class="text-sm text-slate-200 mt-1 whitespace-pre-line leading-relaxed">${escapeHtml(entry.userNotes)}</p>
+                        </div>
 
-                            ${afterSection}
+                        <div class="p-4 rounded-xl bg-mystic-950/80 border border-mystic-800">
+                            <span class="text-xs uppercase tracking-wider text-mystic-gold font-semibold">Kortets betydelse (${entry.isReversed ? 'Omvänt' : 'Rättvänt'})</span>
+                            <p class="text-xs text-mystic-goldLight mt-1 mb-1.5 font-medium">${escapeHtml(entry.keywords)}</p>
+                            <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">${escapeHtml(entry.meaningText)}</p>
+                            ${afterNotesHtml}
+                        </div>
+                    </article>
+                `;
+            }).join('');
+        }
 
-                            <details class="group pt-1">
-                                <summary class="cursor-pointer text-xs font-medium text-mystic-gold hover:text-mystic-goldLight select-none flex items-center gap-1.5">
-                                    <span>📖 Visa kortets traditionella betydelse</span>
-                                </summary>
-                                <div class="mt-3 p-4 rounded-xl bg-mystic-950 border border-mystic-800 space-y-2 text-xs text-slate-300 leading-relaxed">
-                                    <p><strong class="text-mystic-goldLight">Nyckelord:</strong> ${escapeHtml(entry.keywords)}</p>
-                                    <p>${escapeHtml(entry.meaningText)}</p>
+        // Byt flik mellan Dagens Kort, Dagbok, Kristaller och Synk/Backup
+        function switchTab(tab) {
+            const viewToday = document.getElementById('view-today');
+            const viewHistory = document.getElementById('view-history');
+            const viewCrystals = document.getElementById('view-crystals');
+            const viewSettings = document.getElementById('view-settings');
+            const tabToday = document.getElementById('tab-today');
+            const tabHistory = document.getElementById('tab-history');
+            const tabCrystals = document.getElementById('tab-crystals');
+            const tabSettings = document.getElementById('tab-settings');
+
+            viewToday.classList.add('hidden');
+            viewHistory.classList.add('hidden');
+            viewCrystals.classList.add('hidden');
+            viewSettings.classList.add('hidden');
+
+            tabToday.className = "flex-1 sm:flex-none px-3.5 py-2 rounded-lg text-xs sm:text-sm font-medium text-slate-400 hover:text-slate-200 transition-all";
+            tabHistory.className = "flex-1 sm:flex-none px-3.5 py-2 rounded-lg text-xs sm:text-sm font-medium text-slate-400 hover:text-slate-200 transition-all flex items-center justify-center gap-1.5";
+            tabCrystals.className = "flex-1 sm:flex-none px-3.5 py-2 rounded-lg text-xs sm:text-sm font-medium text-slate-400 hover:text-slate-200 transition-all flex items-center justify-center gap-1";
+            tabSettings.className = "px-3 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 transition-all flex items-center justify-center";
+
+            if (tab === 'today') {
+                viewToday.classList.remove('hidden');
+                tabToday.className = "flex-1 sm:flex-none px-3.5 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all bg-mystic-700 text-mystic-goldLight shadow";
+            } else if (tab === 'history') {
+                viewHistory.classList.remove('hidden');
+                tabHistory.className = "flex-1 sm:flex-none px-3.5 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all bg-mystic-700 text-mystic-goldLight shadow flex items-center justify-center gap-1.5";
+                renderHistory();
+            } else if (tab === 'crystals') {
+                viewCrystals.classList.remove('hidden');
+                tabCrystals.className = "flex-1 sm:flex-none px-3.5 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all bg-mystic-700 text-mystic-goldLight shadow flex items-center justify-center gap-1";
+                renderCrystals();
+            } else if (tab === 'settings') {
+                viewSettings.classList.remove('hidden');
+                tabSettings.className = "px-3 py-2 rounded-lg text-sm font-medium transition-all bg-mystic-700 text-mystic-goldLight shadow flex items-center justify-center";
+            }
+        }
+
+        // Byt kategorifilter i Kristallguiden
+        function setCrystalFilter(category) {
+            activeCrystalCategory = category;
+            document.querySelectorAll('.crystal-filter-btn').forEach(btn => {
+                if (btn.textContent.trim() === category) {
+                    btn.className = "crystal-filter-btn px-3 py-1 rounded-full text-xs font-medium bg-mystic-700 text-mystic-goldLight border border-mystic-gold/40";
+                } else {
+                    btn.className = "crystal-filter-btn px-3 py-1 rounded-full text-xs font-medium bg-mystic-950 text-slate-400 border border-mystic-700 hover:text-slate-200";
+                }
+            });
+            renderCrystals();
+        }
+
+        // Rendera kristallkorten baserat på sökning och kategori
+        function renderCrystals() {
+            const listEl = document.getElementById('crystals-list');
+            if (!listEl) return;
+            const query = (document.getElementById('crystal-search')?.value || "").toLowerCase().trim();
+
+            const filtered = CRYSTAL_GUIDE.filter(c => {
+                const matchesCat = activeCrystalCategory === "Alla" || c.category === activeCrystalCategory;
+                const matchesQuery = !query ||
+                    c.name.toLowerCase().includes(query) ||
+                    c.keywords.toLowerCase().includes(query) ||
+                    c.purpose.toLowerCase().includes(query) ||
+                    c.chakra.toLowerCase().includes(query);
+                return matchesCat && matchesQuery;
+            });
+
+            if (filtered.length === 0) {
+                listEl.innerHTML = `
+                    <div class="bg-mystic-900/60 border border-dashed border-mystic-700 rounded-2xl p-8 text-center space-y-2">
+                        <p class="text-2xl">💎</p>
+                        <h3 class="font-serif text-base font-semibold text-mystic-goldLight">Ingen kristall matchade sökningen</h3>
+                        <p class="text-xs text-slate-400">Prova att söka på ett annat ord eller välj "Alla" ovan.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            listEl.innerHTML = filtered.map(c => {
+                const waterBadge = c.waterSafe
+                    ? `<span class="text-[11px] px-2.5 py-0.5 rounded-full bg-sky-500/10 text-sky-300 border border-sky-500/30">💧 Tål kort vatten</span>`
+                    : `<span class="text-[11px] px-2.5 py-0.5 rounded-full bg-rose-500/15 text-rose-300 border border-rose-500/40">🚫 Ej i vatten</span>`;
+
+                return `
+                    <article class="bg-mystic-900 border border-mystic-700/60 rounded-2xl p-5 shadow-lg space-y-3.5">
+                        <div class="flex items-start justify-between gap-3 border-b border-mystic-800 pb-3">
+                            <div class="flex items-center gap-3">
+                                <div class="w-11 h-11 rounded-xl bg-mystic-950 border border-mystic-700 flex items-center justify-center shrink-0" style="color: ${c.colorHex};">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" fill-opacity="0.2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
+                                        <polygon points="12 2 19 8 16 21 8 21 5 8 12 2"></polygon>
+                                        <line x1="5" y1="8" x2="19" y2="8"></line>
+                                        <line x1="12" y1="2" x2="12" y2="21"></line>
+                                    </svg>
                                 </div>
-                            </details>
+                                <div>
+                                    <h3 class="font-serif text-lg font-bold text-white">${escapeHtml(c.name)}</h3>
+                                    <p class="text-xs text-mystic-gold">${escapeHtml(c.category)} • ${escapeHtml(c.chakra)}</p>
+                                </div>
+                            </div>
+                            ${waterBadge}
+                        </div>
+
+                        <p class="text-xs text-mystic-goldLight font-medium">✨ ${escapeHtml(c.keywords)}</p>
+                        <p class="text-sm text-slate-300 leading-relaxed">${escapeHtml(c.purpose)}</p>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
+                            <div class="p-3 rounded-xl bg-mystic-950/80 border border-mystic-800">
+                                <span class="text-[11px] uppercase tracking-wider text-mystic-gold font-semibold block">💨 Rening</span>
+                                <p class="text-xs text-slate-300 mt-1 leading-relaxed">${escapeHtml(c.cleanse)}</p>
+                            </div>
+                            <div class="p-3 rounded-xl bg-mystic-950/80 border border-mystic-800">
+                                <span class="text-[11px] uppercase tracking-wider text-mystic-gold font-semibold block">🌕 Uppladdning</span>
+                                <p class="text-xs text-slate-300 mt-1 leading-relaxed">${escapeHtml(c.charge)}</p>
+                            </div>
                         </div>
                     </article>
                 `;
