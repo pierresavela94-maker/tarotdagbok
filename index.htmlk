@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Min Tarotdagbok</title>
+    <!-- Mobilapp-inställningar (PWA / Helskärm & Appikon) -->
+    <meta name="theme-color" content="#090714">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="application-name" content="Tarotdagbok">
+    <link id="app-icon" rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='112' fill='%23090714'/%3E%3Crect x='24' y='24' width='464' height='464' rx='92' fill='none' stroke='%23e2b963' stroke-width='10' opacity='0.5'/%3E%3Cpath d='M295 110a150 150 0 1 0 0 292 122 122 0 0 1 0-292z' fill='%23e2b963'/%3E%3Cpolygon points='335,175 347,208 382,211 355,233 364,267 335,248 306,267 315,233 288,211 323,208' fill='%23f5dca4'/%3E%3C/svg%3E">
+    <link id="apple-icon" rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='112' fill='%23090714'/%3E%3Crect x='24' y='24' width='464' height='464' rx='92' fill='none' stroke='%23e2b963' stroke-width='10' opacity='0.5'/%3E%3Cpath d='M295 110a150 150 0 1 0 0 292 122 122 0 0 1 0-292z' fill='%23e2b963'/%3E%3Cpolygon points='335,175 347,208 382,211 355,233 364,267 335,248 306,267 315,233 288,211 323,208' fill='%23f5dca4'/%3E%3C/svg%3E">
+    <!-- Laddar Tailwind CSS för modern och responsiv design -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Laddar typsnitt från Google Fonts för en magisk men lättläst känsla -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Cinzel', 'serif'],
+                    },
+                    colors: {
+                        mystic: {
+                            950: '#090714',
+                            900: '#110d24',
+                            800: '#1c1638',
+                            700: '#2b2254',
+                            gold: '#e2b963',
+                            goldLight: '#f5dca4',
+                            goldDark: '#b38b39',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-mystic-950 text-slate-200 font-sans min-h-screen flex flex-col selection:bg-mystic-gold selection:text-mystic-950">
+
+    <!-- Bakgrundsdekoration (subtilt stjärnljus) -->
+    <div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
+        <div class="absolute -top-40 -right-40 w-96 h-96 bg-purple-900/20 rounded-full blur-3xl"></div>
+        <div class="absolute top-1/2 -left-40 w-80 h-80 bg-indigo-900/20 rounded-full blur-3xl"></div>
+        <div class="absolute -bottom-40 right-1/4 w-96 h-96 bg-amber-900/10 rounded-full blur-3xl"></div>
+    </div>
+
+    <!-- Header & Navigering -->
+    <header class="relative z-10 border-b border-mystic-700/50 bg-mystic-900/80 backdrop-blur-md sticky top-0">
+        <div class="max-w-3xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-mystic-goldDark to-mystic-goldLight flex items-center justify-center text-mystic-950 shadow-lg shadow-amber-500/20">
+                    <!-- Mån/Stjärn-ikon i SVG -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2L14.8 8.5L22 9.3L16.5 14L18.2 21L12 17.3L5.8 21L7.5 14L2 9.3L9.2 8.5L12 2Z" />
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="font-serif text-xl sm:text-2xl font-bold text-mystic-goldLight tracking-wide">Min Tarotdagbok</h1>
+                    <p id="sync-status" class="text-xs text-slate-400 flex items-center gap-1.5">
+                        <span id="sync-dot" class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                        <span id="sync-text">Redo för dagens kort</span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Fliknavigering -->
+            <nav class="flex bg-mystic-950 p-1 rounded-xl border border-mystic-700/60 w-full sm:w-auto">
+                <button onclick="switchTab('today')" id="tab-today" class="flex-1 sm:flex-none px-4 py-2 rounded-lg text-sm font-medium transition-all bg-mystic-700 text-mystic-goldLight shadow">
+                    Dagens Kort
+                </button>
+                <button onclick="switchTab('history')" id="tab-history" class="flex-1 sm:flex-none px-4 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 transition-all flex items-center justify-center gap-2">
+                    <span>Dagbok</span>
+                    <span id="entry-count" class="bg-mystic-800 text-mystic-gold text-xs px-2 py-0.5 rounded-full">0</span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Huvudinnehåll -->
+    <main class="relative z-10 flex-1 max-w-3xl w-full mx-auto px-4 py-6 sm:py-8">
+
+        <!-- MEDDELANDERUTA (Ersätter alert/confirm) -->
+        <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+            <div class="bg-mystic-800 border border-mystic-gold text-slate-100 px-5 py-3 rounded-xl shadow-2xl flex items-center gap-3">
+                <span class="text-mystic-gold text-lg">✨</span>
+                <p id="toast-msg" class="text-sm font-medium">Sparat!</p>
+            </div>
+        </div>
+
+        <!-- VY 1: DAGENS KORT (ARBETSFLÖDE I 3 STEG) -->
+        <section id="view-today" class="space-y-6">
+            
+            <!-- Datumväljare & Intro -->
+            <div class="bg-mystic-900/90 border border-mystic-700/60 rounded-2xl p-5 sm:p-6 shadow-xl flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                    <span class="text-xs uppercase tracking-wider text-mystic-gold font-semibold">Dagens datum</span>
+                    <input type="date" id="entry-date" class="mt-1 block bg-mystic-950 border border-mystic-700 rounded-xl px-3 py-2 text-slate-200 text-sm focus:outline-none focus:border-mystic-gold">
+                </div>
+                <p class="text-sm text-slate-300 max-w-md leading-relaxed">
+                    Dra ett fysiskt kort på morgonen. Låt dagen gå och känn in energin innan du skriver din egen tolkning och läser facit.
+                </p>
+            </div>
+
+            <!-- STEG 1: VÄLJ KORT -->
+            <div class="bg-mystic-900/90 border border-mystic-700/60 rounded-2xl p-5 sm:p-6 shadow-xl space-y-4">
+                <div class="flex items-center gap-3">
+                    <span class="w-7 h-7 rounded-full bg-mystic-gold/20 text-mystic-gold border border-mystic-gold/40 flex items-center justify-center text-sm font-bold">1</span>
+                    <h2 class="font-serif text-lg font-semibold text-mystic-goldLight">Vilket kort drog du idag?</h2>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <!-- Sök/Filtrera kort -->
+                    <div class="relative">
+                        <input type="text" id="card-search" placeholder="Sök kort (t.ex. Narren, Bägare)..." oninput="filterCards()" class="w-full bg-mystic-950 border border-mystic-700 rounded-xl px-4 py-3 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-mystic-gold">
+                    </div>
+
+                    <!-- Rullista med alla 78 kort -->
+                    <div>
+                        <select id="card-select" onchange="selectCard()" class="w-full bg-mystic-950 border border-mystic-700 rounded-xl px-4 py-3 text-sm text-slate-200 focus:outline-none focus:border-mystic-gold">
+                            <option value="">-- Välj kort i listan (78 st) --</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Visuellt kort som visas när ett kort är valt -->
+                <div id="selected-card-banner" class="hidden mt-4 p-4 rounded-xl bg-gradient-to-r from-mystic-800 to-mystic-950 border border-mystic-gold/40 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-16 rounded-lg bg-mystic-950 border border-mystic-gold flex items-center justify-center text-mystic-gold shadow-inner transition-transform duration-300" id="card-symbol">
+                        </div>
+                        <div>
+                            <span id="card-arcana" class="text-xs uppercase tracking-widest text-mystic-gold">Stora Arkanan</span>
+                            <h3 id="card-title" class="font-serif text-xl font-bold text-white">Kortets Namn</h3>
+                        </div>
+                    </div>
+
+                    <!-- Rättvänt eller Upp-och-ner -->
+                    <div class="flex items-center gap-2 bg-mystic-950 p-1.5 rounded-xl border border-mystic-700">
+                        <button type="button" id="btn-upright" onclick="setOrientation(false)" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-mystic-700 text-mystic-goldLight transition">
+                            Rättvänt
+                        </button>
+                        <button type="button" id="btn-reversed" onclick="setOrientation(true)" class="px-3 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-200 transition">
+                            Upp & ner
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEG 2: EGEN TOLKNING -->
+            <div id="step-2-container" class="bg-mystic-900/90 border border-mystic-700/60 rounded-2xl p-5 sm:p-6 shadow-xl space-y-4 opacity-50 pointer-events-none transition-opacity duration-300">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <span class="w-7 h-7 rounded-full bg-mystic-gold/20 text-mystic-gold border border-mystic-gold/40 flex items-center justify-center text-sm font-bold">2</span>
+                        <h2 class="font-serif text-lg font-semibold text-mystic-goldLight">Din egen tolkning & dagens händelser</h2>
+                    </div>
+                </div>
+                
+                <p class="text-xs text-slate-400">
+                    Vad ser du i kortets bild? Hur har dagen känts och vad har hänt som kan kopplas till kortet? Skriv ner dina tankar innan du läser beskrivningen.
+                </p>
+
+                <textarea id="user-notes" rows="4" oninput="checkUnlockButton()" placeholder="Skriv dina tankar och reflektioner här..." class="w-full bg-mystic-950 border border-mystic-700 rounded-xl p-4 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-mystic-gold leading-relaxed"></textarea>
+            </div>
+
+            <!-- STEG 3: LÅS UPP KORTETS BETYDELSE & SPARA -->
+            <div id="step-3-container" class="bg-mystic-900/90 border border-mystic-700/60 rounded-2xl p-5 sm:p-6 shadow-xl space-y-4 opacity-50 pointer-events-none transition-opacity duration-300">
+                <div class="flex items-center gap-3">
+                    <span class="w-7 h-7 rounded-full bg-mystic-gold/20 text-mystic-gold border border-mystic-gold/40 flex items-center justify-center text-sm font-bold">3</span>
+                    <h2 class="font-serif text-lg font-semibold text-mystic-goldLight">Lär dig kortets betydelse</h2>
+                </div>
+
+                <!-- Låst läge (Knapp för att avslöja) -->
+                <div id="meaning-locked" class="p-6 rounded-xl bg-mystic-950/80 border border-dashed border-mystic-700 text-center space-y-3">
+                    <p class="text-sm text-slate-400">
+                        Skriv din egen tolkning i steg 2 först för att träna din intuition, klicka sedan nedan för att läsa kortets traditionella betydelse.
+                    </p>
+                    <button type="button" id="btn-reveal" onclick="revealMeaning()" disabled class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-mystic-goldDark to-mystic-gold text-mystic-950 font-semibold text-sm shadow-lg disabled:opacity-40 disabled:cursor-not-allowed hover:brightness-110 transition">
+                        🔓 Visa kortets betydelse
+                    </button>
+                </div>
+
+                <!-- Upplåst läge (Kortets beskrivning) -->
+                <div id="meaning-unlocked" class="hidden p-5 rounded-xl bg-mystic-950 border border-mystic-gold/50 space-y-4">
+                    <div>
+                        <span class="text-xs uppercase tracking-wider text-mystic-gold font-semibold">Nyckelord</span>
+                        <p id="meaning-keywords" class="text-sm font-medium text-mystic-goldLight mt-1"></p>
+                    </div>
+                    <div class="border-t border-mystic-800 pt-3">
+                        <span class="text-xs uppercase tracking-wider text-mystic-gold font-semibold">Rättvänd betydelse</span>
+                        <p id="meaning-upright" class="text-sm text-slate-300 mt-1 leading-relaxed"></p>
+                    </div>
+                    <div class="border-t border-mystic-800 pt-3">
+                        <span class="text-xs uppercase tracking-wider text-slate-400 font-semibold">Upp-och-ner (Omvänt)</span>
+                        <p id="meaning-reversed" class="text-sm text-slate-400 mt-1 leading-relaxed"></p>
+                    </div>
+                    
+                    <!-- Extra reflektion efter att ha läst betydelsen -->
+                    <div class="border-t border-mystic-800 pt-4">
+                        <label class="block text-xs uppercase tracking-wider text-mystic-gold font-semibold mb-2">
+                            Lärdom / Eftertanke (Valfritt)
+                        </label>
+                        <textarea id="after-notes" rows="2" placeholder="Stämde din känsla överens med kortets betydelse? Vad tar du med dig?" class="w-full bg-mystic-900 border border-mystic-700 rounded-xl p-3 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-mystic-gold"></textarea>
+                    </div>
+                </div>
+
+                <!-- Spara-knapp -->
+                <div class="pt-2 flex justify-end">
+                    <button type="button" id="btn-save" onclick="saveEntry()" disabled class="w-full sm:w-auto px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-sm shadow-lg disabled:opacity-40 disabled:cursor-not-allowed transition flex items-center justify-center gap-2">
+                        <span>💾 Spara i dagboken</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- VY 2: HISTORIK / SPARADE DAGBOKSINLÄGG -->
+        <section id="view-history" class="hidden space-y-6">
+            
+            <!-- Koppling till Google Kalkylark (Sheets) -->
+            <div class="bg-mystic-900/90 border border-mystic-gold/40 rounded-2xl p-4 sm:p-5 space-y-3">
+                <div class="flex items-center justify-between gap-2">
+                    <div>
+                        <h3 class="font-serif text-base font-semibold text-mystic-goldLight">☁️ Google Kalkylark-synk</h3>
+                        <p class="text-xs text-slate-400">Klistra in din Google Apps Script webbapp-URL så sparas alla kort automatiskt i ert kalkylark.</p>
+                    </div>
+                    <button type="button" onclick="syncFromSheets()" class="shrink-0 px-3 py-1.5 rounded-xl bg-mystic-800 hover:bg-mystic-700 border border-mystic-600 text-xs font-medium text-mystic-goldLight transition">
+                        🔄 Synka nu
+                    </button>
+                </div>
+                <div class="flex flex-col sm:flex-row gap-2">
+                    <input type="url" id="sheets-url-input" placeholder="https://script.google.com/macros/s/.../exec" class="flex-1 bg-mystic-950 border border-mystic-700 rounded-xl px-3 py-2 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-mystic-gold">
+                    <button type="button" onclick="saveSheetsUrl()" class="px-4 py-2 rounded-xl bg-mystic-gold text-mystic-950 font-semibold text-xs hover:brightness-110 transition">
+                        Spara länk
+                    </button>
+                </div>
+            </div>
+
+            <!-- Verktygsfält för export/import (bra som extra säkerhet) -->
+            <div class="bg-mystic-900/90 border border-mystic-700/60 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div>
+                    <h2 class="font-serif text-lg font-semibold text-mystic-goldLight">Dina sparade kort</h2>
+                    <p class="text-xs text-slate-400">Alla inlägg synkas med ert Google Kalkylark. Här kan du även ladda ner en extra kopia.</p>
+                </div>
+                <div class="flex gap-2 w-full sm:w-auto">
+                    <button onclick="exportJournal()" class="flex-1 sm:flex-none px-3 py-2 rounded-xl bg-mystic-800 hover:bg-mystic-700 border border-mystic-600 text-xs font-medium text-slate-200 transition">
+                        ⬇️ Ladda ner backup
+                    </button>
+                    <label class="flex-1 sm:flex-none px-3 py-2 rounded-xl bg-mystic-800 hover:bg-mystic-700 border border-mystic-600 text-xs font-medium text-slate-200 transition text-center cursor-pointer">
+                        ⬆️ Ladda upp backup
+                        <input type="file" accept=".json" onchange="importJournal(event)" class="hidden">
+                    </label>
+                </div>
+            </div>
+
+            <!-- Lista med inlägg -->
+            <div id="entries-list" class="space-y-4">
+                <!-- Fylls i dynamiskt av JavaScript -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Bekräftelsemodal för borttagning -->
+    <div id="delete-modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="bg-mystic-900 border border-mystic-700 rounded-2xl p-6 max-w-sm w-full space-y-4 shadow-2xl">
+            <h3 class="font-serif text-lg font-bold text-white">Ta bort inlägg?</h3>
+            <p class="text-sm text-slate-300">Är du säker på att du vill ta bort detta kort ur din dagbok? Det går inte att ångra.</p>
+            <div class="flex justify-end gap-3 pt-2">
+                <button onclick="closeDeleteModal()" class="px-4 py-2 rounded-xl bg-mystic-800 text-slate-300 text-sm font-medium hover:bg-mystic-700">Avbryt</button>
+                <button id="confirm-delete-btn" class="px-4 py-2 rounded-xl bg-rose-600 text-white text-sm font-medium hover:bg-rose-500">Ta bort</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Klistra in er Google Apps Script webbapp-URL här mellan citattecknen om ni vill ha den hårdkodad:
+        const DEFAULT_SHEETS_URL = "";
+
+        // Globalt tillstånd för dagboksinlägg i minnet
+        let journalEntries = [];
+        const STORAGE_KEY = "min_tarotdagbok_entries_v1";
+        const SHEETS_URL_KEY = "min_tarotdagbok_sheets_url_v1";
+
+        /**
+         * KOMPLETT DATABAS MED ALLA 78 TAROTKORT PÅ SVENSKA
+         * Innehåller Stora Arkanan (22) samt Lilla Arkanan (Bägare, Stavar, Svärd, Mynt - 56)
+         */
+        const TAROT_DECK = [
+            // STORA ARKANAN (0 - 21)
+            { id: "maj-0", name: "0. Narren", arcana: "Stora Arkanan", symbol: "🎒", keywords: "Nystart, spontanitet, tillit, äventyr, frihet", upright: "Ett nytt kapitel börjar. Narren uppmanar dig att våga ta ett språng ut i det okända med öppet sinne och nyfikenhet, utan att låta rädsla hålla dig tillbaka.", reversed: "Vårdslöshet, att tveka inför en viktig förändring eller att agera utan att tänka efter först." },
+            { id: "maj-1", name: "I. Magikern", arcana: "Stora Arkanan", symbol: "🪄", keywords: "Manifestation, handlingskraft, skicklighet, fokus", upright: "Du har alla verktyg och resurser du behöver för att förverkliga dina idéer. Fokusera din vilja och omsätt tanke till handling.", reversed: "Oanvänd potential, splittrat fokus eller känslan av att tvivla på sin egen förmåga." },
+            { id: "maj-2", name: "II. Översteprästinnan", arcana: "Stora Arkanan", symbol: "🌙", keywords: "Intuition, inre visdom, mystik, stillhet", upright: "Lyssna inåt. Svaren du söker finns redan i din intuition och dina drömmar. Ta en paus från bruset och lita på din magkänsla.", reversed: "Att ignorera sin intuition, ytlighet eller hemligheter som behöver komma upp till ytan." },
+            { id: "maj-3", name: "III. Kejsarinnan", arcana: "Stora Arkanan", symbol: "🌿", keywords: "Kreativitet, omsorg, överflöd, natur, skönhet", upright: "En tid av blomstring, kreativitet och värme. Ta hand om dig själv och dina nära, njut av livets goda och låt nya idéer växa fram naturligt.", reversed: "Kreativ blockering, att ge för mycket till andra på bekostnad av sig själv." },
+            { id: "maj-4", name: "IV. Kejsaren", arcana: "Stora Arkanan", symbol: "👑", keywords: "Struktur, ledarskap, stabilitet, gränser", upright: "Dags att skapa ordning, struktur och tydliga ramar. Du står stadigt och kan ta ansvar för situationen med lugn auktoritet.", reversed: "Överdriven kontroll, stelbenthet eller svårigheter med auktoriteter och regler." },
+            { id: "maj-5", name: "V. Översteprästen", arcana: "Stora Arkanan", symbol: "🔑", keywords: "Tradition, lärande, värderingar, vägledning", upright: "Att söka kunskap, följa beprövade vägar eller reflektera över sina djupare värderingar. En mentor eller tradition kan ge trygghet.", reversed: "Att bryta mot förväntningar, ifrågasätta normer och hitta sin helt egna sanning." },
+            { id: "maj-6", name: "VI. De Älskande", arcana: "Stora Arkanan", symbol: "💞", keywords: "Kärlek, harmoni, viktiga val, värderingar", upright: "Djup samhörighet, kärlek och harmoni. Kortet pekar också på ett val som behöver göras utifrån hjärtat och dina sanna värderingar.", reversed: "Obalans i relationer, beslutsångest eller inre konflikt mellan huvud och hjärta." },
+            { id: "maj-7", name: "VII. Vagnen", arcana: "Stora Arkanan", symbol: "🏇", keywords: "Viljestyrka, framåtanda, seger, beslutsamhet", upright: "Full fart framåt! Genom fokus, självdisciplin och beslutsamhet övervinner du hinder och når dina mål.", reversed: "Känslan av att tappa riktningen, otålighet eller att försöka tvinga fram resultat." },
+            { id: "maj-8", name: "VIII. Styrka", arcana: "Stora Arkanan", symbol: "🦁", keywords: "Inre mod, tålamod, medkänsla, mjuk styrka", upright: "Sann styrka kommer inte från tvång, utan från lugn, tålamod och kärleksfull uthållighet. Du har modet att hantera det som utmanar dig.", reversed: "Självtvivel, trötthet eller att låta känslorna ta överhanden." },
+            { id: "maj-9", name: "IX. Eremiten", arcana: "Stora Arkanan", symbol: "🕯️", keywords: "Självrannsakan, ensamhet, inre ljus, visdom", upright: "Ett behov av att dra sig tillbaka en stund för att tänka, reflektera och ladda batterierna. Sök sanningen i tystnaden.", reversed: "Isolering, ensamhetskänslor eller att undvika att blicka inåt." },
+            { id: "maj-10", name: "X. Ödeshjulet", arcana: "Stora Arkanan", symbol: "🎡", keywords: "Förändring, cykler, tur, vändpunkt", upright: "Livets hjul snurrar och en vändpunkt är här. Förändringar sker – följ med i flödet och var öppen för oväntade möjligheter.", reversed: "Motstånd mot förändring, tillfälliga motgångar eller känslan av att sitta fast i en loop." },
+            { id: "maj-11", name: "XI. Rättvisa", arcana: "Stora Arkanan", symbol: "⚖️", keywords: "Balans, sanning, orsak och verkan, ärlighet", upright: "Sanningen kommer fram och balans återställs. Var ärlig mot dig själv och andra – dina tidigare handlingar bär nu frukt.", reversed: "Orättvisa, att undvika ansvar eller att se situationen ur ett snedvridet perspektiv." },
+            { id: "maj-12", name: "XII. Den Hängde", arcana: "Stora Arkanan", symbol: "🙃", keywords: "Nytt perspektiv, paus, acceptans, släppa taget", upright: "Stanna upp och se på situationen ur en helt ny vinkel. Ibland är det bästa man kan göra att släppa kontrollen och låta saker mogna.", reversed: "Att streta emot det oundvikliga, onödig väntan eller att fastna i gamla tankemönster." },
+            { id: "maj-13", name: "XIII. Döden", arcana: "Stora Arkanan", symbol: "🦋", keywords: "Avslut, transformation, pånyttfödelse, släppa det gamla", upright: "Ett tydligt avslut som ger plats åt något helt nytt. Släpp taget om det som tjänat ut sin roll så att transformationen kan ske.", reversed: "Rädsla för att släppa taget, att klamra sig fast vid det förflutna." },
+            { id: "maj-14", name: "XIV. Måttfullhet", arcana: "Stora Arkanan", symbol: "🏺", keywords: "Harmoni, tålamod, balans, läkning", upright: "Lugn, balans och harmoni. Genom att blanda olika delar av ditt liv med måtta och tålamod hittar du ett skönt flöde.", reversed: "Obalans, överdrifter eller otålighet." },
+            { id: "maj-15", name: "XV. Djävulen", arcana: "Stora Arkanan", symbol: "⛓️", keywords: "Bundenhet, vanor, frestelser, skuggsidor", upright: "Uppmärksamma vad som håller dig fast – det kan vara gamla vanor, rädslor eller ohälsosamma mönster. Kom ihåg att du själv har nyckeln att gå fri.", reversed: "Att bryta sig loss från begränsningar, insikt och frigörelse." },
+            { id: "maj-16", name: "XVI. Tornet", arcana: "Stora Arkanan", symbol: "⚡", keywords: "Plötslig förändring, uppvaknande, genombrott", upright: "En oväntad insikt eller förändring skakar om grunden. Även om det känns intensivt just nu, rensar det bort det som inte var hållbart.", reversed: "Att försöka undvika en nödvändig förändring eller en inre omvälvning." },
+            { id: "maj-17", name: "XVII. Stjärnan", arcana: "Stora Arkanan", symbol: "⭐", keywords: "Hopp, inspiration, läkning, framtidstro", upright: "Ett tecken på hopp, lugn och förnyad energi efter en utmanande tid. Lita på framtiden och låt din inre stjärna lysa.", reversed: "Tappat mod, trötthet eller behov av att hitta tillbaka till hoppet inom dig." },
+            { id: "maj-18", name: "XVIII. Månen", arcana: "Stora Arkanan", symbol: "🌕", keywords: "Undermevetna, drömmar, osäkerhet, intuition", upright: "Allt är inte helt tydligt ännu. I månskenet kan skuggor väcka oro, så navigera med hjälp av din intuition och var uppmärksam på dina drömmar.", reversed: "Dimman lättar, rädslor släpper och klarhet börjar infinna sig." },
+            { id: "maj-19", name: "XIX. Solen", arcana: "Stora Arkanan", symbol: "☀️", keywords: "Glädje, framgång, värme, vitalitet, klarhet", upright: "Ett av lekens ljusaste kort! Glädje, energi, framgång och klarhet strålar över dagen. Njut av livet och dela din värme.", reversed: "Tillfällig molnighet, att ha svårt att se det ljusa eller behov av mer lekfullhet." },
+            { id: "maj-20", name: "XX. Domen", arcana: "Stora Arkanan", symbol: "🎺", keywords: "Uppvaknande, kallelse, förlåtelse, nystart", upright: "Ett inre uppvaknande och en tydlig insikt om vad som verkligen betyder något. Dags att lämna det gamla bakom dig och kliva in i en ny fas.", reversed: "Självkritik, att tveka inför ett viktigt steg eller hålla fast vid gammalt groll." },
+            { id: "maj-21", name: "XXI. Världen", arcana: "Stora Arkanan", symbol: "🌍", keywords: "Fullbordan, helhet, prestation, ny cykel", upright: "En viktig cykel är fullbordad! Känsla av helhet, stolthet och harmoni. Fira hur långt du har kommit innan nästa äventyr börjar.", reversed: "Känslan av att något litet återstår innan du kan stänga kapitlet helt." },
+
+            // BÄGARE (Känslor, relationer, intuition - Element: Vatten)
+            { id: "cup-1", name: "Bägarnas Ess", arcana: "Lilla Arkanan • Bägare", symbol: "🏆", keywords: "Ny kärlek, känslomässig öppenhet, intuition", upright: "Ett flöde av nya känslor, kärlek, kreativitet eller djup glädje. Öppna hjärtat för det som vill komma in i ditt liv.", reversed: "Tillbakahållna känslor, behov av självkärlek eller känslomässig trötthet." },
+            { id: "cup-2", name: "Två i Bägare", arcana: "Lilla Arkanan • Bägare", symbol: "🥂", keywords: "Partnerskap, ömsesidighet, samhörighet", upright: "Vacker harmoni och ömsesidig respekt i en relation eller ett samarbete. Ett fint möte mellan två människor.", reversed: "Missförstånd, obalans i givande och tagande." },
+            { id: "cup-3", name: "Tre i Bägare", arcana: "Lilla Arkanan • Bägare", symbol: "🎉", keywords: "Vänskap, firande, gemenskap, glädje", upright: "Tid att fira och umgås med vänner och människor som ger dig energi. Glädje i gemenskapen!", reversed: "Behov av egentid efter mycket socialt umgänge eller skvaller." },
+            { id: "cup-4", name: "Fyra i Bägare", arcana: "Lilla Arkanan • Bägare", symbol: "🧘", keywords: "Eftertanke, apati, att missa en möjlighet", upright: "Du kanske känner dig lite uttråkad eller inåtvänd och missar en fin möjlighet som erbjuds precis framför dig. Lyft blicken.", reversed: "Ny motivation, att vakna upp ur apati och se nya möjligheter." },
+            { id: "cup-5", name: "Fem i Bägare", arcana: "Lilla Arkanan • Bägare", symbol: "🌧️", keywords: "Sorg, besvikelse, fokus på det som finns kvar", upright: "Besvikelse över det som gått förlorat. Tillåt dig att känna det, men vänd dig sedan om – två bägare står fortfarande kvar och väntar på dig.", reversed: "Acceptans, läkning och att börja se framåt igen." },
+            { id: "cup-6", name: "Sex i Bägare", arcana: "Lilla Arkanan • Bägare", symbol: "🌸", keywords: "Nostalgi, barndomsminnen, oskuldsfullhet, omtanke", upright: "Varma minnen, nostalgi eller ett återseende från förr. En påminnelse om enkel glädje, vänlighet och lekfullhet.", reversed: "Att fastna i det förflutna istället för att leva i nuet." },
+            { id: "cup-7", name: "Sju i Bägare", arcana: "Lilla Arkanan • Bägare", symbol: "☁️", keywords: "Många valmöjligheter, drömmar, illusioner", upright: "Många spännande idéer, drömmar och alternativ snurrar runt. Se upp för önsketänkande och välj det som verkligen är äkta.", reversed: "Klarhet, att äntligen bestämma sig och komma ner på jorden." },
+            { id: "cup-8", name: "Åtta i Bägare", arcana: "Lilla Arkanan • Bägare", symbol: "🚶", keywords: "Att gå vidare, söka djupare mening, lämna bakom sig", upright: "Modet att lämna något som inte längre ger näring, även om det är bekant, för att söka något mer meningsfullt.", reversed: "Rädsla för att gå vidare eller att stanna kvar av vana." },
+            { id: "cup-9", name: "Nio i Bägare", arcana: "Lilla Arkanan • Bägare", symbol: "😊", keywords: "Önskningar som slår in, tacksamhet, belåtenhet", upright: "Önskekortet! Känslomässig tillfredsställelse, tacksamhet och njutning. Uppskatta det du har åstadkommit.", reversed: "Ytlig lycka eller att leta efter bekräftelse utifrån." },
+            { id: "cup-10", name: "Tio i Bägare", arcana: "Lilla Arkanan • Bägare", symbol: "🌈", keywords: "Lycka, familjeharmoni, varaktig glädje", upright: "Djup harmoni, kärlek och samhörighet med dina närmaste. En känsla av att ha hittat hem.", reversed: "Orealistiska förväntningar eller behov av att vårda relationer." },
+            { id: "cup-11", name: "Bägarnas Page", arcana: "Lilla Arkanan • Bägare", symbol: "🐟", keywords: "Kreativ impuls, känslighet, nyfikenhet, budskap", upright: "Ett fint känslomässigt budskap, en ny kreativ idé eller en påminnelse om att vara nyfiken och mjuk i sinnet.", reversed: "Känslomässig omognad, överkänslighet eller kreativ torka." },
+            { id: "cup-12", name: "Bägarnas Riddare", arcana: "Lilla Arkanan • Bägare", symbol: "🦢", keywords: "Romantik, charm, följa hjärtat, idealism", upright: "En romantisk, kreativ och inkännande energi. Följ ditt hjärta och våga uttrycka dina känslor med värme.", reversed: "Dagdrömmeri, humörsvängningar eller orealistisk idealism." },
+            { id: "cup-13", name: "Bägarnas Drottning", arcana: "Lilla Arkanan • Bägare", symbol: "🐚", keywords: "Empati, intuition, omsorg, känslomässig trygghet", upright: "Varm, intuitiv och empatisk energi. Du lyssnar med hjärtat och skapar trygghet för både dig själv och andra.", reversed: "Att ta in andras känslor för mycket eller glömma sina egna gränser." },
+            { id: "cup-14", name: "Bägarnas Kung", arcana: "Lilla Arkanan • Bägare", symbol: "🌊", keywords: "Känslomässig balans, visdom, lugn, diplomati", upright: "Moget känslomässigt lugn och medkänsla. Du kan hantera starka känslor med visdom, diplomati och ett öppet hjärta.", reversed: "Känslomässig distans eller svårigheter att uttrycka vad man känner." },
+
+            // STAVAR (Passion, energi, kreativitet, handling - Element: Eld)
+            { id: "wan-1", name: "Stavarnas Ess", arcana: "Lilla Arkanan • Stavar", symbol: "🔥", keywords: "Gnista, inspiration, ny energi, passion", upright: "En stark gnista av inspiration, entusiasm och skaparglädje! Ta vara på energin och påbörja ett nytt projekt.", reversed: "Förseningar, brist på energi eller idéer som inte riktigt tar fart." },
+            { id: "wan-2", name: "Två i Stavar", arcana: "Lilla Arkanan • Stavar", symbol: "🧭", keywords: "Planering, framtidsvision, beslut", upright: "Du står med världen i din hand och planerar nästa steg. Våga tänka stort och blicka mot nya horisonter.", reversed: "Rädsla för det okända eller att tveka inför att lämna trygghetszonen." },
+            { id: "wan-3", name: "Tre i Stavar", arcana: "Lilla Arkanan • Stavar", symbol: "⛵", keywords: "Expansion, framsteg, se resultat, förväntan", upright: "Dina planer börjar ge resultat och dina skepp är på väg in. Fortsätt ha tillit och var redo att expandera.", reversed: "Hinder på vägen eller frustration över att saker tar tid." },
+            { id: "wan-4", name: "Fyra i Stavar", arcana: "Lilla Arkanan • Stavar", symbol: "🏡", keywords: "Firande, harmoni, hemkänsla, milstolpe", upright: "Glädje, stabilitet och firande av en viktig milstolpe. Känn dig stolt och njut av gemenskap och trygghet.", reversed: "Övergångsfas eller behov av mer harmoni i hemmet." },
+            { id: "wan-5", name: "Fem i Stavar", arcana: "Lilla Arkanan • Stavar", symbol: "⚔️", keywords: "Konkurrens, olika viljor, kreativ friktion", upright: "Många olika viljor och åsikter krockar. Se det som en chans att vässa dina idéer snarare än en allvarlig konflikt.", reversed: "Att undvika konflikter eller att lugnet lägger sig efter oenighet." },
+            { id: "wan-6", name: "Sex i Stavar", arcana: "Lilla Arkanan • Stavar", symbol: "🏅", keywords: "Framgång, erkännande, självförtroende, seger", upright: "Välförtjänt framgång och uppskattning! Ta emot beröm med stolthet – ditt hårda arbete lönar sig.", reversed: "Behov av yttre bekräftelse eller tillfälligt tvivel på sig själv." },
+            { id: "wan-7", name: "Sju i Stavar", arcana: "Lilla Arkanan • Stavar", symbol: "🛡️", keywords: "Stå upp för sig själv, mod, uthållighet", upright: "Stå stadigt i det du tror på, även om du möter motstånd. Du har övertaget om du behåller ditt mod.", reversed: "Att känna sig överväldigad eller ge upp för lätt." },
+            { id: "wan-8", name: "Åtta i Stavar", arcana: "Lilla Arkanan • Stavar", symbol: "🏹", keywords: "Snabbhet, rörelse, nyheter, flöde", upright: "Saker händer snabbt nu! Snabba besked, medvind och rörelse framåt. Häng med i tempot.", reversed: "Förseningar, missförstånd eller att ha för bråttom." },
+            { id: "wan-9", name: "Nio i Stavar", arcana: "Lilla Arkanan • Stavar", symbol: "🧱", keywords: "Uthållighet, sista rycket, motståndskraft", upright: "Du är trött efter en lång resa, men mållinjen är nära. Samla dina sista krafter och håll ut.", reversed: "Utmattning, att vara på sin vakt i onödan eller behov av vila." },
+            { id: "wan-10", name: "Tio i Stavar", arcana: "Lilla Arkanan • Stavar", symbol: "🪵", keywords: "Tung börda, mycket ansvar, stress", upright: "Du bär på för mycket ansvar på en gång. Dags att delegera, prioritera och lägga ner det som inte är ditt att bära.", reversed: "Att äntligen släppa på bördor och be om hjälp." },
+            { id: "wan-11", name: "Stavarnas Page", arcana: "Lilla Arkanan • Stavar", symbol: "✨", keywords: "Entusiasm, nyfikenhet, äventyrslusta", upright: "Lekfull energi, nyfikenhet och spännande nyheter. Våga testa något nytt med glädje!", reversed: "Rastlöshet, brist på riktning eller svårigheter att slutföra det man påbörjat." },
+            { id: "wan-12", name: "Stavarnas Riddare", arcana: "Lilla Arkanan • Stavar", symbol: "🐎", keywords: "Handlingskraft, passion, impulsivitet, mod", upright: "En virvelvind av energi, mod och passion. Du kastar dig in i projekt med full kraft.", reversed: "Impulsivitet, otålighet eller att bränna ut sig i förtid." },
+            { id: "wan-13", name: "Stavarnas Drottning", arcana: "Lilla Arkanan • Stavar", symbol: "🌻", keywords: "Karisma, värme, självförtroende, självständighet", upright: "Strålande självförtroende, värme och kreativ kraft. Du inspirerar andra genom att vara dig själv.", reversed: "Osäkerhet, svartsjuka eller att trycka ner sin egen glöd." },
+            { id: "wan-14", name: "Stavarnas Kung", arcana: "Lilla Arkanan • Stavar", symbol: "🦁", keywords: "Visionär, ledarskap, entreprenörskap, mod", upright: "En stark visionär ledare med stort hjärta och handlingskraft. Ta kommandot och inspirera din omgivning.", reversed: "Dominans, otålighet eller orealistiska förväntningar." },
+
+            // SVÄRD (Tankar, kommunikation, sanning, utmaningar - Element: Luft)
+            { id: "swo-1", name: "Svärdens Ess", arcana: "Lilla Arkanan • Svärd", symbol: "🗡️", keywords: "Klarhet, sanning, genombrott, ny insikt", upright: "En knivskarp insikt skär igenom dimman! Mental klarhet, ärlig kommunikation och nya idéer.", reversed: "Förvirring, otydlighet eller svårigheter att formulera sina tankar." },
+            { id: "swo-2", name: "Två i Svärd", arcana: "Lilla Arkanan • Svärd", symbol: "🙈", keywords: "Dödläge, svårt val, att blunda för sanningen", upright: "Du står inför ett svårt val och har fastnat i huvudet. Ta av ögonbindeln, känn in och våga ta ett beslut.", reversed: "Beslutsamhet, sanningen kommer fram och dödläget bryts." },
+            { id: "swo-3", name: "Tre i Svärd", arcana: "Lilla Arkanan • Svärd", symbol: "💔", keywords: "Hjärtekross, sorg, smärtsam sanning", upright: "En smärtsam insikt, sorg eller besvikelse. Tillåt dig att sörja – det är första steget mot att hjärtat ska läka.", reversed: "Läkning, förlåtelse och att släppa taget om gammal smärta." },
+            { id: "swo-4", name: "Fyra i Svärd", arcana: "Lilla Arkanan • Svärd", symbol: "🛌", keywords: "Vila, återhämtning, mental paus", upright: "Stanna upp och vila sinnet. Du behöver lugn, återhämtning och en paus från tankekarusellen.", reversed: "Rastlöshet, utbrändhet eller att sakta återvända till vardagen." },
+            { id: "swo-5", name: "Fem i Svärd", arcana: "Lilla Arkanan • Svärd", symbol: "🏳️", keywords: "Konflikt, tom seger, välja sina strider", upright: "En konflikt där ingen egentligen vinner. Fundera på om det är viktigare att ha rätt eller att ha frid.", reversed: "Försoning, att lägga ner stridsyxan och gå vidare." },
+            { id: "swo-6", name: "Sex i Svärd", arcana: "Lilla Arkanan • Svärd", symbol: "🚣", keywords: "Övergång, lugnare vatten, lämna oro bakom sig", upright: "Du rör dig bort från en stormig period mot lugnare vatten. En nödvändig övergång mot läkning och ro.", reversed: "Motstånd mot att gå vidare eller oavslutade tankar." },
+            { id: "swo-7", name: "Sju i Svärd", arcana: "Lilla Arkanan • Svärd", symbol: "🦊", keywords: "Strategi, hemligheter, gå sin egen väg", upright: "Tänk smart och strategiskt, men var vaksam på oärlighet – både från andra och om du lurar dig själv.", reversed: "Att komma ren med sanningen eller ändra taktik." },
+            { id: "swo-8", name: "Åtta i Svärd", arcana: "Lilla Arkanan • Svärd", symbol: "🕸️", keywords: "Begränsande tankar, känna sig fast, oro", upright: "Du känner dig instängd, men bojorna sitter främst i dina egna tankar. Det finns alltid en väg ut när du vågar se den.", reversed: "Frigörelse, nya perspektiv och att släppa rädslor." },
+            { id: "swo-9", name: "Nio i Svärd", arcana: "Lilla Arkanan • Svärd", symbol: "🌑", keywords: "Oro, sömnlösa nätter, ältande", upright: "Tankar och oro växer sig stora i mörkret. Dela dina bekymmer med någon – verkligheten är sällan så mörk som oron målar upp den.", reversed: "Lättnad, att hitta hopp och få perspektiv på sin oro." },
+            { id: "swo-10", name: "Tio i Svärd", arcana: "Lilla Arkanan • Svärd", symbol: "🌅", keywords: "Botten nådd, slutpunkt, ny gryning", upright: "En svår situation har nått sitt absoluta slut. Det kan inte bli värre nu – och vid horisonten syns redan gryningen.", reversed: "Återhämtning, att resa sig igen efter en tung tid." },
+            { id: "swo-11", name: "Svärdens Page", arcana: "Lilla Arkanan • Svärd", symbol: "🦅", keywords: "Nyfikenhet, vakenhet, nya idéer, kommunikation", upright: "Vaken, nyfiken och full av frågor! En bra dag för att lära sig något nytt, skriva eller föra kloka samtal.", reversed: "Skvaller, splittrade tankar eller att prata innan man tänker." },
+            { id: "swo-12", name: "Svärdens Riddare", arcana: "Lilla Arkanan • Svärd", symbol: "🌪️", keywords: "Snabb tanke, direkthet, ambition, fokus", upright: "Snabb, fokuserad och rakt på sak. Du driver dina idéer framåt med skärpa och mod.", reversed: "Förhastade slutsatser, skarpa ord eller rastlös energi." },
+            { id: "swo-13", name: "Svärdens Drottning", arcana: "Lilla Arkanan • Svärd", symbol: "❄️", keywords: "Klarsynthet, ärlighet, självständighet, gränser", upright: "Skarp intelligens, ärlighet och tydliga gränser. Du ser igenom fasader och fattar kloka, objektiva beslut.", reversed: "Kyla, överdriven kritik eller att stänga ute känslor." },
+            { id: "swo-14", name: "Svärdens Kung", arcana: "Lilla Arkanan • Svärd", symbol: "⚖️", keywords: "Intellekt, sanning, auktoritet, logik", upright: "Klart tänkande, rättvisa och mental styrka. Använd ditt sunda förnuft och var tydlig i din kommunikation.", reversed: "Stelbent logik, dömande attityd eller missbruk av ord." },
+
+            // MYNT (Arbete, kropp, ekonomi, vardag, natur - Element: Jord)
+            { id: "pen-1", name: "Myntens Ess", arcana: "Lilla Arkanan • Mynt", symbol: "🪙", keywords: "Ny möjlighet, välstånd, grundning, praktisk start", upright: "Ett gyllene frö sås! En ny konkret möjlighet inom jobb, ekonomi, hälsa eller vardagstrygghet.", reversed: "Missad chans, ekonomisk försiktighet eller försenad start." },
+            { id: "pen-2", name: "Två i Mynt", arcana: "Lilla Arkanan • Mynt", symbol: "♾️", keywords: "Balansera vardagen, flexibilitet, jonglera", upright: "Du jonglerar flera uppgifter i vardagen. Håll ett lekfullt sinne och var flexibel så behåller du balansen.", reversed: "Tappa bollen, stress över för många måsten." },
+            { id: "pen-3", name: "Tre i Mynt", arcana: "Lilla Arkanan • Mynt", symbol: "🏛️", keywords: "Samarbete, hantverk, lärande, lagarbete", upright: "Gott samarbete där olika kompetenser kompletterar varandra. Tillsammans bygger ni något hållbart och fint.", reversed: "Bristande samarbete eller att känna sig ouppskattad i sitt arbete." },
+            { id: "pen-4", name: "Fyra i Mynt", arcana: "Lilla Arkanan • Mynt", symbol: "🔒", keywords: "Trygghet, spara, hålla fast, kontroll", upright: "Behov av trygghet och stabilitet. Bra att vara rädd om sina resurser, men se till att inte hålla så hårt att flödet stannar upp.", reversed: "Att släppa på kontrollen, generositet eller oro för pengar." },
+            { id: "pen-5", name: "Fem i Mynt", arcana: "Lilla Arkanan • Mynt", symbol: "❄️", keywords: "Bristkänsla, utanförskap, be om hjälp", upright: "Känslan av att stå ute i kylan eller sakna resurser. Kom ihåg att värme och hjälp finns precis intill om du vågar be om den.", reversed: "Vändpunkt mot ljusare tider, återhämtning och stöd." },
+            { id: "pen-6", name: "Sex i Mynt", arcana: "Lilla Arkanan • Mynt", symbol: "🤲", keywords: "Generositet, givande och tagande, stöd", upright: "Balans mellan att ge och ta emot. Du kan vara i en position att hjälpa någon, eller ta emot välbehövligt stöd själv.", reversed: "Ojämlikt utbyte eller att ge med baktankar." },
+            { id: "pen-7", name: "Sju i Mynt", arcana: "Lilla Arkanan • Mynt", symbol: "🌱", keywords: "Tålamod, utvärdering, långsiktig tillväxt", upright: "Du har sått dina frön och arbetat hårt. Nu är det tid för tålamod och utvärdering medan resultaten växer fram.", reversed: "Otålighet, frustration över långsamma resultat." },
+            { id: "pen-8", name: "Åtta i Mynt", arcana: "Lilla Arkanan • Mynt", symbol: "🔨", keywords: "Flit, hantverk, fördjupning, fokus", upright: "Fokuserat arbete och glädjen i att förfina sina färdigheter. Varje litet steg och detalj du lägger omsorg på gör skillnad.", reversed: "Perfektionism, slentrian eller brist på motivation." },
+            { id: "pen-9", name: "Nio i Mynt", arcana: "Lilla Arkanan • Mynt", symbol: "🍇", keywords: "Självständighet, njutning, överflöd, stolthet", upright: "Njut av frukterna av ditt eget arbete! Självständighet, skönhet och tacksamhet över allt du byggt upp.", reversed: "Att arbeta för mycket utan att unna sig vila eller njutning." },
+            { id: "pen-10", name: "Tio i Mynt", arcana: "Lilla Arkanan • Mynt", symbol: "🏰", keywords: "Långsiktig trygghet, arv, familj, stabilitet", upright: "Varaktig stabilitet, trygghet och gemenskap över tid. En påminnelse om det som verkligen består.", reversed: "Oenighet kring praktiska frågor eller kortsiktigt tänkande." },
+            { id: "pen-11", name: "Myntens Page", arcana: "Lilla Arkanan • Mynt", symbol: "📜", keywords: "Nytt projekt, studier, noggrannhet, jordnära", upright: "En nyfiken och praktisk energi. Bra tid för att lära sig ett nytt hantverk, planera ekonomi eller starta ett konkret projekt.", reversed: "Brist på fokus, prokrastinering eller svårigheter att komma igång." },
+            { id: "pen-12", name: "Myntens Riddare", arcana: "Lilla Arkanan • Mynt", symbol: "🐂", keywords: "Pålitlighet, tålamod, metodiskt arbete", upright: "Långsamt men säkert vinner loppet. Var metodisk, pålitlig och konsekvent i dina steg idag.", reversed: "Att fastna i rutiner, envishet eller brist på framåtrörelse." },
+            { id: "pen-13", name: "Myntens Drottning", arcana: "Lilla Arkanan • Mynt", symbol: "🌻", keywords: "Omsorg, jordnära visdom, hemtrevnad, överflöd", upright: "Varm, praktisk och omhändertagande energi. Skapa mys omkring dig, ta hand om kroppen och njut av naturen.", reversed: "Att glömma bort sig själv i vardagsbestyren eller obalans mellan jobb och vila." },
+            { id: "pen-14", name: "Myntens Kung", arcana: "Lilla Arkanan • Mynt", symbol: "⛰️", keywords: "Stabilitet, framgång, trygghet, generositet", upright: "En stabil, pålitlig och framgångsrik energi. Du har förmågan att skapa ordning, trygghet och konkret resultat i din värld.", reversed: "Envishet, materialism eller att arbeta för mycket." }
+        ];
+
+        // Applikationens tillstånd (State)
+        let currentState = {
+            selectedCardId: "",
+            isReversed: false,
+            isUnlocked: false
+        };
+
+        // Genererar skräddarsydd guldfärgad SVG-ikon för valt tarotkort
+        function getCardSvg(cardId) {
+            const id = String(cardId || "");
+            const wrap = (inner) => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8 text-mystic-gold">${inner}</svg>`;
+
+            // Skapar en diskret, elegant siffra/rang (A, 2-10, P, R, D, K) inbakad i svitens ikon
+            const minorBadge = (numStr) => {
+                const rankMap = { "1": "A", "11": "P", "12": "R", "13": "D", "14": "K" };
+                const label = rankMap[numStr] || numStr;
+                return `<circle cx="18.2" cy="18.2" r="4.8" fill="#110d24" stroke="currentColor" stroke-width="1.1" opacity="0.95"/>` +
+                       `<text x="18.2" y="20.4" text-anchor="middle" fill="currentColor" stroke="none" font-family="Cinzel, Georgia, serif" font-size="${label.length > 1 ? '5.6' : '6.6'}" font-weight="700">${label}</text>`;
+            };
+
+            const parts = id.split("-");
+            const suit = parts[0];
+            const num = parts[1];
+
+            // Lilla Arkanan: Bägare (Vatten / Kalk)
+            if (suit === "cup") {
+                return wrap(`<g transform="translate(-1.5 -1.5) scale(0.9)"><path d="M6 3h12v4a6 6 0 0 1-12 0V3z"/><path d="M12 13v6"/><path d="M8 21h8"/><path d="M9 6.5c1.5 1 4.5 1 6 0" opacity="0.6"/></g>${minorBadge(num)}`);
+            }
+            // Lilla Arkanan: Stavar (Eld / Blommande stav)
+            if (suit === "wan") {
+                return wrap(`<g transform="translate(-1.5 -1.5) scale(0.9)"><path d="M12 2v20"/><path d="M12 6c-2.5-1.5-4.5 0-3 2.5"/><path d="M12 11c2.5-1.5 4.5 0 3 2.5"/><path d="M12 16c-2-1-3.5.5-2 2.5"/><circle cx="12" cy="2.5" r="1" fill="currentColor"/></g>${minorBadge(num)}`);
+            }
+            // Lilla Arkanan: Svärd (Luft / Svärd)
+            if (suit === "swo") {
+                return wrap(`<g transform="translate(-1.5 -1.5) scale(0.9)"><path d="M12 2l2 3v11h-4V5l2-3z"/><path d="M7 16h10"/><path d="M12 16v5"/><circle cx="12" cy="21.5" r="1" fill="currentColor"/></g>${minorBadge(num)}`);
+            }
+            // Lilla Arkanan: Mynt (Jord / Pentakel)
+            if (suit === "pen") {
+                return wrap(`<g transform="translate(-1.5 -1.5) scale(0.9)"><circle cx="12" cy="12" r="9"/><polygon points="12,4.5 14.2,9.8 19.8,10.2 15.5,13.9 16.8,19.4 12,16.4 7.2,19.4 8.5,13.9 4.2,10.2 9.8,9.8"/></g>${minorBadge(num)}`);
+            }
+
+            // Stora Arkanan (0 - 21)
+            const majorIcons = {
+                "maj-0": `<circle cx="12" cy="5" r="2.5"/><path d="M7 21l3-9 4 3 3-6"/><path d="M17 6l3-3M18 3h2v2"/>`,
+                "maj-1": `<path d="M8.5 8.5a5 3 0 1 1 7 0a5 3 0 1 1-7 0z" transform="translate(0 -3)"/><path d="M12 8v13"/><path d="M9 12h6"/>`,
+                "maj-2": `<path d="M16 4a8 8 0 1 0 0 16 6.5 6.5 0 0 1 0-16z"/><circle cx="15" cy="12" r="1.5" fill="currentColor"/>`,
+                "maj-3": `<circle cx="12" cy="9" r="5"/><path d="M12 14v7"/><path d="M9 18h6"/>`,
+                "maj-4": `<path d="M4 18h16l-1.5-10-4.5 4-2-6-2 6-4.5-4L4 18z"/><path d="M4 21h16"/>`,
+                "maj-5": `<circle cx="14.5" cy="7.5" r="4"/><path d="M11.5 10.5L5 17v3h3v-2h2v-2h1.5"/>`,
+                "maj-6": `<path d="M12 20.5s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10.5c0 5.5-7 10-7 10z"/>`,
+                "maj-7": `<circle cx="12" cy="12" r="8"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/><circle cx="12" cy="12" r="2.5"/>`,
+                "maj-8": `<path d="M7 12c0-2.5 2.5-3.5 5 0s5 2.5 5 0-2.5-3.5-5 0-5 2.5-5 0z"/><circle cx="12" cy="12" r="9" opacity="0.4"/>`,
+                "maj-9": `<path d="M9 7h6l1 10H8L9 7z"/><path d="M10 7V5a2 2 0 0 1 4 0v2"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/><path d="M7 20h10"/>`,
+                "maj-10": `<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/><path d="M12 3v6M12 15v6M3 12h6M15 12h6M5.6 5.6l4.2 4.2M14.2 14.2l4.2 4.2M18.4 5.6l-4.2 4.2M9.8 14.2l-4.2 4.2"/>`,
+                "maj-11": `<path d="M12 3v18"/><path d="M5 7h14"/><path d="M5 7l-2.5 6h5L5 7z"/><path d="M19 7l-2.5 6h5L19 7z"/><path d="M8 21h8"/>`,
+                "maj-12": `<path d="M5 4h14"/><path d="M12 4v8"/><circle cx="12" cy="15" r="3"/><path d="M9 19l3-1 3 1"/>`,
+                "maj-13": `<path d="M12 12c-3-4-8-4-8 1s5 5 8 1c3 4 8 4 8-1s-5-5-8-1z"/><path d="M12 5v14"/>`,
+                "maj-14": `<path d="M8 4h8l-1 4a3 3 0 0 1-6 0L8 4z"/><path d="M12 11v8"/><path d="M8 21h8"/><path d="M6 15c3 2 9 2 12 0" opacity="0.6"/>`,
+                "maj-15": `<path d="M10 14a4 4 0 0 1-5-5l2-2a4 4 0 0 1 5 5"/><path d="M14 10a4 4 0 0 1 5 5l-2 2a4 4 0 0 1-5-5"/><path d="M9 15l6-6"/>`,
+                "maj-16": `<path d="M8 21V9l4-4 4 4v12"/><path d="M6 9h12"/><path d="M13 2l-3 6h4l-3 6"/>`,
+                "maj-17": `<polygon points="12,2 14.6,8.5 21.5,9.2 16.2,13.8 17.8,20.6 12,17 6.2,20.6 7.8,13.8 2.5,9.2 9.4,8.5"/>`,
+                "maj-18": `<circle cx="12" cy="11" r="6"/><path d="M3 19c3-1.5 6-1.5 9 0s6 1.5 9 0"/><path d="M10 9.5a2 2 0 0 0 0 3"/>`,
+                "maj-19": `<circle cx="12" cy="12" r="5"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/>`,
+                "maj-20": `<path d="M4 14l12-6v8L4 14z"/><path d="M16 8l4-2v12l-4-2"/><path d="M8 15v4"/>`,
+                "maj-21": `<ellipse cx="12" cy="12" rx="7" ry="9"/><circle cx="12" cy="12" r="3"/><path d="M5 12h14" opacity="0.5"/>`
+            };
+
+            return wrap(majorIcons[id] || `<polygon points="12,2 14.8,8.5 22,9.3 16.5,14 18.2,21 12,17.3 5.8,21 7.5,14 2,9.3 9.2,8.5"/>`);
+        }
+
+        // Hämta aktiv Google Sheets URL
+        function getSheetsUrl() {
+            const saved = localStorage.getItem(SHEETS_URL_KEY);
+            return (saved && saved.trim()) ? saved.trim() : DEFAULT_SHEETS_URL.trim();
+        }
+
+        // Uppdatera synk-status i sidhuvudet
+        function setSyncStatus(status, text) {
+            const dot = document.getElementById('sync-dot');
+            const label = document.getElementById('sync-text');
+            if (!dot || !label) return;
+            label.textContent = text;
+            if (status === 'syncing') {
+                dot.className = "w-2 h-2 rounded-full bg-amber-400 animate-pulse";
+            } else if (status === 'error') {
+                dot.className = "w-2 h-2 rounded-full bg-rose-400";
+            } else {
+                dot.className = "w-2 h-2 rounded-full bg-emerald-400";
+            }
+        }
+
+        // Hämta dagens lokala datum i formatet YYYY-MM-DD
+        function getLocalTodayString() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        // Normalisera datumsträngar (hanterar även ISO-datum från Google Sheets)
+        function normalizeDateString(val) {
+            if (!val) return getLocalTodayString();
+            const str = String(val).trim();
+            if (/^\d{4}-\d{2}-\d{2}$/.test(str)) return str;
+            const parsed = new Date(str);
+            if (!isNaN(parsed.getTime())) {
+                const year = parsed.getFullYear();
+                const month = String(parsed.getMonth() + 1).padStart(2, '0');
+                const day = String(parsed.getDate()).padStart(2, '0');
+                return `${year}-${month}-${day}`;
+            }
+            return str;
+        }
+
+        // Sätt dagens datum säkert i datumväljaren
+        function setTodayDate() {
+            const dateInput = document.getElementById('entry-date');
+            if (!dateInput) return;
+            const todayStr = getLocalTodayString();
+            dateInput.value = todayStr;
+        }
+
+        // Ladda inlägg från webbläsarens lagring
+        function loadEntriesFromStorage() {
+            try {
+                const raw = localStorage.getItem(STORAGE_KEY);
+                if (raw) {
+                    const parsed = JSON.parse(raw);
+                    if (Array.isArray(parsed)) {
+                        journalEntries = parsed;
+                    }
+                }
+            } catch (e) {
+                console.warn("Kunde inte läsa från localStorage:", e);
+            }
+        }
+
+        // Spara inlägg till webbläsarens lagring
+        function persistEntriesToStorage() {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(journalEntries));
+            } catch (e) {
+                console.warn("Kunde inte spara till localStorage:", e);
+            }
+        }
+
+        function getEntries() {
+            return journalEntries;
+        }
+
+        // Spara Google Sheets-länk från inställningsrutan
+        function saveSheetsUrl() {
+            const input = document.getElementById('sheets-url-input');
+            if (!input) return;
+            const url = input.value.trim();
+            try {
+                localStorage.setItem(SHEETS_URL_KEY, url);
+            } catch (e) {
+                console.warn("Kunde inte spara URL i localStorage:", e);
+            }
+            if (url) {
+                showToast("Länk sparad! Synkar med Google Kalkylark...");
+                syncFromSheets();
+            } else {
+                setSyncStatus('ok', 'Lokal lagring aktiv');
+                showToast("Google Kalkylark-länk rensad.");
+            }
+        }
+
+        // Hämta alla inlägg från Google Sheets
+        async function syncFromSheets() {
+            const url = getSheetsUrl();
+            if (!url) {
+                setSyncStatus('ok', 'Redo för dagens kort');
+                return;
+            }
+            setSyncStatus('syncing', 'Synkar med Google Kalkylark...');
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({ action: 'get' })
+                });
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                const data = await response.json();
+                if (Array.isArray(data)) {
+                    journalEntries = data.map(item => ({
+                        ...item,
+                        date: normalizeDateString(item.date)
+                    }));
+                    journalEntries.sort((a, b) => String(b.date).localeCompare(String(a.date)));
+                    persistEntriesToStorage();
+                    renderHistory();
+                    setSyncStatus('ok', 'Synkad med Google Kalkylark');
+                } else {
+                    throw new Error("Ogiltigt svar från Google Sheets");
+                }
+            } catch (err) {
+                console.error("Fel vid hämtning från Sheets:", err);
+                setSyncStatus('error', 'Kunde inte nå Sheets');
+            }
+        }
+
+        // Skicka uppdatering (add/delete) till Google Sheets
+        async function postToSheets(payload) {
+            const url = getSheetsUrl();
+            if (!url) return;
+            setSyncStatus('syncing', 'Sparar i Google Kalkylark...');
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify(payload)
+                });
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                setSyncStatus('ok', 'Sparat i Google Kalkylark');
+            } catch (err) {
+                console.error("Fel vid sparning till Sheets:", err);
+                setSyncStatus('error', 'Kunde inte nå Sheets');
+            }
+        }
+
+        // Fyll rullistan med kort baserat på eventuell sökterm
+        function populateCardSelect(filterText = "") {
+            const select = document.getElementById('card-select');
+            if (!select) return;
+            const query = filterText.toLowerCase().trim();
+            const filtered = TAROT_DECK.filter(card =>
+                card.name.toLowerCase().includes(query) ||
+                card.arcana.toLowerCase().includes(query) ||
+                card.keywords.toLowerCase().includes(query)
+            );
+
+            const previousValue = select.value;
+            select.innerHTML = `<option value="">-- Välj kort i listan (${filtered.length} st) --</option>`;
+
+            filtered.forEach(card => {
+                const option = document.createElement('option');
+                option.value = card.id;
+                option.textContent = `${card.name} (${card.arcana.replace('Lilla Arkanan • ', '')})`;
+                select.appendChild(option);
+            });
+
+            if (filtered.some(c => c.id === previousValue)) {
+                select.value = previousValue;
+            }
+        }
+
+        // Filtrera kort när användaren skriver i sökfältet
+        function filterCards() {
+            const query = document.getElementById('card-search').value;
+            populateCardSelect(query);
+            const select = document.getElementById('card-select');
+            if (select.options.length === 2) {
+                select.selectedIndex = 1;
+                selectCard();
+            }
+        }
+
+        // Körs när användaren väljer ett kort i listan
+        function selectCard() {
+            const cardId = document.getElementById('card-select').value;
+            currentState.selectedCardId = cardId;
+            currentState.isUnlocked = false;
+
+            const banner = document.getElementById('selected-card-banner');
+            const step2 = document.getElementById('step-2-container');
+            const step3 = document.getElementById('step-3-container');
+
+            if (!cardId) {
+                banner.classList.add('hidden');
+                step2.classList.add('opacity-50', 'pointer-events-none');
+                step3.classList.add('opacity-50', 'pointer-events-none');
+                return;
+            }
+
+            const card = TAROT_DECK.find(c => c.id === cardId);
+            if (!card) return;
+
+            // Uppdatera kortets banner
+            document.getElementById('card-symbol').innerHTML = getCardSvg(card.id);
+            document.getElementById('card-arcana').textContent = card.arcana;
+            document.getElementById('card-title').textContent = card.name;
+            banner.classList.remove('hidden');
+
+            // Fyll i kortets betydelse (men håll det dolt tills steg 3 låses upp)
+            document.getElementById('meaning-keywords').textContent = card.keywords;
+            document.getElementById('meaning-upright').textContent = card.upright;
+            document.getElementById('meaning-reversed').textContent = card.reversed;
+
+            // Återställ låst vy i steg 3
+            document.getElementById('meaning-locked').classList.remove('hidden');
+            document.getElementById('meaning-unlocked').classList.add('hidden');
+            document.getElementById('btn-save').disabled = true;
+
+            // Aktivera steg 2 och 3
+            step2.classList.remove('opacity-50', 'pointer-events-none');
+            step3.classList.remove('opacity-50', 'pointer-events-none');
+            checkUnlockButton();
+        }
+
+        // Växla mellan Rättvänt och Upp & ner
+        function setOrientation(reversed) {
+            currentState.isReversed = reversed;
+            const btnUpright = document.getElementById('btn-upright');
+            const btnReversed = document.getElementById('btn-reversed');
+            const symbolEl = document.getElementById('card-symbol');
+
+            if (reversed) {
+                btnReversed.className = "px-3 py-1.5 rounded-lg text-xs font-medium bg-mystic-700 text-mystic-goldLight transition";
+                btnUpright.className = "px-3 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-200 transition";
+                symbolEl.style.transform = "rotate(180deg)";
+            } else {
+                btnUpright.className = "px-3 py-1.5 rounded-lg text-xs font-medium bg-mystic-700 text-mystic-goldLight transition";
+                btnReversed.className = "px-3 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-200 transition";
+                symbolEl.style.transform = "rotate(0deg)";
+            }
+        }
+
+        // Aktivera knappen för att visa betydelse när användaren skrivit sin tolkning
+        function checkUnlockButton() {
+            const notes = document.getElementById('user-notes').value.trim();
+            const btnReveal = document.getElementById('btn-reveal');
+            btnReveal.disabled = notes.length === 0;
+        }
+
+        // Lås upp och visa kortets traditionella betydelse
+        function revealMeaning() {
+            currentState.isUnlocked = true;
+            document.getElementById('meaning-locked').classList.add('hidden');
+            document.getElementById('meaning-unlocked').classList.remove('hidden');
+            document.getElementById('btn-save').disabled = false;
+        }
+
+        // Spara dagens dagboksinlägg
+        async function saveEntry() {
+            const card = TAROT_DECK.find(c => c.id === currentState.selectedCardId);
+            if (!card) return;
+
+            const dateVal = document.getElementById('entry-date').value || getLocalTodayString();
+            const userNotes = document.getElementById('user-notes').value.trim();
+            const afterNotes = document.getElementById('after-notes').value.trim();
+
+            if (!userNotes) {
+                showToast("Skriv gärna ner dina tankar innan du sparar.");
+                return;
+            }
+
+            const newEntry = {
+                id: Date.now().toString(),
+                date: dateVal,
+                cardId: card.id,
+                cardName: card.name,
+                cardArcana: card.arcana,
+                cardSymbol: card.symbol,
+                isReversed: currentState.isReversed,
+                userNotes: userNotes,
+                afterNotes: afterNotes,
+                keywords: card.keywords,
+                meaningText: currentState.isReversed ? card.reversed : card.upright
+            };
+
+            journalEntries.unshift(newEntry);
+            journalEntries.sort((a, b) => String(b.date).localeCompare(String(a.date)));
+            persistEntriesToStorage();
+            renderHistory();
+            resetForm();
+            showToast("Dagens kort är sparat i dagboken!");
+
+            await postToSheets({ action: "add", entry: newEntry });
+        }
+
+        // Återställ formuläret efter sparning
+        function resetForm() {
+            setTodayDate();
+            document.getElementById('card-search').value = "";
+            populateCardSelect();
+            document.getElementById('card-select').value = "";
+            document.getElementById('user-notes').value = "";
+            document.getElementById('after-notes').value = "";
+            currentState = { selectedCardId: "", isReversed: false, isUnlocked: false };
+            setOrientation(false);
+            selectCard();
+        }
+
+        // Rendera alla sparade inlägg i fliken Dagbok
+        function renderHistory() {
+            const listEl = document.getElementById('entries-list');
+            const countEl = document.getElementById('entry-count');
+            const entries = getEntries();
+
+            if (countEl) countEl.textContent = entries.length;
+            if (!listEl) return;
+
+            if (entries.length === 0) {
+                listEl.innerHTML = `
+                    <div class="bg-mystic-900/60 border border-dashed border-mystic-700 rounded-2xl p-8 text-center space-y-2">
+                        <p class="text-2xl">🔮</p>
+                        <h3 class="font-serif text-base font-semibold text-mystic-goldLight">Din dagbok är tom ännu</h3>
+                        <p class="text-xs text-slate-400 max-w-sm mx-auto">När du har dragit dagens kort och sparat din tolkning kommer alla dina kort att samlas här så att du kan följa din utveckling.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            listEl.innerHTML = entries.map(entry => {
+                const orientationBadge = entry.isReversed
+                    ? `<span class="text-[11px] px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-300 border border-amber-500/30">Upp & ner</span>`
+                    : `<span class="text-[11px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-300 border border-emerald-500/30">Rättvänt</span>`;
+
+                const afterSection = entry.afterNotes
+                    ? `
+                        <div class="p-3 rounded-xl bg-mystic-950/70 border border-mystic-800">
+                            <span class="text-[11px] uppercase tracking-wider text-mystic-gold font-semibold">Lärdom & Eftertanke</span>
+                            <p class="text-xs text-slate-300 mt-1 leading-relaxed whitespace-pre-line">${escapeHtml(entry.afterNotes)}</p>
+                        </div>
+                    `
+                    : "";
+
+                return `
+                    <article class="bg-mystic-900/90 border border-mystic-700/60 rounded-2xl p-5 sm:p-6 shadow-lg space-y-4">
+                        <div class="flex items-start justify-between gap-4 border-b border-mystic-800 pb-4">
+                            <div class="flex items-center gap-3.5">
+                                <div class="w-12 h-14 rounded-xl bg-mystic-950 border border-mystic-gold/50 flex items-center justify-center text-mystic-gold shrink-0" style="${entry.isReversed ? 'transform: rotate(180deg);' : ''}">
+                                    ${getCardSvg(entry.cardId)}
+                                </div>
+                                <div>
+                                    <div class="flex flex-wrap items-center gap-2">
+                                        <span class="text-xs font-medium text-mystic-gold">${escapeHtml(entry.date)}</span>
+                                        ${orientationBadge}
+                                    </div>
+                                    <h3 class="font-serif text-lg sm:text-xl font-bold text-white mt-0.5">${escapeHtml(entry.cardName)}</h3>
+                                    <p class="text-xs text-slate-400">${escapeHtml(entry.cardArcana)}</p>
+                                </div>
+                            </div>
+                            <button onclick="openDeleteModal('${escapeHtml(entry.id)}')" title="Ta bort inlägg" class="text-slate-500 hover:text-rose-400 p-2 rounded-lg hover:bg-mystic-800 transition">
+                                🗑️
+                            </button>
+                        </div>
+
+                        <div class="space-y-3">
+                            <div>
+                                <span class="text-xs uppercase tracking-wider text-slate-400 font-semibold">Min egen tolkning</span>
+                                <p class="text-sm text-slate-200 mt-1 leading-relaxed whitespace-pre-line">${escapeHtml(entry.userNotes)}</p>
+                            </div>
+
+                            ${afterSection}
+
+                            <details class="group pt-1">
+                                <summary class="cursor-pointer text-xs font-medium text-mystic-gold hover:text-mystic-goldLight select-none flex items-center gap-1.5">
+                                    <span>📖 Visa kortets traditionella betydelse</span>
+                                </summary>
+                                <div class="mt-3 p-4 rounded-xl bg-mystic-950 border border-mystic-800 space-y-2 text-xs text-slate-300 leading-relaxed">
+                                    <p><strong class="text-mystic-goldLight">Nyckelord:</strong> ${escapeHtml(entry.keywords)}</p>
+                                    <p>${escapeHtml(entry.meaningText)}</p>
+                                </div>
+                            </details>
+                        </div>
+                    </article>
+                `;
+            }).join('');
+        }
+
+        // Byt flik mellan Dagens Kort och Dagbok
+        function switchTab(tab) {
+            const viewToday = document.getElementById('view-today');
+            const viewHistory = document.getElementById('view-history');
+            const tabToday = document.getElementById('tab-today');
+            const tabHistory = document.getElementById('tab-history');
+
+            if (tab === 'today') {
+                viewToday.classList.remove('hidden');
+                viewHistory.classList.add('hidden');
+                tabToday.className = "flex-1 sm:flex-none px-4 py-2 rounded-lg text-sm font-medium transition-all bg-mystic-700 text-mystic-goldLight shadow";
+                tabHistory.className = "flex-1 sm:flex-none px-4 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 transition-all flex items-center justify-center gap-2";
+            } else {
+                viewToday.classList.add('hidden');
+                viewHistory.classList.remove('hidden');
+                tabHistory.className = "flex-1 sm:flex-none px-4 py-2 rounded-lg text-sm font-medium transition-all bg-mystic-700 text-mystic-goldLight shadow flex items-center justify-center gap-2";
+                tabToday.className = "flex-1 sm:flex-none px-4 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 transition-all";
+                renderHistory();
+            }
+        }
+
+        // Hantering av borttagningsmodal
+        let entryToDelete = null;
+        function openDeleteModal(id) {
+            entryToDelete = id;
+            const modal = document.getElementById('delete-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.getElementById('confirm-delete-btn').onclick = () => {
+                deleteEntry(entryToDelete);
+                closeDeleteModal();
+            };
+        }
+
+        function closeDeleteModal() {
+            entryToDelete = null;
+            const modal = document.getElementById('delete-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+        async function deleteEntry(id) {
+            journalEntries = journalEntries.filter(e => e.id !== id);
+            persistEntriesToStorage();
+            renderHistory();
+            showToast("Inlägget har tagits bort.");
+            await postToSheets({ action: "delete", id: id });
+        }
+
+        // Exportera dagboken som JSON-fil (backup)
+        function exportJournal() {
+            const entries = getEntries();
+            if (entries.length === 0) {
+                showToast("Det finns inga inlägg att ladda ner ännu.");
+                return;
+            }
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(entries, null, 2));
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute("href", dataStr);
+            downloadAnchor.setAttribute("download", `tarotdagbok-backup-${new Date().toISOString().split('T')[0]}.json`);
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+            showToast("Backup nedladdad!");
+        }
+
+        // Importera dagbok från JSON-fil
+        function importJournal(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const imported = JSON.parse(e.target.result);
+                    if (Array.isArray(imported)) {
+                        for (const item of imported) {
+                            const itemId = item.id || Date.now().toString() + Math.random().toString(36).substring(2, 6);
+                            const cleanItem = { ...item, id: itemId };
+                            if (!journalEntries.some(ex => ex.id === itemId)) {
+                                journalEntries.push(cleanItem);
+                            }
+                        }
+                        journalEntries.sort((a, b) => b.date.localeCompare(a.date));
+                        persistEntriesToStorage();
+                        renderHistory();
+                        showToast(`Importerade ${imported.length} inlägg!`);
+                    } else {
+                        showToast("Ogiltigt filformat.");
+                    }
+                } catch (err) {
+                    console.error(err);
+                    showToast("Kunde inte läsa filen.");
+                }
+            };
+            reader.readAsText(file);
+            event.target.value = "";
+        }
+
+        // Visa diskret notis
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-msg').textContent = message;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+
+        // Skydda mot XSS när användartext renderas
+        function escapeHtml(unsafe) {
+            if (!unsafe) return "";
+            return String(unsafe)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        // Initiera appen när sidan laddas
+        window.addEventListener('DOMContentLoaded', () => {
+            initAppManifest();
+            setTodayDate();
+            populateCardSelect();
+            loadEntriesFromStorage();
+            renderHistory();
+
+            const activeUrl = getSheetsUrl();
+            const urlInput = document.getElementById('sheets-url-input');
+            if (urlInput && activeUrl) {
+                urlInput.value = activeUrl;
+            }
+            if (activeUrl) {
+                syncFromSheets();
+            }
+        });
+
+        // Skapar dynamiskt webbapp-manifest och högupplöst PNG-ikon för Android/Samsung hemskärm
+        function initAppManifest() {
+            try {
+                const canvas = document.createElement('canvas');
+                canvas.width = 512;
+                canvas.height = 512;
+                const ctx = canvas.getContext('2d');
+
+                // Bakgrund
+                ctx.fillStyle = '#090714';
+                ctx.fillRect(0, 0, 512, 512);
+
+                // Gyllene ram
+                ctx.strokeStyle = 'rgba(226, 185, 99, 0.45)';
+                ctx.lineWidth = 12;
+                ctx.strokeRect(28, 28, 456, 456);
+
+                // Halvmåne i guld
+                ctx.fillStyle = '#e2b963';
+                ctx.beginPath();
+                ctx.arc(245, 256, 130, 0.45 * Math.PI, 1.55 * Math.PI, false);
+                ctx.arc(295, 256, 105, 1.48 * Math.PI, 0.52 * Math.PI, true);
+                ctx.closePath();
+                ctx.fill();
+
+                // Stjärna bredvid månen
+                ctx.fillStyle = '#f5dca4';
+                ctx.beginPath();
+                for (let i = 0; i < 5; i++) {
+                    const outerAngle = (i * 72 - 90) * Math.PI / 180;
+                    const innerAngle = (i * 72 - 54) * Math.PI / 180;
+                    const ox = 335 + Math.cos(outerAngle) * 42;
+                    const oy = 215 + Math.sin(outerAngle) * 42;
+                    const ix = 335 + Math.cos(innerAngle) * 17;
+                    const iy = 215 + Math.sin(innerAngle) * 17;
+                    if (i === 0) ctx.moveTo(ox, oy);
+                    else ctx.lineTo(ox, oy);
+                    ctx.lineTo(ix, iy);
+                }
+                ctx.closePath();
+                ctx.fill();
+
+                const iconDataUrl = canvas.toDataURL('image/png');
+                const appleIcon = document.getElementById('apple-icon');
+                if (appleIcon) appleIcon.href = iconDataUrl;
+
+                const manifest = {
+                    name: "Min Tarotdagbok",
+                    short_name: "Tarotdagbok",
+                    start_url: window.location.href,
+                    display: "standalone",
+                    background_color: "#090714",
+                    theme_color: "#090714",
+                    icons: [
+                        { src: iconDataUrl, sizes: "512x512", type: "image/png", purpose: "any maskable" }
+                    ]
+                };
+
+                const blob = new Blob([JSON.stringify(manifest)], { type: 'application/manifest+json' });
+                const manifestUrl = URL.createObjectURL(blob);
+                const link = document.createElement('link');
+                link.rel = 'manifest';
+                link.href = manifestUrl;
+                document.head.appendChild(link);
+            } catch (e) {
+                console.warn("Kunde inte skapa app-manifest:", e);
+            }
+        }
+    </script>
+</body>
+</html>
