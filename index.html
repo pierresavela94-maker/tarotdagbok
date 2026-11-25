@@ -234,9 +234,18 @@
 
         <!-- VY 2: HISTORIK / SPARADE DAGBOKSINLÄGG -->
         <section id="view-history" class="hidden space-y-6">
-            <div class="px-1">
-                <h2 class="font-serif text-xl font-semibold text-mystic-goldLight">Dina sparade läggningar</h2>
-                <p class="text-xs text-slate-400 mt-0.5">Bläddra bland dina tidigare dragningar, spreads, tolkningar och lärdomar.</p>
+            <div class="px-1 space-y-3">
+                <div>
+                    <h2 class="font-serif text-xl font-semibold text-mystic-goldLight">Dina sparade läggningar</h2>
+                    <p class="text-xs text-slate-400 mt-0.5">Bläddra bland dina tidigare dragningar, spreads, tolkningar och lärdomar.</p>
+                </div>
+
+                <div id="history-filters" class="flex flex-wrap gap-1.5">
+                    <button type="button" onclick="setHistoryFilter('all')" data-filter="all" class="history-filter-btn px-3 py-1 rounded-full text-xs font-medium bg-mystic-700 text-mystic-goldLight border border-mystic-gold/40">Alla</button>
+                    <button type="button" onclick="setHistoryFilter('single')" data-filter="single" class="history-filter-btn px-3 py-1 rounded-full text-xs font-medium bg-mystic-950 text-slate-400 border border-mystic-700 hover:text-slate-200">Dagens Kort</button>
+                    <button type="button" onclick="setHistoryFilter('timeline')" data-filter="timeline" class="history-filter-btn px-3 py-1 rounded-full text-xs font-medium bg-mystic-950 text-slate-400 border border-mystic-700 hover:text-slate-200">Dåtid • Nutid • Framtid</button>
+                    <button type="button" onclick="setHistoryFilter('crossroads')" data-filter="crossroads" class="history-filter-btn px-3 py-1 rounded-full text-xs font-medium bg-mystic-950 text-slate-400 border border-mystic-700 hover:text-slate-200">Vägskälet</button>
+                </div>
             </div>
 
             <div id="entries-list" class="space-y-4">
@@ -636,12 +645,13 @@
         let currentState = {
             spreadType: "single",
             slots: [
-                { cardId: "", isReversed: false, search: "" },
-                { cardId: "", isReversed: false, search: "" },
-                { cardId: "", isReversed: false, search: "" }
+                { cardId: "", isReversed: false, search: "", extraCards: [] },
+                { cardId: "", isReversed: false, search: "", extraCards: [] },
+                { cardId: "", isReversed: false, search: "", extraCards: [] }
             ],
             isUnlocked: false
         };
+        let activeHistoryFilter = "all";
         let activeCrystalCategory = "Alla";
         let activeCrystalColor = "Alla";
 
@@ -1350,9 +1360,11 @@
             const container = document.getElementById('spread-slots-container');
             if (!container) return;
             const cfg = SPREAD_CONFIGS[currentState.spreadType];
+            const isThreeCardSpread = cfg.slots.length > 1;
 
             container.innerHTML = cfg.slots.map((slotCfg, idx) => {
                 const slotState = currentState.slots[idx];
+                if (!Array.isArray(slotState.extraCards)) slotState.extraCards = [];
                 const query = (slotState.search || "").toLowerCase().trim();
                 const filtered = TAROT_DECK.filter(card =>
                     card.name.toLowerCase().includes(query) ||
@@ -1387,6 +1399,70 @@
                     </div>
                 ` : '';
 
+                // Extrakort (clarifiers) för detta steg vid tre-kortsläggningar
+                const extrasHtml = isThreeCardSpread ? slotState.extraCards.map((extra, extraIdx) => {
+                    const exQuery = (extra.search || "").toLowerCase().trim();
+                    const exFiltered = TAROT_DECK.filter(card =>
+                        card.name.toLowerCase().includes(exQuery) ||
+                        card.arcana.toLowerCase().includes(exQuery) ||
+                        card.keywords.toLowerCase().includes(exQuery)
+                    );
+                    const exOptions = [`<option value="">-- Välj extrakort (${exFiltered.length} st) --</option>`]
+                        .concat(exFiltered.map(c => `<option value="${c.id}" ${c.id === extra.cardId ? 'selected' : ''}>${escapeHtml(c.name)} (${escapeHtml(c.arcana.replace('Lilla Arkanan • ', ''))})</option>`))
+                        .join('');
+                    const exCard = TAROT_DECK.find(c => c.id === extra.cardId);
+
+                    const exBanner = exCard ? `
+                        <div class="mt-2.5 p-3 rounded-xl bg-gradient-to-r from-mystic-800/80 to-mystic-950 border border-mystic-gold/30 flex flex-col sm:flex-row items-center justify-between gap-2.5">
+                            <div class="flex items-center gap-3">
+                                <div class="w-9 h-12 rounded-lg bg-mystic-950 border border-mystic-gold/70 flex items-center justify-center text-mystic-gold shrink-0 transition-transform duration-300" style="transform: ${extra.isReversed ? 'rotate(180deg)' : 'rotate(0deg)'};">
+                                    ${getCardSvg(exCard.id, "w-6 h-6")}
+                                </div>
+                                <div>
+                                    <span class="text-[10px] uppercase tracking-widest text-mystic-gold">${escapeHtml(exCard.arcana)}</span>
+                                    <h5 class="font-serif text-sm font-bold text-white">${escapeHtml(exCard.name)}</h5>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-1.5 bg-mystic-950 p-1 rounded-xl border border-mystic-700">
+                                <button type="button" onclick="setExtraCardOrientation(${idx}, ${extraIdx}, false)" class="px-2 py-0.5 rounded-lg text-[11px] font-medium transition ${!extra.isReversed ? 'bg-mystic-700 text-mystic-goldLight' : 'text-slate-400 hover:text-slate-200'}">
+                                    Rättvänt
+                                </button>
+                                <button type="button" onclick="setExtraCardOrientation(${idx}, ${extraIdx}, true)" class="px-2 py-0.5 rounded-lg text-[11px] font-medium transition ${extra.isReversed ? 'bg-mystic-700 text-mystic-goldLight' : 'text-slate-400 hover:text-slate-200'}">
+                                    Upp & ner
+                                </button>
+                            </div>
+                        </div>
+                    ` : '';
+
+                    return `
+                        <div class="ml-3 pl-3 border-l-2 border-mystic-gold/40 pt-2 space-y-2">
+                            <div class="flex items-center justify-between">
+                                <span class="text-[11px] uppercase tracking-wider text-mystic-gold font-semibold">Extrakort ${extraIdx + 1} (${escapeHtml(slotCfg.label)})</span>
+                                <button type="button" onclick="removeExtraCard(${idx}, ${extraIdx})" class="text-[11px] text-slate-400 hover:text-rose-400 flex items-center gap-1 transition">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                                    <span>Ta bort</span>
+                                </button>
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                <input type="text" value="${escapeHtml(extra.search)}" placeholder="Sök extrakort..." oninput="filterExtraCard(${idx}, ${extraIdx}, this.value)" class="w-full bg-mystic-950 border border-mystic-700 rounded-xl px-3 py-2 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-mystic-gold">
+                                <select id="extra-select-${idx}-${extraIdx}" onchange="selectExtraCard(${idx}, ${extraIdx}, this.value)" class="w-full bg-mystic-950 border border-mystic-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-mystic-gold">
+                                    ${exOptions}
+                                </select>
+                            </div>
+                            ${exBanner}
+                        </div>
+                    `;
+                }).join('') : '';
+
+                const addExtraBtnHtml = isThreeCardSpread ? `
+                    <div class="pt-1 flex justify-start">
+                        <button type="button" onclick="addExtraCard(${idx})" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-mystic-900 hover:bg-mystic-800 border border-dashed border-mystic-600 hover:border-mystic-gold/60 text-xs font-medium text-mystic-goldLight transition">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 text-mystic-gold"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                            <span>Lägg till förtydligande extrakort</span>
+                        </button>
+                    </div>
+                ` : '';
+
                 return `
                     <div class="p-4 rounded-xl bg-mystic-950/70 border border-mystic-800 space-y-3">
                         <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1">
@@ -1400,41 +1476,97 @@
                             </select>
                         </div>
                         ${bannerHtml}
+                        ${extrasHtml}
+                        ${addExtraBtnHtml}
                     </div>
                 `;
             }).join('');
         }
 
-        function filterSlotCards(idx, searchText) {
-            currentState.slots[idx].search = searchText;
+        function filterSlotCards(slotIdx, searchText) {
+            currentState.slots[slotIdx].search = searchText;
             const query = searchText.toLowerCase().trim();
             const filtered = TAROT_DECK.filter(card =>
                 card.name.toLowerCase().includes(query) ||
                 card.arcana.toLowerCase().includes(query) ||
                 card.keywords.toLowerCase().includes(query)
             );
-            const select = document.getElementById(`slot-select-${idx}`);
+            const select = document.getElementById(`slot-select-${slotIdx}`);
             if (!select) return;
-            const prev = currentState.slots[idx].cardId;
+            const prev = currentState.slots[slotIdx].cardId;
             select.innerHTML = `<option value="">-- Välj kort (${filtered.length} st) --</option>` +
                 filtered.map(c => `<option value="${c.id}">${escapeHtml(c.name)} (${escapeHtml(c.arcana.replace('Lilla Arkanan • ', ''))})</option>`).join('');
             if (filtered.some(c => c.id === prev)) {
                 select.value = prev;
             } else if (filtered.length === 1) {
                 select.selectedIndex = 1;
-                selectSlotCard(idx, filtered[0].id);
+                selectSlotCard(slotIdx, filtered[0].id);
             }
         }
 
-        function selectSlotCard(idx, cardId) {
-            currentState.slots[idx].cardId = cardId;
+        function selectSlotCard(slotIdx, cardId) {
+            currentState.slots[slotIdx].cardId = cardId;
             currentState.isUnlocked = false;
             renderSpreadSlots();
             evaluateSpreadCompletion();
         }
 
-        function setSlotOrientation(idx, reversed) {
-            currentState.slots[idx].isReversed = reversed;
+        function setSlotOrientation(slotIdx, reversed) {
+            currentState.slots[slotIdx].isReversed = reversed;
+            renderSpreadSlots();
+            if (currentState.isUnlocked) {
+                renderUnlockedMeanings();
+            }
+        }
+
+        function addExtraCard(slotIdx) {
+            if (!Array.isArray(currentState.slots[slotIdx].extraCards)) {
+                currentState.slots[slotIdx].extraCards = [];
+            }
+            currentState.slots[slotIdx].extraCards.push({ cardId: "", isReversed: false, search: "" });
+            currentState.isUnlocked = false;
+            renderSpreadSlots();
+            evaluateSpreadCompletion();
+        }
+
+        function removeExtraCard(slotIdx, extraIdx) {
+            currentState.slots[slotIdx].extraCards.splice(extraIdx, 1);
+            currentState.isUnlocked = false;
+            renderSpreadSlots();
+            evaluateSpreadCompletion();
+        }
+
+        function filterExtraCard(slotIdx, extraIdx, searchText) {
+            const extra = currentState.slots[slotIdx].extraCards[extraIdx];
+            extra.search = searchText;
+            const query = searchText.toLowerCase().trim();
+            const filtered = TAROT_DECK.filter(card =>
+                card.name.toLowerCase().includes(query) ||
+                card.arcana.toLowerCase().includes(query) ||
+                card.keywords.toLowerCase().includes(query)
+            );
+            const select = document.getElementById(`extra-select-${slotIdx}-${extraIdx}`);
+            if (!select) return;
+            const prev = extra.cardId;
+            select.innerHTML = `<option value="">-- Välj extrakort (${filtered.length} st) --</option>` +
+                filtered.map(c => `<option value="${c.id}">${escapeHtml(c.name)} (${escapeHtml(c.arcana.replace('Lilla Arkanan • ', ''))})</option>`).join('');
+            if (filtered.some(c => c.id === prev)) {
+                select.value = prev;
+            } else if (filtered.length === 1) {
+                select.selectedIndex = 1;
+                selectExtraCard(slotIdx, extraIdx, filtered[0].id);
+            }
+        }
+
+        function selectExtraCard(slotIdx, extraIdx, cardId) {
+            currentState.slots[slotIdx].extraCards[extraIdx].cardId = cardId;
+            currentState.isUnlocked = false;
+            renderSpreadSlots();
+            evaluateSpreadCompletion();
+        }
+
+        function setExtraCardOrientation(slotIdx, extraIdx, reversed) {
+            currentState.slots[slotIdx].extraCards[extraIdx].isReversed = reversed;
             renderSpreadSlots();
             if (currentState.isUnlocked) {
                 renderUnlockedMeanings();
@@ -1444,7 +1576,12 @@
         function evaluateSpreadCompletion() {
             const cfg = SPREAD_CONFIGS[currentState.spreadType];
             const activeSlots = currentState.slots.slice(0, cfg.slots.length);
-            const allSelected = activeSlots.every(s => Boolean(s.cardId));
+            const allSelected = activeSlots.every(s => {
+                const mainOk = Boolean(s.cardId);
+                const extras = (cfg.slots.length > 1 && Array.isArray(s.extraCards)) ? s.extraCards : [];
+                const extrasOk = extras.every(ex => Boolean(ex.cardId));
+                return mainOk && extrasOk;
+            });
 
             const step2 = document.getElementById('step-2-container');
             const step3 = document.getElementById('step-3-container');
@@ -1474,33 +1611,57 @@
             const container = document.getElementById('unlocked-cards-meanings');
             if (!container) return;
 
-            container.innerHTML = cfg.slots.map((slotCfg, idx) => {
+            const cardsToRender = [];
+            cfg.slots.forEach((slotCfg, idx) => {
                 const slot = currentState.slots[idx];
                 const card = TAROT_DECK.find(c => c.id === slot.cardId);
-                if (!card) return '';
-                const posHeader = cfg.slots.length > 1
-                    ? `<span class="text-[11px] uppercase tracking-wider text-mystic-gold font-semibold block mb-1">${escapeHtml(slotCfg.label)}</span>`
+                if (card) {
+                    cardsToRender.push({
+                        label: cfg.slots.length > 1 ? slotCfg.label : "",
+                        card,
+                        isReversed: slot.isReversed,
+                        isExtra: false
+                    });
+                }
+                if (cfg.slots.length > 1 && Array.isArray(slot.extraCards)) {
+                    slot.extraCards.forEach((ex, exIdx) => {
+                        const exCard = TAROT_DECK.find(c => c.id === ex.cardId);
+                        if (exCard) {
+                            cardsToRender.push({
+                                label: `${slotCfg.label} • Extrakort ${exIdx + 1}`,
+                                card: exCard,
+                                isReversed: ex.isReversed,
+                                isExtra: true
+                            });
+                        }
+                    });
+                }
+            });
+
+            container.innerHTML = cardsToRender.map(item => {
+                const posHeader = item.label
+                    ? `<span class="text-[11px] uppercase tracking-wider text-mystic-gold font-semibold block mb-1">${escapeHtml(item.label)}</span>`
                     : '';
                 return `
-                    <div class="p-4 sm:p-5 rounded-xl bg-mystic-950 border border-mystic-gold/50 space-y-3">
+                    <div class="p-4 sm:p-5 rounded-xl bg-mystic-950 border ${item.isExtra ? 'border-mystic-gold/30 ml-3' : 'border-mystic-gold/50'} space-y-3">
                         ${posHeader}
                         <div class="flex items-center justify-between gap-2">
-                            <h4 class="font-serif text-base font-bold text-white">${escapeHtml(card.name)}</h4>
-                            <span class="text-xs px-2 py-0.5 rounded-full ${slot.isReversed ? 'bg-amber-500/10 text-amber-300 border border-amber-500/30' : 'bg-emerald-500/10 text-emerald-300 border border-emerald-500/30'}">
-                                ${slot.isReversed ? 'Upp & ner' : 'Rättvänt'}
+                            <h4 class="font-serif text-base font-bold text-white">${escapeHtml(item.card.name)}</h4>
+                            <span class="text-xs px-2 py-0.5 rounded-full ${item.isReversed ? 'bg-amber-500/10 text-amber-300 border border-amber-500/30' : 'bg-emerald-500/10 text-emerald-300 border border-emerald-500/30'}">
+                                ${item.isReversed ? 'Upp & ner' : 'Rättvänt'}
                             </span>
                         </div>
                         <div>
                             <span class="text-[11px] uppercase tracking-wider text-mystic-gold font-semibold">Nyckelord</span>
-                            <p class="text-xs sm:text-sm font-medium text-mystic-goldLight mt-0.5">${escapeHtml(card.keywords)}</p>
+                            <p class="text-xs sm:text-sm font-medium text-mystic-goldLight mt-0.5">${escapeHtml(item.card.keywords)}</p>
                         </div>
                         <div class="border-t border-mystic-800 pt-2.5">
                             <span class="text-[11px] uppercase tracking-wider text-mystic-gold font-semibold">Rättvänd betydelse</span>
-                            <p class="text-xs sm:text-sm text-slate-300 mt-0.5 leading-relaxed">${escapeHtml(card.upright)}</p>
+                            <p class="text-xs sm:text-sm text-slate-300 mt-0.5 leading-relaxed">${escapeHtml(item.card.upright)}</p>
                         </div>
                         <div class="border-t border-mystic-800 pt-2.5">
                             <span class="text-[11px] uppercase tracking-wider text-slate-400 font-semibold">Upp-och-ner (Omvänt)</span>
-                            <p class="text-xs sm:text-sm text-slate-400 mt-0.5 leading-relaxed">${escapeHtml(card.reversed)}</p>
+                            <p class="text-xs sm:text-sm text-slate-400 mt-0.5 leading-relaxed">${escapeHtml(item.card.reversed)}</p>
                         </div>
                     </div>
                 `;
@@ -1525,10 +1686,11 @@
             const userNotes = document.getElementById('user-notes').value.trim();
             const afterNotes = document.getElementById('after-notes').value.trim();
 
-            const cardsDetail = cfg.slots.map((slotCfg, idx) => {
+            const cardsDetail = [];
+            cfg.slots.forEach((slotCfg, idx) => {
                 const slot = activeSlots[idx];
                 const c = TAROT_DECK.find(item => item.id === slot.cardId);
-                return {
+                cardsDetail.push({
                     position: slotCfg.label,
                     cardId: c.id,
                     cardName: c.name,
@@ -1536,9 +1698,28 @@
                     isReversed: slot.isReversed,
                     keywords: c.keywords,
                     meaningText: slot.isReversed ? c.reversed : c.upright
-                };
+                });
+
+                if (cfg.slots.length > 1 && Array.isArray(slot.extraCards)) {
+                    slot.extraCards.forEach((ex, exIdx) => {
+                        const exCard = TAROT_DECK.find(item => item.id === ex.cardId);
+                        if (exCard) {
+                            cardsDetail.push({
+                                position: `${slotCfg.label} • Extrakort ${exIdx + 1}`,
+                                cardId: exCard.id,
+                                cardName: exCard.name,
+                                cardArcana: exCard.arcana,
+                                isReversed: ex.isReversed,
+                                keywords: exCard.keywords,
+                                meaningText: ex.isReversed ? exCard.reversed : exCard.upright,
+                                isExtra: true
+                            });
+                        }
+                    });
+                }
             });
 
+            const totalCardsCount = cardsDetail.length;
             const combinedCardName = cfg.id === 'single'
                 ? firstCard.name
                 : `${cfg.title}: ${cardsDetail.map(cd => cd.cardName).join(' • ')}`;
@@ -1555,7 +1736,7 @@
                 cards: cardsDetail,
                 cardId: firstCard.id,
                 cardName: combinedCardName,
-                cardArcana: cfg.id === 'single' ? firstCard.arcana : `${cfg.title} (3 kort)`,
+                cardArcana: cfg.id === 'single' ? firstCard.arcana : `${cfg.title} (${totalCardsCount} kort)`,
                 cardSymbol: firstCard.symbol,
                 isReversed: activeSlots[0].isReversed,
                 userNotes: userNotes,
@@ -1571,9 +1752,9 @@
 
             // Återställ formuläret
             currentState.slots = [
-                { cardId: "", isReversed: false, search: "" },
-                { cardId: "", isReversed: false, search: "" },
-                { cardId: "", isReversed: false, search: "" }
+                { cardId: "", isReversed: false, search: "", extraCards: [] },
+                { cardId: "", isReversed: false, search: "", extraCards: [] },
+                { cardId: "", isReversed: false, search: "", extraCards: [] }
             ];
             currentState.isUnlocked = false;
             document.getElementById('user-notes').value = "";
@@ -1587,15 +1768,27 @@
         }
 
         // Rendera alla sparade dagboksinlägg i fliken Dagbok
+        function setHistoryFilter(filterType) {
+            activeHistoryFilter = filterType;
+            document.querySelectorAll('.history-filter-btn').forEach(btn => {
+                if (btn.getAttribute('data-filter') === filterType) {
+                    btn.className = "history-filter-btn px-3 py-1 rounded-full text-xs font-medium bg-mystic-700 text-mystic-goldLight border border-mystic-gold/40";
+                } else {
+                    btn.className = "history-filter-btn px-3 py-1 rounded-full text-xs font-medium bg-mystic-950 text-slate-400 border border-mystic-700 hover:text-slate-200";
+                }
+            });
+            renderHistory();
+        }
+
         function renderHistory() {
-            const entries = getEntries();
+            const allEntries = getEntries();
             const countBadge = document.getElementById('entry-count');
-            if (countBadge) countBadge.textContent = entries.length;
+            if (countBadge) countBadge.textContent = allEntries.length;
 
             const listEl = document.getElementById('entries-list');
             if (!listEl) return;
 
-            if (entries.length === 0) {
+            if (allEntries.length === 0) {
                 listEl.innerHTML = `
                     <div class="bg-mystic-900/60 border border-dashed border-mystic-700 rounded-2xl p-10 text-center space-y-3">
                         <div class="w-12 h-12 rounded-full bg-mystic-800/80 border border-mystic-gold/40 flex items-center justify-center mx-auto text-mystic-gold">
@@ -1610,8 +1803,42 @@
                 return;
             }
 
+            const entries = allEntries.filter(entry => {
+                if (activeHistoryFilter === "all") return true;
+                let parsedCards = [];
+                if (Array.isArray(entry.cards)) {
+                    parsedCards = entry.cards;
+                } else if (typeof entry.cards === "string" && entry.cards.trim().startsWith("[")) {
+                    try { parsedCards = JSON.parse(entry.cards); } catch (e) {}
+                }
+                const titleStr = String(entry.spreadTitle || entry.cardArcana || entry.cardName || "");
+                let type = entry.spreadType || "";
+                if (!type) {
+                    if (titleStr.includes("Vägskälet")) type = "crossroads";
+                    else if (titleStr.includes("Dåtid") || parsedCards.length > 1) type = "timeline";
+                    else type = "single";
+                }
+                return type === activeHistoryFilter;
+            });
+
+            if (entries.length === 0) {
+                listEl.innerHTML = `
+                    <div class="bg-mystic-900/60 border border-dashed border-mystic-700 rounded-2xl p-8 text-center space-y-2">
+                        <h3 class="font-serif text-base font-semibold text-mystic-goldLight">Inga sparade läggningar i denna kategori ännu</h3>
+                        <p class="text-xs text-slate-400">Välj "Alla" ovan för att visa dina övriga sparade kort.</p>
+                    </div>
+                `;
+                return;
+            }
+
             listEl.innerHTML = entries.map(entry => {
-                const isMulti = Array.isArray(entry.cards) && entry.cards.length > 1;
+                let entryCards = [];
+                if (Array.isArray(entry.cards)) {
+                    entryCards = entry.cards;
+                } else if (typeof entry.cards === "string" && entry.cards.trim().startsWith("[")) {
+                    try { entryCards = JSON.parse(entry.cards); } catch (e) {}
+                }
+                const isMulti = entryCards.length > 1;
                 const afterNotesHtml = entry.afterNotes ? `
                     <div class="mt-3 pt-3 border-t border-mystic-800/80">
                         <span class="text-xs uppercase tracking-wider text-mystic-gold font-semibold">Lärdom & Eftertanke</span>
@@ -1620,7 +1847,7 @@
                 ` : '';
 
                 if (isMulti) {
-                    const cardsGridHtml = entry.cards.map(cd => `
+                    const cardsGridHtml = entryCards.map(cd => `
                         <div class="p-3 rounded-xl bg-mystic-950 border border-mystic-800 flex items-center gap-3">
                             <div class="w-10 h-13 rounded-lg bg-mystic-900 border border-mystic-gold/40 flex items-center justify-center shrink-0" ${cd.isReversed ? 'style="transform: rotate(180deg);"' : ''}>
                                 ${getCardSvg(cd.cardId, "w-6 h-6")}
@@ -1659,7 +1886,7 @@
 
                             <div class="p-4 rounded-xl bg-mystic-950/80 border border-mystic-800 space-y-2.5">
                                 <span class="text-xs uppercase tracking-wider text-mystic-gold font-semibold block">Kortens betydelser</span>
-                                ${entry.cards.map(cd => `
+                                ${entryCards.map(cd => `
                                     <div class="text-xs text-slate-400 leading-relaxed">
                                         <strong class="text-slate-200">${escapeHtml(cd.position)} (${escapeHtml(cd.cardName)}):</strong> ${escapeHtml(cd.meaningText)}
                                     </div>
