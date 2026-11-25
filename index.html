@@ -53,7 +53,7 @@
     </div>
 
     <!-- Header & Navigering -->
-    <header class="relative z-10 border-b border-mystic-700/50 bg-mystic-900/80 backdrop-blur-md sticky top-0">
+    <header class="sticky top-0 z-30 border-b border-mystic-700/80 bg-mystic-900 shadow-lg shadow-black/40">
         <div class="max-w-3xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-mystic-goldDark to-mystic-goldLight flex items-center justify-center text-mystic-950 shadow-lg shadow-amber-500/20">
@@ -79,6 +79,12 @@
                 <button onclick="switchTab('history')" id="tab-history" class="flex-1 sm:flex-none px-4 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 transition-all flex items-center justify-center gap-2">
                     <span>Dagbok</span>
                     <span id="entry-count" class="bg-mystic-800 text-mystic-gold text-xs px-2 py-0.5 rounded-full">0</span>
+                </button>
+                <button onclick="switchTab('settings')" id="tab-settings" title="Synk & Backup" aria-label="Synk och Backup" class="px-3.5 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 transition-all flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                    </svg>
                 </button>
             </nav>
         </div>
@@ -221,19 +227,36 @@
 
         <!-- VY 2: HISTORIK / SPARADE DAGBOKSINLÄGG -->
         <section id="view-history" class="hidden space-y-6">
-            
+            <div class="px-1">
+                <h2 class="font-serif text-xl font-semibold text-mystic-goldLight">Dina sparade kort</h2>
+                <p class="text-xs text-slate-400 mt-0.5">Bläddra bland dina tidigare dragningar, tolkningar och lärdomar.</p>
+            </div>
+
+            <!-- Lista med inlägg -->
+            <div id="entries-list" class="space-y-4">
+                <!-- Fylls i dynamiskt av JavaScript -->
+            </div>
+        </section>
+
+        <!-- VY 3: INSTÄLLNINGAR (SYNK & BACKUP) -->
+        <section id="view-settings" class="hidden space-y-6">
+            <div class="px-1">
+                <h2 class="font-serif text-xl font-semibold text-mystic-goldLight">Synk & Säkerhetskopiering</h2>
+                <p class="text-xs text-slate-400 mt-0.5">Hantera molnsynkronisering mot Google Kalkylark och lokala backup-filer.</p>
+            </div>
+
             <!-- Koppling till Google Kalkylark (Sheets) -->
-            <div class="bg-mystic-900/90 border border-mystic-gold/40 rounded-2xl p-4 sm:p-5 space-y-3">
+            <div class="bg-mystic-900 border border-mystic-gold/40 rounded-2xl p-5 space-y-3 shadow-xl">
                 <div class="flex items-center justify-between gap-2">
                     <div>
                         <h3 class="font-serif text-base font-semibold text-mystic-goldLight">☁️ Google Kalkylark-synk</h3>
-                        <p class="text-xs text-slate-400">Klistra in din Google Apps Script webbapp-URL så sparas alla kort automatiskt i ert kalkylark.</p>
+                        <p class="text-xs text-slate-400 mt-0.5">Klistra in din Google Apps Script webbapp-URL så sparas alla kort automatiskt i ert kalkylark.</p>
                     </div>
                     <button type="button" onclick="syncFromSheets()" class="shrink-0 px-3 py-1.5 rounded-xl bg-mystic-800 hover:bg-mystic-700 border border-mystic-600 text-xs font-medium text-mystic-goldLight transition">
                         🔄 Synka nu
                     </button>
                 </div>
-                <div class="flex flex-col sm:flex-row gap-2">
+                <div class="flex flex-col sm:flex-row gap-2 pt-1">
                     <input type="url" id="sheets-url-input" placeholder="https://script.google.com/macros/s/.../exec" class="flex-1 bg-mystic-950 border border-mystic-700 rounded-xl px-3 py-2 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-mystic-gold">
                     <button type="button" onclick="saveSheetsUrl()" class="px-4 py-2 rounded-xl bg-mystic-gold text-mystic-950 font-semibold text-xs hover:brightness-110 transition">
                         Spara länk
@@ -242,25 +265,20 @@
             </div>
 
             <!-- Verktygsfält för export/import (bra som extra säkerhet) -->
-            <div class="bg-mystic-900/90 border border-mystic-700/60 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="bg-mystic-900 border border-mystic-700/60 rounded-2xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-xl">
                 <div>
-                    <h2 class="font-serif text-lg font-semibold text-mystic-goldLight">Dina sparade kort</h2>
-                    <p class="text-xs text-slate-400">Alla inlägg synkas med ert Google Kalkylark. Här kan du även ladda ner en extra kopia.</p>
+                    <h3 class="font-serif text-base font-semibold text-mystic-goldLight">💾 Lokal backup-fil</h3>
+                    <p class="text-xs text-slate-400 mt-0.5">Ladda ner alla dina inlägg som en fil eller återställ från en tidigare kopia.</p>
                 </div>
                 <div class="flex gap-2 w-full sm:w-auto">
-                    <button onclick="exportJournal()" class="flex-1 sm:flex-none px-3 py-2 rounded-xl bg-mystic-800 hover:bg-mystic-700 border border-mystic-600 text-xs font-medium text-slate-200 transition">
+                    <button onclick="exportJournal()" class="flex-1 sm:flex-none px-3.5 py-2 rounded-xl bg-mystic-800 hover:bg-mystic-700 border border-mystic-600 text-xs font-medium text-slate-200 transition">
                         ⬇️ Ladda ner backup
                     </button>
-                    <label class="flex-1 sm:flex-none px-3 py-2 rounded-xl bg-mystic-800 hover:bg-mystic-700 border border-mystic-600 text-xs font-medium text-slate-200 transition text-center cursor-pointer">
+                    <label class="flex-1 sm:flex-none px-3.5 py-2 rounded-xl bg-mystic-800 hover:bg-mystic-700 border border-mystic-600 text-xs font-medium text-slate-200 transition text-center cursor-pointer">
                         ⬆️ Ladda upp backup
                         <input type="file" accept=".json" onchange="importJournal(event)" class="hidden">
                     </label>
                 </div>
-            </div>
-
-            <!-- Lista med inlägg -->
-            <div id="entries-list" class="space-y-4">
-                <!-- Fylls i dynamiskt av JavaScript -->
             </div>
         </section>
 
@@ -442,33 +460,33 @@
                 "maj-15": `<path d="M10 14a4 4 0 0 1-5-5l2-2a4 4 0 0 1 5 5"/><path d="M14 10a4 4 0 0 1 5 5l-2 2a4 4 0 0 1-5-5"/><path d="M9 15l6-6"/>`,
                 "maj-16": `<path d="M8 21V9l4-4 4 4v12"/><path d="M6 9h12"/><path d="M13 2l-3 6h4l-3 6"/>`,
                 "maj-17": `<polygon points="12,2 14.6,8.5 21.5,9.2 16.2,13.8 17.8,20.6 12,17 6.2,20.6 7.8,13.8 2.5,9.2 9.4,8.5"/>`,
-                "maj-18": `<circle cx="12" cy="11" r="6"/><path d="M3 19c3-1.5 6-1.5 9 0s6 1.5 9 0"/><path d="M10 9.5a2 2 0 0 0 0 3"/>`,
-                "maj-19": `<circle cx="12" cy="12" r="5"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/>`,
-                "maj-20": `<path d="M4 14l12-6v8L4 14z"/><path d="M16 8l4-2v12l-4-2"/><path d="M8 15v4"/>`,
-                "maj-21": `<ellipse cx="12" cy="12" rx="7" ry="9"/><circle cx="12" cy="12" r="3"/><path d="M5 12h14" opacity="0.5"/>`
-            };
+        // Byt flik mellan Dagens Kort, Dagbok och Synk/Backup
+        function switchTab(tab) {
+            const viewToday = document.getElementById('view-today');
+            const viewHistory = document.getElementById('view-history');
+            const viewSettings = document.getElementById('view-settings');
+            const tabToday = document.getElementById('tab-today');
+            const tabHistory = document.getElementById('tab-history');
+            const tabSettings = document.getElementById('tab-settings');
 
-            return wrap(majorIcons[id] || `<polygon points="12,2 14.8,8.5 22,9.3 16.5,14 18.2,21 12,17.3 5.8,21 7.5,14 2,9.3 9.2,8.5"/>`);
-        }
+            viewToday.classList.add('hidden');
+            viewHistory.classList.add('hidden');
+            viewSettings.classList.add('hidden');
 
-        // Hämta aktiv Google Sheets URL
-        function getSheetsUrl() {
-            const saved = localStorage.getItem(SHEETS_URL_KEY);
-            return (saved && saved.trim()) ? saved.trim() : DEFAULT_SHEETS_URL.trim();
-        }
+            tabToday.className = "flex-1 sm:flex-none px-4 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 transition-all";
+            tabHistory.className = "flex-1 sm:flex-none px-4 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 transition-all flex items-center justify-center gap-2";
+            tabSettings.className = "px-3.5 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 transition-all flex items-center justify-center";
 
-        // Uppdatera synk-status i sidhuvudet
-        function setSyncStatus(status, text) {
-            const dot = document.getElementById('sync-dot');
-            const label = document.getElementById('sync-text');
-            if (!dot || !label) return;
-            label.textContent = text;
-            if (status === 'syncing') {
-                dot.className = "w-2 h-2 rounded-full bg-amber-400 animate-pulse";
-            } else if (status === 'error') {
-                dot.className = "w-2 h-2 rounded-full bg-rose-400";
-            } else {
-                dot.className = "w-2 h-2 rounded-full bg-emerald-400";
+            if (tab === 'today') {
+                viewToday.classList.remove('hidden');
+                tabToday.className = "flex-1 sm:flex-none px-4 py-2 rounded-lg text-sm font-medium transition-all bg-mystic-700 text-mystic-goldLight shadow";
+            } else if (tab === 'history') {
+                viewHistory.classList.remove('hidden');
+                tabHistory.className = "flex-1 sm:flex-none px-4 py-2 rounded-lg text-sm font-medium transition-all bg-mystic-700 text-mystic-goldLight shadow flex items-center justify-center gap-2";
+                renderHistory();
+            } else if (tab === 'settings') {
+                viewSettings.classList.remove('hidden');
+                tabSettings.className = "px-3.5 py-2 rounded-lg text-sm font-medium transition-all bg-mystic-700 text-mystic-goldLight shadow flex items-center justify-center";
             }
         }
 
