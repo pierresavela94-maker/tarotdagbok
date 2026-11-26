@@ -54,48 +54,64 @@
 
     <!-- Header & Navigering -->
     <header class="sticky top-0 z-30 border-b border-mystic-700/80 bg-mystic-900 shadow-lg shadow-black/40">
-        <div class="max-w-3xl mx-auto px-4 py-3.5 flex flex-col gap-3">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center gap-3">
+        <div class="max-w-3xl mx-auto px-4 py-3.5">
+            <div class="flex items-center justify-between gap-3">
+                <div class="flex items-center gap-3 min-w-0">
                     <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-mystic-goldDark to-mystic-goldLight flex items-center justify-center text-mystic-950 shadow-lg shadow-amber-500/20 shrink-0">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M12 2L14.8 8.5L22 9.3L16.5 14L18.2 21L12 17.3L5.8 21L7.5 14L2 9.3L9.2 8.5L12 2Z" />
                         </svg>
                     </div>
-                    <div>
-                        <h1 class="font-serif text-lg sm:text-2xl font-bold text-mystic-goldLight tracking-wide">Min Tarotdagbok</h1>
-                        <p id="sync-status" class="text-xs text-slate-400 flex items-center gap-1.5">
-                            <span id="sync-dot" class="w-2 h-2 rounded-full bg-emerald-400"></span>
-                            <span id="sync-text">Redo för dagens kort</span>
+                    <div class="min-w-0">
+                        <h1 class="font-serif text-lg sm:text-2xl font-bold text-mystic-goldLight tracking-wide truncate">Min Tarotdagbok</h1>
+                        <p id="sync-status" class="text-xs text-slate-400 flex items-center gap-1.5 truncate">
+                            <span id="sync-dot" class="w-2 h-2 rounded-full bg-emerald-400 shrink-0"></span>
+                            <span id="sync-text" class="truncate">Redo för dagens kort</span>
                         </p>
                     </div>
                 </div>
+
+                <!-- Trestreckad menyknapp (Hamburgermeny) på mobil -->
+                <button type="button" onclick="toggleMobileMenu()" id="mobile-menu-btn" aria-label="Öppna meny" aria-expanded="false" class="md:hidden inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-mystic-950 border border-mystic-700/80 text-mystic-goldLight hover:border-mystic-gold/60 transition shrink-0">
+                    <span id="mobile-current-tab-label" class="text-xs font-medium text-slate-200">Läggning</span>
+                    <svg id="icon-menu-open" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-mystic-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="4" y1="6" x2="20" y2="6"></line>
+                        <line x1="4" y1="12" x2="20" y2="12"></line>
+                        <line x1="4" y1="18" x2="20" y2="18"></line>
+                    </svg>
+                    <svg id="icon-menu-close" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-mystic-gold hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
             </div>
 
-            <!-- Fliknavigering på egen rad under rubriken -->
-            <nav class="grid grid-cols-5 w-full bg-mystic-950 p-1 rounded-xl border border-mystic-700/60 gap-1">
-                <button onclick="switchTab('today')" id="tab-today" class="px-1 py-1.5 rounded-lg text-[11px] sm:text-sm font-medium transition-all bg-mystic-700 text-mystic-goldLight shadow flex flex-col sm:flex-row items-center justify-center gap-0.5 sm:gap-1.5">
+            <!-- Nedfällbar meny på mobil / Horisontell rad på större skärmar -->
+            <nav id="main-nav" class="hidden md:grid md:grid-cols-6 w-full bg-mystic-950 p-1.5 rounded-xl border border-mystic-700/60 gap-1 mt-3 shadow-xl md:shadow-none">
+                <button onclick="switchTab('today')" id="tab-today" class="px-3 py-2.5 md:px-2 md:py-1.5 rounded-lg text-sm font-medium transition-all bg-mystic-700 text-mystic-goldLight shadow flex items-center justify-start md:justify-center gap-2.5 md:gap-1.5">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="3" width="12" height="18" rx="2"/><path d="M12 8l1.2 2.5L16 11l-2 2 .5 2.7L12 14.4l-2.5 1.3.5-2.7-2-2 2.8-.5L12 8z"/></svg>
                     <span>Läggning</span>
                 </button>
-                <button onclick="switchTab('history')" id="tab-history" class="px-1 py-1.5 rounded-lg text-[11px] sm:text-sm font-medium text-slate-400 hover:text-slate-200 transition-all flex flex-col sm:flex-row items-center justify-center gap-0.5 sm:gap-1.5">
-                    <div class="relative flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-                    </div>
-                    <span class="flex items-center gap-1">
+                <button onclick="switchTab('history')" id="tab-history" class="px-3 py-2.5 md:px-2 md:py-1.5 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 transition-all flex items-center justify-start md:justify-center gap-2.5 md:gap-1.5">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                    <span class="flex items-center gap-1.5">
                         <span>Dagbok</span>
-                        <span id="entry-count" class="bg-mystic-800 text-mystic-gold text-[10px] px-1.5 rounded-full">0</span>
+                        <span id="entry-count" class="bg-mystic-800 text-mystic-gold text-[11px] px-1.5 rounded-full">0</span>
                     </span>
                 </button>
-                <button onclick="switchTab('moon')" id="tab-moon" class="px-1 py-1.5 rounded-lg text-[11px] sm:text-sm font-medium text-slate-400 hover:text-slate-200 transition-all flex flex-col sm:flex-row items-center justify-center gap-0.5 sm:gap-1.5">
+                <button onclick="switchTab('moon')" id="tab-moon" class="px-3 py-2.5 md:px-2 md:py-1.5 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 transition-all flex items-center justify-start md:justify-center gap-2.5 md:gap-1.5">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
                     <span>Måne</span>
                 </button>
-                <button onclick="switchTab('crystals')" id="tab-crystals" class="px-1 py-1.5 rounded-lg text-[11px] sm:text-sm font-medium text-slate-400 hover:text-slate-200 transition-all flex flex-col sm:flex-row items-center justify-center gap-0.5 sm:gap-1.5">
+                <button onclick="switchTab('crystals')" id="tab-crystals" class="px-3 py-2.5 md:px-2 md:py-1.5 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 transition-all flex items-center justify-start md:justify-center gap-2.5 md:gap-1.5">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 19 8 16 21 8 21 5 8 12 2"/><line x1="5" y1="8" x2="19" y2="8"/></svg>
                     <span>Kristaller</span>
                 </button>
-                <button onclick="switchTab('settings')" id="tab-settings" title="Synk & Backup" aria-label="Synk och Backup" class="px-1 py-1.5 rounded-lg text-[11px] sm:text-sm font-medium text-slate-400 hover:text-slate-200 transition-all flex flex-col sm:flex-row items-center justify-center gap-0.5 sm:gap-1.5">
+                <button onclick="switchTab('hekate')" id="tab-hekate" class="px-3 py-2.5 md:px-2 md:py-1.5 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 transition-all flex items-center justify-start md:justify-center gap-2.5 md:gap-1.5">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="15" cy="7.5" r="4"/><path d="M12 10.5L5 17.5v3h3v-2h2v-2h2"/></svg>
+                    <span>Hekate</span>
+                </button>
+                <button onclick="switchTab('settings')" id="tab-settings" title="Synk & Backup" aria-label="Synk och Backup" class="px-3 py-2.5 md:px-2 md:py-1.5 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 transition-all flex items-center justify-start md:justify-center gap-2.5 md:gap-1.5">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="12" cy="12" r="3"></circle>
                         <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
@@ -440,37 +456,145 @@
             </div>
         </section>
 
-        <!-- VY 5: INSTÄLLNINGAR (SYNK & BACKUP) -->
+        <!-- VY 5: HEKATE-GUIDE -->
+        <section id="view-hekate" class="hidden space-y-6">
+            <div class="px-1">
+                <h2 class="font-serif text-xl font-semibold text-mystic-goldLight">Guide till Hekate</h2>
+                <p class="text-xs text-slate-400 mt-0.5">Vägskälens, facklornas och nycklarnas gudinna – hur du skapar kontakt, bygger ett altare och hedrar henne i vardagen.</p>
+            </div>
+
+            <!-- Introduktion & Epitet -->
+            <div class="bg-mystic-900 border border-mystic-gold/50 rounded-2xl p-5 sm:p-6 shadow-xl space-y-4">
+                <div class="flex items-start gap-4">
+                    <div class="w-12 h-12 rounded-2xl bg-mystic-950 border border-mystic-gold/60 flex items-center justify-center text-mystic-gold shrink-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
+                            <circle cx="15" cy="7.5" r="4"/>
+                            <path d="M12 10.5L5 17.5v3h3v-2h2v-2h2"/>
+                        </svg>
+                    </div>
+                    <div class="space-y-1.5">
+                        <span class="text-[11px] uppercase tracking-wider text-mystic-gold font-semibold">Vägskälens & Trösklarnas Väktare</span>
+                        <h3 class="font-serif text-lg sm:text-xl font-bold text-white">Vem är Hekate?</h3>
+                        <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                            I antik grekisk tradition är Hekate en uråldrig titangudinna som råder över <strong>vägskäl, trösklar, natten, månen, intuition och magi</strong>. Hon är inte en gudinna som kräver rädsla, utan en beskyddande följeslagare som håller upp sina facklor i mörkret när du står inför livsval, förändringar eller inre sökande.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-2 border-t border-mystic-800">
+                    <div class="p-3 rounded-xl bg-mystic-950/80 border border-mystic-800">
+                        <span class="font-serif text-sm font-semibold text-mystic-goldLight block">Kleidouchos – Nyckelbärerskan</span>
+                        <p class="text-xs text-slate-400 mt-0.5 leading-relaxed">Hon som bär nycklarna till gränserna mellan världarna och hjälper dig att låsa upp nya dörrar i livet.</p>
+                    </div>
+                    <div class="p-3 rounded-xl bg-mystic-950/80 border border-mystic-800">
+                        <span class="font-serif text-sm font-semibold text-mystic-goldLight block">Phosphoros – Ljusbärerskan</span>
+                        <p class="text-xs text-slate-400 mt-0.5 leading-relaxed">Hon som lyser upp vägen med sina två facklor när du känner dig vilsen eller tvivlar på nästa steg.</p>
+                    </div>
+                    <div class="p-3 rounded-xl bg-mystic-950/80 border border-mystic-800">
+                        <span class="font-serif text-sm font-semibold text-mystic-goldLight block">Enodia – Vägskälens gudinna</span>
+                        <p class="text-xs text-slate-400 mt-0.5 leading-relaxed">Beskyddaren vid trevägskorsningar, där gammalt möter nytt och viktiga val fattas.</p>
+                    </div>
+                    <div class="p-3 rounded-xl bg-mystic-950/80 border border-mystic-800">
+                        <span class="font-serif text-sm font-semibold text-mystic-goldLight block">Propylaia – Portens väktare</span>
+                        <p class="text-xs text-slate-400 mt-0.5 leading-relaxed">Hon som vakar vid ytterdörren och skyddar hemmet och dem som bor där.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Altare & Symboler -->
+            <div class="bg-mystic-900 border border-mystic-700/60 rounded-2xl p-5 sm:p-6 shadow-xl space-y-4">
+                <h3 class="font-serif text-base sm:text-lg font-semibold text-mystic-goldLight flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-mystic-gold"><path d="M12 2c1.5 2.5 3 4.5 3 7a3 3 0 1 1-6 0c0-2.5 1.5-4.5 3-7z"/><path d="M9 14h6v7H9z"/><path d="M7 21h10"/></svg>
+                    <span>Altare, symboler & korrespondenser</span>
+                </h3>
+                <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                    Du behöver inga dyra föremål för att hedra Hekate – en liten plats på en hylla eller fönsterbräda räcker gott. Här är vanliga symboler och ting som förknippas med henne:
+                </p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                    <div class="p-3.5 rounded-xl bg-mystic-950 border border-mystic-800 space-y-1">
+                        <span class="uppercase tracking-wider text-mystic-gold font-semibold block">Färger & Ljus</span>
+                        <p class="text-slate-300 leading-relaxed"><strong>Svart</strong> (beskydd, natten, skuggarbete), <strong>Vitt</strong> (renhet, månljus, vägledning) och <strong>Rött</strong> (livskraft, facklornas glöd).</p>
+                    </div>
+                    <div class="p-3.5 rounded-xl bg-mystic-950 border border-mystic-800 space-y-1">
+                        <span class="uppercase tracking-wider text-mystic-gold font-semibold block">Heliga symboler</span>
+                        <p class="text-slate-300 leading-relaxed">Gamla nycklar, tända ljus/facklor, dolk (athame), Hekates hjul (<em>Strophalos</em>), hundfigurer och ormar.</p>
+                    </div>
+                    <div class="p-3.5 rounded-xl bg-mystic-950 border border-mystic-800 space-y-1">
+                        <span class="uppercase tracking-wider text-mystic-gold font-semibold block">Kristaller</span>
+                        <p class="text-slate-300 leading-relaxed"><strong>Svart Obsidian</strong>, <strong>Månsten</strong>, <strong>Labradorit</strong>, <strong>Svart Turmalin</strong>, <strong>Rökkvarts</strong> och <strong>Ametist</strong>.</p>
+                    </div>
+                    <div class="p-3.5 rounded-xl bg-mystic-950 border border-mystic-800 space-y-1">
+                        <span class="uppercase tracking-wider text-mystic-gold font-semibold block">Rökelse & Örter</span>
+                        <p class="text-slate-300 leading-relaxed">Myrra, frankincense (olibanum), gråbo (mugwort), rosmarin, lavendel, lagerblad och cederträ.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Traditionella offergåvor & Deipnon -->
+            <div class="bg-mystic-900 border border-mystic-700/60 rounded-2xl p-5 sm:p-6 shadow-xl space-y-4">
+                <div class="flex items-start justify-between gap-2 border-b border-mystic-800 pb-3">
+                    <div>
+                        <span class="text-[11px] uppercase tracking-wider text-mystic-gold font-semibold">Månatlig tradition</span>
+                        <h3 class="font-serif text-base sm:text-lg font-bold text-white mt-0.5">Hekates Deipnon & Offergåvor</h3>
+                    </div>
+                    <span class="text-[11px] px-2.5 py-0.5 rounded-full bg-mystic-950 text-mystic-goldLight border border-mystic-700 shrink-0">Vid mörkermåne</span>
+                </div>
+
+                <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                    I antikens Grekland firades <strong>Hekates Deipnon</strong> ("Hekates kvällsvard") varje månad under mörkermånen – natten innan den första nymåneskäran blir synlig. Det är en tid för att rena hemmet, släppa taget om månaden som gått och lämna en enkel gåva i tacksamhet.
+                </p>
+
+                <div class="p-4 rounded-xl bg-mystic-950/90 border border-mystic-800 space-y-2">
+                    <span class="text-xs uppercase tracking-wider text-mystic-gold font-semibold block">Uppskattade offergåvor</span>
+                    <ul class="text-xs sm:text-sm text-slate-300 space-y-1.5 list-disc list-inside leading-relaxed">
+                        <li><strong>Enkla gåvor på altaret:</strong> Ett litet glas rent vatten, honung, olivolja, bröd, dadlar, fikon eller granatäpple.</li>
+                        <li><strong>Handlingar som gåva:</strong> Att ta hand om eller skänka en slant till hemlösa hundar/djur, hjälpa någon i nöd, rensa upp i naturen eller tända ett ljus vid ytterdörren.</li>
+                        <li><strong>Viktigt att tänka på:</strong> Traditionellt nämns vitlök och lök i antika källor, men om du lämnar gåvor utomhus vid ett vägskäl – <em>lämna aldrig något som är giftigt för hundar eller vilda djur</em> (som vitlök, lök, choklad eller russin).</li>
+                    </ul>
+                </div>
+
+                <div class="space-y-2">
+                    <span class="text-xs uppercase tracking-wider text-mystic-goldLight font-semibold block">Så gör du en enkel Deipnon-ritual hemma:</span>
+                    <ol class="text-xs sm:text-sm text-slate-300 space-y-1.5 list-decimal list-inside leading-relaxed">
+                        <li>Städa undan och sopa/torka golvet mot ytterdörren för att symboliskt rensa ut gammal, tung energi.</li>
+                        <li>Tänd rökelse (t.ex. myrra eller rosmarin) och ett svart eller vitt ljus vid ditt altare eller nära ytterdörren.</li>
+                        <li>Ställ fram en liten skål med vatten och lite honung eller bröd och säg en enkel bön.</li>
+                        <li>Dra ett tarotkort (gärna med läggningen <em>Vägskälet</em>) och fråga vad Hekate vill belysa inför den kommande måncykeln.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- Böner & Åkallan -->
+            <div class="bg-mystic-900 border border-mystic-700/60 rounded-2xl p-5 sm:p-6 shadow-xl space-y-4">
+                <h3 class="font-serif text-base sm:text-lg font-semibold text-mystic-goldLight flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-mystic-gold"><path d="M12 3l1.9 5.8L20 11l-6.1 2.2L12 19l-1.9-5.8L4 11l6.1-2.2L12 3z"/></svg>
+                    <span>Böner & ord vid altaret</span>
+                </h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div class="p-4 rounded-xl bg-mystic-950 border border-mystic-gold/30 space-y-2">
+                        <span class="text-[11px] uppercase tracking-wider text-mystic-gold font-semibold block">När du tänder ljus</span>
+                        <p class="text-xs sm:text-sm text-slate-300 italic leading-relaxed">
+                            "Hekate Phosphoros, du som bär facklorna genom mörkret, jag tänder denna låga i respekt och värme. Lys upp min stig, beskydda mitt hem och ge mig mod att se sanningen klart."
+                        </p>
+                    </div>
+                    <div class="p-4 rounded-xl bg-mystic-950 border border-mystic-gold/30 space-y-2">
+                        <span class="text-[11px] uppercase tracking-wider text-mystic-gold font-semibold block">Vid ett vägskäl eller inför tarot</span>
+                        <p class="text-xs sm:text-sm text-slate-300 italic leading-relaxed">
+                            "Hekate Enodia, väktare av vägskälen och bärare av nycklarna, stå vid min sida när jag står inför val. Låt min intuition vara skarp och visa mig den dörr som leder mot visdom."
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VY 6: INSTÄLLNINGAR (SYNK & BACKUP) -->
         <section id="view-settings" class="hidden space-y-6">
             <div class="px-1">
                 <h2 class="font-serif text-xl font-semibold text-mystic-goldLight">Synk & Säkerhetskopiering</h2>
-                <p class="text-xs text-slate-400 mt-0.5">Hantera molnsynkronisering mot Google Kalkylark och lokala backup-filer.</p>
+                <p class="text-xs text-slate-400 mt-0.5">Spara säkerhetskopior lokalt på din enhet eller koppla ett eget Google Kalkylark för automatisk molnsynk.</p>
             </div>
 
-            <!-- Koppling till Google Kalkylark (Sheets) -->
-            <div class="bg-mystic-900 border border-mystic-gold/40 rounded-2xl p-5 space-y-3 shadow-xl">
-                <div class="flex items-center justify-between gap-2">
-                    <div>
-                        <h3 class="font-serif text-base font-semibold text-mystic-goldLight flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-mystic-gold shrink-0"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>
-                            <span>Google Kalkylark-synk</span>
-                        </h3>
-                        <p class="text-xs text-slate-400 mt-0.5">Klistra in din Google Apps Script webbapp-URL så sparas alla tarotläggningar automatiskt i ert kalkylark.</p>
-                    </div>
-                    <button type="button" onclick="syncFromSheets()" class="shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-mystic-800 hover:bg-mystic-700 border border-mystic-600 text-xs font-medium text-mystic-goldLight transition">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
-                        <span>Synka nu</span>
-                    </button>
-                </div>
-                <div class="flex flex-col sm:flex-row gap-2 pt-1">
-                    <input type="url" id="sheets-url-input" placeholder="https://script.google.com/macros/s/.../exec" class="flex-1 bg-mystic-950 border border-mystic-700 rounded-xl px-3 py-2 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-mystic-gold">
-                    <button type="button" onclick="saveSheetsUrl()" class="px-4 py-2 rounded-xl bg-mystic-gold text-mystic-950 font-semibold text-xs hover:brightness-110 transition">
-                        Spara länk
-                    </button>
-                </div>
-            </div>
-
-            <!-- Verktygsfält för export/import -->
+            <!-- 1. Lokal backup-fil (Högst upp) -->
             <div class="bg-mystic-900 border border-mystic-700/60 rounded-2xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-xl">
                 <div>
                     <h3 class="font-serif text-base font-semibold text-mystic-goldLight flex items-center gap-2">
@@ -489,6 +613,119 @@
                         <span>Ladda upp backup</span>
                         <input type="file" accept=".json" onchange="importJournal(event)" class="hidden">
                     </label>
+                </div>
+            </div>
+
+            <!-- 2. Koppling till Google Kalkylark (Sheets) + Utförlig guide -->
+            <div class="bg-mystic-900 border border-mystic-gold/40 rounded-2xl p-5 sm:p-6 space-y-5 shadow-xl">
+                <div class="flex items-center justify-between gap-2">
+                    <div>
+                        <h3 class="font-serif text-base font-semibold text-mystic-goldLight flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-mystic-gold shrink-0"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>
+                            <span>Google Kalkylark-synk (Valfritt)</span>
+                        </h3>
+                        <p class="text-xs text-slate-400 mt-0.5">Klistra in din Google Apps Script webbapp-URL nedan så sparas alla läggningar automatiskt i ditt Google Kalkylark.</p>
+                    </div>
+                    <button type="button" onclick="syncFromSheets()" class="shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-mystic-800 hover:bg-mystic-700 border border-mystic-600 text-xs font-medium text-mystic-goldLight transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+                        <span>Synka nu</span>
+                    </button>
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-2">
+                    <input type="url" id="sheets-url-input" placeholder="https://script.google.com/macros/s/.../exec" class="flex-1 bg-mystic-950 border border-mystic-700 rounded-xl px-3 py-2 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-mystic-gold">
+                    <button type="button" onclick="saveSheetsUrl()" class="px-4 py-2 rounded-xl bg-mystic-gold text-mystic-950 font-semibold text-xs hover:brightness-110 transition">
+                        Spara länk
+                    </button>
+                </div>
+
+                <!-- Steg-för-steg-guide för att sätta upp eget Google Kalkylark -->
+                <div class="pt-4 border-t border-mystic-800 space-y-4">
+                    <div>
+                        <span class="text-[11px] uppercase tracking-wider text-mystic-gold font-semibold">Steg-för-steg-guide</span>
+                        <h4 class="font-serif text-sm sm:text-base font-semibold text-white mt-0.5">Så kopplar du ditt eget Google Kalkylark (ca 3 minuter)</h4>
+                        <p class="text-xs text-slate-400 mt-1 leading-relaxed">
+                            Appen sparar redan allt automatiskt i din webbläsare, men om du vill ha en extra molnkopia i Google Drive kan du enkelt skapa ett eget kalkylark:
+                        </p>
+                    </div>
+
+                    <ol class="text-xs sm:text-sm text-slate-300 space-y-3 list-decimal list-inside leading-relaxed">
+                        <li>
+                            <strong>Skapa ett nytt kalkylark:</strong> Gå till <span class="text-mystic-goldLight font-medium">sheets.google.com</span> (gärna på datorn) och skapa ett nytt tomt kalkylark. Döp det till t.ex. <em>Min Tarotdagbok</em>.
+                        </li>
+                        <li>
+                            <strong>Öppna Apps Script:</strong> Klicka på <span class="text-mystic-goldLight font-medium">Tillägg</span> i toppmenyn &rarr; <span class="text-mystic-goldLight font-medium">Apps Script</span>.
+                        </li>
+                        <li>
+                            <strong>Klistra in skriptkoden:</strong> Radera all text som redan står i kodrutan, klicka på knappen nedan för att kopiera koden och klistra in den i Apps Script. Tryck på disketten (<em>Spara</em>).
+                        </li>
+                    </ol>
+
+                    <!-- Kodruta med kopieringsknapp -->
+                    <div class="rounded-xl bg-mystic-950 border border-mystic-700/80 overflow-hidden">
+                        <div class="flex items-center justify-between px-3.5 py-2 bg-mystic-800/60 border-b border-mystic-700/80">
+                            <span class="text-[11px] font-mono text-slate-400">Kod.gs (Google Apps Script)</span>
+                            <button type="button" onclick="copyAppsScriptCode()" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-mystic-700 hover:bg-mystic-600 text-mystic-goldLight text-xs font-medium transition">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                                <span>Kopiera skriptkod</span>
+                            </button>
+                        </div>
+                        <pre id="apps-script-code" class="p-3.5 text-[11px] font-mono text-slate-300 overflow-x-auto leading-relaxed select-all">function doPost(e) {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var payload = JSON.parse(e.postData.contents);
+
+  if (sheet.getLastRow() === 0) {
+    sheet.appendRow(["id", "date", "spreadType", "spreadTitle", "cards", "cardId", "cardName", "cardArcana", "cardSymbol", "isReversed", "userNotes", "afterNotes", "keywords", "meaningText"]);
+  }
+
+  if (payload.action === "get") {
+    var data = sheet.getDataRange().getValues();
+    var headers = data[0];
+    var rows = [];
+    for (var i = 1; i &lt; data.length; i++) {
+      var obj = {};
+      for (var j = 0; j &lt; headers.length; j++) {
+        obj[headers[j]] = data[i][j];
+      }
+      rows.push(obj);
+    }
+    return ContentService.createTextOutput(JSON.stringify(rows)).setMimeType(ContentService.MimeType.JSON);
+  }
+
+  if (payload.action === "add") {
+    var item = payload.entry;
+    sheet.appendRow([
+      item.id, item.date, item.spreadType || "single", item.spreadTitle || "",
+      JSON.stringify(item.cards || []), item.cardId, item.cardName, item.cardArcana,
+      item.cardSymbol, item.isReversed, item.userNotes, item.afterNotes,
+      item.keywords, item.meaningText
+    ]);
+    return ContentService.createTextOutput(JSON.stringify({ status: "ok" })).setMimeType(ContentService.MimeType.JSON);
+  }
+
+  if (payload.action === "delete") {
+    var rowsData = sheet.getDataRange().getValues();
+    for (var r = rowsData.length - 1; r &gt;= 1; r--) {
+      if (String(rowsData[r][0]) === String(payload.id)) {
+        sheet.deleteRow(r + 1);
+      }
+    }
+    return ContentService.createTextOutput(JSON.stringify({ status: "deleted" })).setMimeType(ContentService.MimeType.JSON);
+  }
+}</pre>
+                    </div>
+
+                    <ol start="4" class="text-xs sm:text-sm text-slate-300 space-y-3 list-decimal list-inside leading-relaxed">
+                        <li>
+                            <strong>Publicera som webbapp:</strong> Klicka på den blå knappen <span class="text-mystic-goldLight font-medium">Distribuera</span> uppe till höger &rarr; <span class="text-mystic-goldLight font-medium">Ny distribution</span>.
+                        </li>
+                        <li>
+                            <strong>Välj behörighet:</strong> Klicka på kugghjulet vid <em>Välj typ</em> och välj <span class="text-mystic-goldLight font-medium">Webbapp</span>. Under <em>Vem har åtkomst</em> väljer du <span class="text-mystic-goldLight font-medium">Alla</span>. Klicka sedan på <span class="text-mystic-goldLight font-medium">Distribuera</span> och godkänn behörigheten (om Google varnar för "overifierad app", klicka på <em>Avancerat</em> &rarr; <em>Gå till projektet</em> &rarr; <em>Tillåt</em>).
+                        </li>
+                        <li>
+                            <strong>Klistra in länken här:</strong> Kopiera den <strong>Webbapp-URL</strong> som visas (slutar på <code class="text-mystic-gold">/exec</code>), klistra in den i rutan högst upp under <em>Google Kalkylark-synk</em> och tryck på <span class="text-mystic-goldLight font-medium">Spara länk</span>!
+                        </li>
+                    </ol>
                 </div>
             </div>
         </section>
@@ -1134,64 +1371,102 @@
                 "maj-8": `<path d="M7 12c0-2.5 2.5-3.5 5 0s5 2.5 5 0-2.5-3.5-5 0-5 2.5-5 0z"/><circle cx="12" cy="12" r="9" opacity="0.4"/>`,
                 "maj-9": `<path d="M9 7h6l1 10H8L9 7z"/><path d="M10 7V5a2 2 0 0 1 4 0v2"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/><path d="M7 20h10"/>`,
                 "maj-10": `<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/><path d="M12 3v6M12 15v6M3 12h6M15 12h6M5.6 5.6l4.2 4.2M14.2 14.2l4.2 4.2M18.4 5.6l-4.2 4.2M9.8 14.2l-4.2 4.2"/>`,
-                "maj-11": `<path d="M12 3v18"/><path d="M5 7h14"/><path d="M5 7l-2.5 6h5L5 7z"/><path d="M19 7l-2.5 6h5L19 7z"/><path d="M8 21h8"/>`,
-                "maj-12": `<path d="M5 4h14"/><path d="M12 4v8"/><circle cx="12" cy="15" r="3"/><path d="M9 19l3-1 3 1"/>`,
-                "maj-13": `<path d="M12 12c-3-4-8-4-8 1s5 5 8 1c3 4 8 4 8-1s-5-5-8-1z"/><path d="M12 5v14"/>`,
-                "maj-14": `<path d="M8 4h8l-1 4a3 3 0 0 1-6 0L8 4z"/><path d="M12 11v8"/><path d="M8 21h8"/><path d="M6 15c3 2 9 2 12 0" opacity="0.6"/>`,
-                "maj-15": `<path d="M10 14a4 4 0 0 1-5-5l2-2a4 4 0 0 1 5 5"/><path d="M14 10a4 4 0 0 1 5 5l-2 2a4 4 0 0 1-5-5"/><path d="M9 15l6-6"/>`,
-                "maj-16": `<path d="M8 21V9l4-4 4 4v12"/><path d="M6 9h12"/><path d="M13 2l-3 6h4l-3 6"/>`,
-                "maj-17": `<polygon points="12,2 14.6,8.5 21.5,9.2 16.2,13.8 17.8,20.6 12,17 6.2,20.6 7.8,13.8 2.5,9.2 9.4,8.5"/>`,
-                "maj-18": `<path d="M16 4a8 8 0 1 0 0 16 6.5 6.5 0 0 1 0-16z"/><path d="M4 19c3-1 5 1 8 0s5 1 8 0" opacity="0.6"/>`,
-                "maj-19": `<circle cx="12" cy="12" r="5"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1"/>`,
-                "maj-20": `<path d="M4 14l10-6v12L4 14z"/><path d="M14 11c2.5 0 4.5 1.5 4.5 3s-2 3-4.5 3"/><path d="M18 8l2-2M19 14h2M18 20l2 2"/>`,
-                "maj-21": `<ellipse cx="12" cy="12" rx="7" ry="9.5"/><path d="M8 7c1.5 1 6.5 1 8 0M8 17c1.5-1 6.5-1 8 0"/><circle cx="12" cy="12" r="2.5"/>`
+                "maj-11": `<path d="M12 3v18"/><path d="M5 7h14"/><path d="M5 7l-2 5h4l-2-5z"/><path d="M19 7l-2 5h4l-2-5z"/><path d="M8 21h8"/>`,
+                "maj-12": `<path d="M5 4h14"/><path d="M12 4v5"/><circle cx="12" cy="17" r="2.5"/><path d="M9 13l3-4 3 4"/>`,
+                "maj-13": `<path d="M12 21v-8"/><path d="M12 13c-3 0-5-2.5-5-5.5C7 5 9.5 3 12 3s5 2 5 4.5c0 3-2 5.5-5 5.5z"/><path d="M12 17c-2.5 0-4-1.5-4-3"/><path d="M12 16c2.5 0 4-1.5 4-3"/>`,
+                "maj-14": `<path d="M6 4h5v4a2.5 2.5 0 0 1-5 0V4z"/><path d="M13 13h5v4a2.5 2.5 0 0 1-5 0v-4z"/><path d="M10 9c2 1 3 2 4 4" stroke-dasharray="2 2"/>`,
+                "maj-15": `<path d="M7 4c0 3 2 5 5 5s5-2 5-5"/><path d="M8 14h8v6H8z"/><circle cx="12" cy="17" r="1"/>`,
+                "maj-16": `<path d="M8 21V9l4-3 4 3v12"/><path d="M6 9l6-5 6 5"/><path d="M13 2l-2 4h3l-2 4"/>`,
+                "maj-17": `<polygon points="12,2 14.5,9 22,9.5 16,14.5 18,21.5 12,17.5 6,21.5 8,14.5 2,9.5 9.5,9"/>`,
+                "maj-18": `<path d="M17 4.5A8.5 8.5 0 1 0 17 19.5 7 7 0 0 1 17 4.5z"/><path d="M3 19c2-1 4-1 6 0s4 1 6 0 4-1 6 0" opacity="0.6"/>`,
+                "maj-19": `<circle cx="12" cy="12" r="5"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>`,
+                "maj-20": `<path d="M4 14l12-7v10L4 10v4z"/><path d="M16 9c2 0 3 1.5 3 3s-1 3-3 3"/><path d="M8 16v3"/>`,
+                "maj-21": `<ellipse cx="12" cy="12" rx="7" ry="9"/><path d="M12 2v2M12 20v2M3 12h2M19 12h2"/><path d="M9 12c1.5-2 4.5-2 6 0"/>`
             };
 
-            return wrap(majorIcons[id] || `<polygon points="12,2 14.8,8.5 22,9.3 16.5,14 18.2,21 12,17.3 5.8,21 7.5,14 2,9.3 9.2,8.5"/>`);
+            return wrap(majorIcons[id] || `<polygon points="12,3 14.5,9 21,9.5 16,14 17.5,20.5 12,17 6.5,20.5 8,14 3,9.5 9.5,9"/>`);
         }
 
-        // Hämta aktiv Google Sheets-URL
+        // Hämta aktiv Google Sheets URL
         function getSheetsUrl() {
-            if (DEFAULT_SHEETS_URL && DEFAULT_SHEETS_URL.trim() !== "") {
-                return DEFAULT_SHEETS_URL.trim();
-            }
             try {
-                return (localStorage.getItem(SHEETS_URL_KEY) || "").trim();
-            } catch (e) {
-                return "";
-            }
+                const saved = localStorage.getItem(SHEETS_URL_KEY);
+                if (saved !== null) return saved.trim();
+            } catch (e) {}
+            return DEFAULT_SHEETS_URL.trim();
         }
 
-        // Uppdatera statuspricken i sidhuvudet
+        // Uppdatera synk-indikatorn i sidhuvudet
         function setSyncStatus(state, text) {
             const dot = document.getElementById('sync-dot');
             const label = document.getElementById('sync-text');
-            if (label) label.textContent = text;
-            if (!dot) return;
-            if (state === 'syncing') {
-                dot.className = "w-2 h-2 rounded-full bg-amber-400 animate-pulse";
-            } else if (state === 'error') {
-                dot.className = "w-2 h-2 rounded-full bg-rose-500";
+            if (!dot || !label) return;
+            label.textContent = text;
+            dot.className = "w-2 h-2 rounded-full shrink-0 " + (
+                state === 'syncing' ? "bg-amber-400 animate-pulse" :
+                state === 'error' ? "bg-rose-500" :
+                "bg-emerald-400"
+            );
+        }
+
+        // Öppna/stäng mobilmenyn
+        function toggleMobileMenu(forceState) {
+            const nav = document.getElementById('main-nav');
+            const btn = document.getElementById('mobile-menu-btn');
+            const openIcon = document.getElementById('icon-menu-open');
+            const closeIcon = document.getElementById('icon-menu-close');
+            if (!nav) return;
+
+            const isCurrentlyHidden = nav.classList.contains('hidden');
+            const shouldOpen = typeof forceState === 'boolean' ? forceState : isCurrentlyHidden;
+
+            if (shouldOpen) {
+                nav.classList.remove('hidden');
+                nav.classList.add('grid', 'grid-cols-1');
+                if (btn) btn.setAttribute('aria-expanded', 'true');
+                if (openIcon) openIcon.classList.add('hidden');
+                if (closeIcon) closeIcon.classList.remove('hidden');
             } else {
-                dot.className = "w-2 h-2 rounded-full bg-emerald-400";
+                nav.classList.add('hidden');
+                nav.classList.remove('grid', 'grid-cols-1');
+                if (btn) btn.setAttribute('aria-expanded', 'false');
+                if (openIcon) openIcon.classList.remove('hidden');
+                if (closeIcon) closeIcon.classList.add('hidden');
             }
         }
 
         // Byt flik
         function switchTab(tab) {
-            const views = ['today', 'history', 'moon', 'crystals', 'settings'];
+            const views = ['today', 'history', 'moon', 'crystals', 'hekate', 'settings'];
+            const tabNames = {
+                today: 'Läggning',
+                history: 'Dagbok',
+                moon: 'Måne',
+                crystals: 'Kristaller',
+                hekate: 'Hekate',
+                settings: 'Synk'
+            };
+
             views.forEach(v => {
                 const el = document.getElementById(`view-${v}`);
                 if (el) el.classList.add('hidden');
             });
 
-            const baseClass = "px-1 py-1.5 rounded-lg text-[11px] sm:text-sm font-medium text-slate-400 hover:text-slate-200 transition-all flex flex-col sm:flex-row items-center justify-center gap-0.5 sm:gap-1.5";
-            const activeClass = "px-1 py-1.5 rounded-lg text-[11px] sm:text-sm font-medium transition-all bg-mystic-700 text-mystic-goldLight shadow flex flex-col sm:flex-row items-center justify-center gap-0.5 sm:gap-1.5";
+            const baseClass = "px-3 py-2.5 md:px-2 md:py-1.5 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 transition-all flex items-center justify-start md:justify-center gap-2.5 md:gap-1.5";
+            const activeClass = "px-3 py-2.5 md:px-2 md:py-1.5 rounded-lg text-sm font-medium transition-all bg-mystic-700 text-mystic-goldLight shadow flex items-center justify-start md:justify-center gap-2.5 md:gap-1.5";
 
             views.forEach(v => {
                 const btn = document.getElementById(`tab-${v}`);
                 if (btn) btn.className = v === tab ? activeClass : baseClass;
             });
+
+            const mobileLabel = document.getElementById('mobile-current-tab-label');
+            if (mobileLabel && tabNames[tab]) {
+                mobileLabel.textContent = tabNames[tab];
+            }
+
+            // Stäng mobilmenyn automatiskt när man valt en flik
+            toggleMobileMenu(false);
 
             const activeView = document.getElementById(`view-${tab}`);
             if (activeView) activeView.classList.remove('hidden');
@@ -1964,7 +2239,7 @@
                 name = "Mörkermåne";
                 isDarkMoon = true;
                 energy = "Djup stillhet, rening, avslut och gränslandet mellan gammalt och nytt.";
-                ritualTip = "En kraftfull kväll för inre stillhet och rening. Rensa hemmet med rökelse, tänd ett svart eller vitt ljus och släpp taget om det du inte vill ta med in i nästa cykel.";
+                ritualTip = "En kraftfull kväll för inre stillhet, rening och Hekates Deipnon. Rensa hemmet med rökelse, tänd ett svart eller vitt ljus och släpp taget om det du inte vill ta med in i nästa cykel.";
             } else if (age < 1.2 || age >= 29.3) {
                 name = "Nymåne";
                 energy = "Nystart, tom duk, frösådd och inre fokus.";
@@ -2061,7 +2336,7 @@
             const cardEl = document.getElementById('current-moon-card');
             if (cardEl) {
                 const darkMoonBadge = info.isDarkMoon
-                    ? `<span class="inline-block text-[11px] px-2.5 py-0.5 rounded-full bg-purple-500/20 text-purple-200 border border-purple-400/40 mb-1">Tid för stillhet & rening</span>`
+                    ? `<span class="inline-block text-[11px] px-2.5 py-0.5 rounded-full bg-purple-500/20 text-purple-200 border border-purple-400/40 mb-1">Tid för stillhet, rening & Hekates Deipnon</span>`
                     : '';
                 cardEl.innerHTML = `
                     <div class="flex flex-col sm:flex-row items-center gap-6">
@@ -2285,6 +2560,38 @@
             event.target.value = "";
         }
 
+        // Kopiera Google Apps Script-koden till urklipp
+        function copyAppsScriptCode() {
+            const codeEl = document.getElementById('apps-script-code');
+            if (!codeEl) return;
+            const text = codeEl.textContent;
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast("Skriptkoden är kopierad!");
+                }).catch(() => {
+                    fallbackCopyText(text);
+                });
+            } else {
+                fallbackCopyText(text);
+            }
+        }
+
+        function fallbackCopyText(text) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                document.execCommand('copy');
+                showToast("Skriptkoden är kopierad!");
+            } catch (e) {
+                showToast("Markera koden och kopiera manuellt.");
+            }
+            textarea.remove();
+        }
+
         function showToast(message) {
             const toast = document.getElementById('toast');
             document.getElementById('toast-msg').textContent = message;
@@ -2388,4 +2695,4 @@
         }
     </script>
 </body>
-    </html>
+</html>
