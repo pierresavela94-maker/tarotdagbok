@@ -456,133 +456,265 @@
             </div>
         </section>
 
-        <!-- VY 5: HEKATE-GUIDE -->
-        <section id="view-hekate" class="hidden space-y-6">
+        <!-- VY 5: HEKATE-GUIDE (STRUKTURERAD MED UNDERFLIKAR) -->
+        <section id="view-hekate" class="hidden space-y-5">
             <div class="px-1">
                 <h2 class="font-serif text-xl font-semibold text-mystic-goldLight">Guide till Hekate</h2>
-                <p class="text-xs text-slate-400 mt-0.5">Vägskälens, facklornas och nycklarnas gudinna – hur du skapar kontakt, bygger ett altare och hedrar henne i vardagen.</p>
+                <p class="text-xs text-slate-400 mt-0.5">Vägskälens, facklornas och nycklarnas gudinna – utforska hennes historia, hur du börjar, ritualer och böner.</p>
             </div>
 
-            <!-- Introduktion & Epitet -->
-            <div class="bg-mystic-900 border border-mystic-gold/50 rounded-2xl p-5 sm:p-6 shadow-xl space-y-4">
-                <div class="flex items-start gap-4">
-                    <div class="w-12 h-12 rounded-2xl bg-mystic-950 border border-mystic-gold/60 flex items-center justify-center text-mystic-gold shrink-0">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
-                            <circle cx="15" cy="7.5" r="4"/>
-                            <path d="M12 10.5L5 17.5v3h3v-2h2v-2h2"/>
-                        </svg>
-                    </div>
-                    <div class="space-y-1.5">
-                        <span class="text-[11px] uppercase tracking-wider text-mystic-gold font-semibold">Vägskälens & Trösklarnas Väktare</span>
-                        <h3 class="font-serif text-lg sm:text-xl font-bold text-white">Vem är Hekate?</h3>
-                        <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                            I antik grekisk tradition är Hekate en uråldrig titangudinna som råder över <strong>vägskäl, trösklar, natten, månen, intuition och magi</strong>. Hon är inte en gudinna som kräver rädsla, utan en beskyddande följeslagare som håller upp sina facklor i mörkret när du står inför livsval, förändringar eller inre sökande.
-                        </p>
+            <!-- Underflikar för att undvika en lång textvägg -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 bg-mystic-900 p-1.5 rounded-2xl border border-mystic-700/60 shadow-lg">
+                <button type="button" onclick="switchHekateSection('overview')" id="hekate-tab-overview" class="hekate-subtab px-3 py-2 rounded-xl text-xs font-medium transition-all bg-mystic-700 text-mystic-goldLight shadow text-center">
+                    Översikt & Epitet
+                </button>
+                <button type="button" onclick="switchHekateSection('start')" id="hekate-tab-start" class="hekate-subtab px-3 py-2 rounded-xl text-xs font-medium transition-all text-slate-400 hover:text-slate-200 text-center">
+                    Börja & Altare
+                </button>
+                <button type="button" onclick="switchHekateSection('rituals')" id="hekate-tab-rituals" class="hekate-subtab px-3 py-2 rounded-xl text-xs font-medium transition-all text-slate-400 hover:text-slate-200 text-center">
+                    Ritualer & Deipnon
+                </button>
+                <button type="button" onclick="switchHekateSection('prayers')" id="hekate-tab-prayers" class="hekate-subtab px-3 py-2 rounded-xl text-xs font-medium transition-all text-slate-400 hover:text-slate-200 text-center">
+                    Böner & Etik
+                </button>
+            </div>
+
+            <!-- DEL 1: ÖVERSIKT & EPITET -->
+            <div id="hekate-sec-overview" class="hekate-section space-y-4">
+                <div class="bg-mystic-900 border border-mystic-gold/50 rounded-2xl p-5 sm:p-6 shadow-xl space-y-4">
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 rounded-2xl bg-mystic-950 border border-mystic-gold/60 flex items-center justify-center text-mystic-gold shrink-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
+                                <circle cx="15" cy="7.5" r="4"/>
+                                <path d="M12 10.5L5 17.5v3h3v-2h2v-2h2"/>
+                            </svg>
+                        </div>
+                        <div class="space-y-1.5">
+                            <span class="text-[11px] uppercase tracking-wider text-mystic-gold font-semibold">Antik grekisk titangudinna</span>
+                            <h3 class="font-serif text-lg sm:text-xl font-bold text-white">Vem är Hekate?</h3>
+                            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                                Hekate (uttalas <em>He-ka-te</em>) är en uråldrig gudinna av titansläkt (dotter till Perses och Asteria). Redan i Hesiodos <em>Theogonin</em> (ca 700 f.Kr.) beskrivs hon som högt ärad av både Zeus och gudarna med makt över <strong>jorden, havet och stjärnhimlen</strong>.
+                            </p>
+                            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                                Hon är trösklarnas, vägskälens, nattens, magins och intuitionens beskyddare – en vis vägledare som bär två facklor för att lysa upp mörkret när du står inför livsval eller skuggarbete.
+                            </p>
+                        </div>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-2 border-t border-mystic-800">
-                    <div class="p-3 rounded-xl bg-mystic-950/80 border border-mystic-800">
-                        <span class="font-serif text-sm font-semibold text-mystic-goldLight block">Kleidouchos – Nyckelbärerskan</span>
-                        <p class="text-xs text-slate-400 mt-0.5 leading-relaxed">Hon som bär nycklarna till gränserna mellan världarna och hjälper dig att låsa upp nya dörrar i livet.</p>
-                    </div>
-                    <div class="p-3 rounded-xl bg-mystic-950/80 border border-mystic-800">
-                        <span class="font-serif text-sm font-semibold text-mystic-goldLight block">Phosphoros – Ljusbärerskan</span>
-                        <p class="text-xs text-slate-400 mt-0.5 leading-relaxed">Hon som lyser upp vägen med sina två facklor när du känner dig vilsen eller tvivlar på nästa steg.</p>
-                    </div>
-                    <div class="p-3 rounded-xl bg-mystic-950/80 border border-mystic-800">
-                        <span class="font-serif text-sm font-semibold text-mystic-goldLight block">Enodia – Vägskälens gudinna</span>
-                        <p class="text-xs text-slate-400 mt-0.5 leading-relaxed">Beskyddaren vid trevägskorsningar, där gammalt möter nytt och viktiga val fattas.</p>
-                    </div>
-                    <div class="p-3 rounded-xl bg-mystic-950/80 border border-mystic-800">
-                        <span class="font-serif text-sm font-semibold text-mystic-goldLight block">Propylaia – Portens väktare</span>
-                        <p class="text-xs text-slate-400 mt-0.5 leading-relaxed">Hon som vakar vid ytterdörren och skyddar hemmet och dem som bor där.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Altare & Symboler -->
-            <div class="bg-mystic-900 border border-mystic-700/60 rounded-2xl p-5 sm:p-6 shadow-xl space-y-4">
-                <h3 class="font-serif text-base sm:text-lg font-semibold text-mystic-goldLight flex items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-mystic-gold"><path d="M12 2c1.5 2.5 3 4.5 3 7a3 3 0 1 1-6 0c0-2.5 1.5-4.5 3-7z"/><path d="M9 14h6v7H9z"/><path d="M7 21h10"/></svg>
-                    <span>Altare, symboler & korrespondenser</span>
-                </h3>
-                <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                    Du behöver inga dyra föremål för att hedra Hekate – en liten plats på en hylla eller fönsterbräda räcker gott. Här är vanliga symboler och ting som förknippas med henne:
-                </p>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-                    <div class="p-3.5 rounded-xl bg-mystic-950 border border-mystic-800 space-y-1">
-                        <span class="uppercase tracking-wider text-mystic-gold font-semibold block">Färger & Ljus</span>
-                        <p class="text-slate-300 leading-relaxed"><strong>Svart</strong> (beskydd, natten, skuggarbete), <strong>Vitt</strong> (renhet, månljus, vägledning) och <strong>Rött</strong> (livskraft, facklornas glöd).</p>
-                    </div>
-                    <div class="p-3.5 rounded-xl bg-mystic-950 border border-mystic-800 space-y-1">
-                        <span class="uppercase tracking-wider text-mystic-gold font-semibold block">Heliga symboler</span>
-                        <p class="text-slate-300 leading-relaxed">Gamla nycklar, tända ljus/facklor, dolk (athame), Hekates hjul (<em>Strophalos</em>), hundfigurer och ormar.</p>
-                    </div>
-                    <div class="p-3.5 rounded-xl bg-mystic-950 border border-mystic-800 space-y-1">
-                        <span class="uppercase tracking-wider text-mystic-gold font-semibold block">Kristaller</span>
-                        <p class="text-slate-300 leading-relaxed"><strong>Svart Obsidian</strong>, <strong>Månsten</strong>, <strong>Labradorit</strong>, <strong>Svart Turmalin</strong>, <strong>Rökkvarts</strong> och <strong>Ametist</strong>.</p>
-                    </div>
-                    <div class="p-3.5 rounded-xl bg-mystic-950 border border-mystic-800 space-y-1">
-                        <span class="uppercase tracking-wider text-mystic-gold font-semibold block">Rökelse & Örter</span>
-                        <p class="text-slate-300 leading-relaxed">Myrra, frankincense (olibanum), gråbo (mugwort), rosmarin, lavendel, lagerblad och cederträ.</p>
+                <!-- Hennes viktigaste epitet (titlar) -->
+                <div class="bg-mystic-900 border border-mystic-700/60 rounded-2xl p-5 sm:p-6 shadow-xl space-y-3">
+                    <h4 class="font-serif text-base font-semibold text-mystic-goldLight">Hennes viktigaste epitet (heliga titlar)</h4>
+                    <p class="text-xs text-slate-400">I antik tradition åkallade man Hekate med olika titlar beroende på vilken hjälp eller energi man sökte:</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                        <div class="p-3.5 rounded-xl bg-mystic-950/80 border border-mystic-800">
+                            <span class="font-serif text-sm font-semibold text-mystic-goldLight block">Kleidouchos – Nyckelbärerskan</span>
+                            <p class="text-xs text-slate-400 mt-1 leading-relaxed">Bär nycklarna till gränserna mellan världarna och hjälper dig låsa upp nya vägar och insikter.</p>
+                        </div>
+                        <div class="p-3.5 rounded-xl bg-mystic-950/80 border border-mystic-800">
+                            <span class="font-serif text-sm font-semibold text-mystic-goldLight block">Phosphoros – Ljusbärerskan</span>
+                            <p class="text-xs text-slate-400 mt-1 leading-relaxed">Håller sina facklor högt i mörkret för att visa vägen när du tvivlar eller känner dig vilsen.</p>
+                        </div>
+                        <div class="p-3.5 rounded-xl bg-mystic-950/80 border border-mystic-800">
+                            <span class="font-serif text-sm font-semibold text-mystic-goldLight block">Enodia – Vägskälens gudinna</span>
+                            <p class="text-xs text-slate-400 mt-1 leading-relaxed">Beskyddar resenärer och vägleder dig vid trevägskorsningar och avgörande livsbeslut.</p>
+                        </div>
+                        <div class="p-3.5 rounded-xl bg-mystic-950/80 border border-mystic-800">
+                            <span class="font-serif text-sm font-semibold text-mystic-goldLight block">Propylaia – Portens väktare</span>
+                            <p class="text-xs text-slate-400 mt-1 leading-relaxed">Vakar vid hemmets tröskel och ytterdörr för att hålla oönskad energi borta.</p>
+                        </div>
+                        <div class="p-3.5 rounded-xl bg-mystic-950/80 border border-mystic-800">
+                            <span class="font-serif text-sm font-semibold text-mystic-goldLight block">Soteira – Rädderskan</span>
+                            <p class="text-xs text-slate-400 mt-1 leading-relaxed">En beskyddande titel som används när man ber om trygghet, styrka och beskydd i svåra tider.</p>
+                        </div>
+                        <div class="p-3.5 rounded-xl bg-mystic-950/80 border border-mystic-800">
+                            <span class="font-serif text-sm font-semibold text-mystic-goldLight block">Kourotrophos – Barnens & de svagas beskyddare</span>
+                            <p class="text-xs text-slate-400 mt-1 leading-relaxed">Vakar över unga, utsatta, övergångar i livet och de som behöver moderlig omsorg.</p>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Traditionella offergåvor & Deipnon -->
-            <div class="bg-mystic-900 border border-mystic-700/60 rounded-2xl p-5 sm:p-6 shadow-xl space-y-4">
-                <div class="flex items-start justify-between gap-2 border-b border-mystic-800 pb-3">
+            <!-- DEL 2: HUR MAN BÖRJAR & ALTARE -->
+            <div id="hekate-sec-start" class="hekate-section hidden space-y-4">
+                <div class="bg-mystic-900 border border-mystic-gold/40 rounded-2xl p-5 sm:p-6 shadow-xl space-y-4">
                     <div>
-                        <span class="text-[11px] uppercase tracking-wider text-mystic-gold font-semibold">Månatlig tradition</span>
-                        <h3 class="font-serif text-base sm:text-lg font-bold text-white mt-0.5">Hekates Deipnon & Offergåvor</h3>
+                        <span class="text-[11px] uppercase tracking-wider text-mystic-gold font-semibold">Steg för steg för nybörjare</span>
+                        <h3 class="font-serif text-base sm:text-lg font-bold text-white mt-0.5">Så börjar du arbeta med & hedra Hekate</h3>
+                        <p class="text-xs sm:text-sm text-slate-300 mt-1 leading-relaxed">
+                            Du behöver varken bli "vald" genom dramatiska tecken eller köpa dyra saker för att börja. I hellenistisk tradition bygger relationen med gudarna på <strong>Kharis</strong> – ömsesidig respekt, tacksamhet och regelbunden närvaro.
+                        </p>
                     </div>
-                    <span class="text-[11px] px-2.5 py-0.5 rounded-full bg-mystic-950 text-mystic-goldLight border border-mystic-700 shrink-0">Vid mörkermåne</span>
+
+                    <div class="space-y-3">
+                        <div class="p-3.5 rounded-xl bg-mystic-950 border border-mystic-800 flex gap-3">
+                            <span class="w-6 h-6 rounded-full bg-mystic-gold/20 text-mystic-gold border border-mystic-gold/40 flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">1</span>
+                            <div>
+                                <h4 class="text-sm font-semibold text-mystic-goldLight">Läs på och lär känna hennes historia</h4>
+                                <p class="text-xs text-slate-300 mt-0.5 leading-relaxed">Börja med att förstå hennes antika rötter (t.ex. Hesiodos <em>Theogonin</em>, <em>De homeriska hymnerna till Demeter</em> och böcker som <em>Keeping Her Keys</em> av Cyndi Brannen eller <em>Liminal Rites</em>).</p>
+                            </div>
+                        </div>
+
+                        <div class="p-3.5 rounded-xl bg-mystic-950 border border-mystic-800 flex gap-3">
+                            <span class="w-6 h-6 rounded-full bg-mystic-gold/20 text-mystic-gold border border-mystic-gold/40 flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">2</span>
+                            <div>
+                                <h4 class="text-sm font-semibold text-mystic-goldLight">Tvätta händer & ansikte före ritual (Khernips)</h4>
+                                <p class="text-xs text-slate-300 mt-0.5 leading-relaxed">I grekisk tradition tvättar man alltid händerna och ansiktet i rent vatten innan man närmar sig altaret, för att skölja bort vardagens damm och stress (<em>miasma</em>).</p>
+                            </div>
+                        </div>
+
+                        <div class="p-3.5 rounded-xl bg-mystic-950 border border-mystic-800 flex gap-3">
+                            <span class="w-6 h-6 rounded-full bg-mystic-gold/20 text-mystic-gold border border-mystic-gold/40 flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">3</span>
+                            <div>
+                                <h4 class="text-sm font-semibold text-mystic-goldLight">Skapa ett enkelt altare (helig plats)</h4>
+                                <p class="text-xs text-slate-300 mt-0.5 leading-relaxed">En liten bricka, en fönsterbräda eller en hylla nära ytterdörren räcker utmärkt. Det viktigaste är att platsen hålls ren och vårdad.</p>
+                            </div>
+                        </div>
+
+                        <div class="p-3.5 rounded-xl bg-mystic-950 border border-mystic-800 flex gap-3">
+                            <span class="w-6 h-6 rounded-full bg-mystic-gold/20 text-mystic-gold border border-mystic-gold/40 flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">4</span>
+                            <div>
+                                <h4 class="text-sm font-semibold text-mystic-goldLight">Börja i det lilla med ljus, vatten & tarot</h4>
+                                <p class="text-xs text-slate-300 mt-0.5 leading-relaxed">Tänd ett ljus, häll upp ett glas friskt vatten, presentera dig själv med egna ord och dra ett tarotkort (gärna läggningen <em>Vägskälet</em>) för att lyssna in hennes vägledning.</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                    I antikens Grekland firades <strong>Hekates Deipnon</strong> ("Hekates kvällsvard") varje månad under mörkermånen – natten innan den första nymåneskäran blir synlig. Det är en tid för att rena hemmet, släppa taget om månaden som gått och lämna en enkel gåva i tacksamhet.
-                </p>
-
-                <div class="p-4 rounded-xl bg-mystic-950/90 border border-mystic-800 space-y-2">
-                    <span class="text-xs uppercase tracking-wider text-mystic-gold font-semibold block">Uppskattade offergåvor</span>
-                    <ul class="text-xs sm:text-sm text-slate-300 space-y-1.5 list-disc list-inside leading-relaxed">
-                        <li><strong>Enkla gåvor på altaret:</strong> Ett litet glas rent vatten, honung, olivolja, bröd, dadlar, fikon eller granatäpple.</li>
-                        <li><strong>Handlingar som gåva:</strong> Att ta hand om eller skänka en slant till hemlösa hundar/djur, hjälpa någon i nöd, rensa upp i naturen eller tända ett ljus vid ytterdörren.</li>
-                        <li><strong>Viktigt att tänka på:</strong> Traditionellt nämns vitlök och lök i antika källor, men om du lämnar gåvor utomhus vid ett vägskäl – <em>lämna aldrig något som är giftigt för hundar eller vilda djur</em> (som vitlök, lök, choklad eller russin).</li>
-                    </ul>
-                </div>
-
-                <div class="space-y-2">
-                    <span class="text-xs uppercase tracking-wider text-mystic-goldLight font-semibold block">Så gör du en enkel Deipnon-ritual hemma:</span>
-                    <ol class="text-xs sm:text-sm text-slate-300 space-y-1.5 list-decimal list-inside leading-relaxed">
-                        <li>Städa undan och sopa/torka golvet mot ytterdörren för att symboliskt rensa ut gammal, tung energi.</li>
-                        <li>Tänd rökelse (t.ex. myrra eller rosmarin) och ett svart eller vitt ljus vid ditt altare eller nära ytterdörren.</li>
-                        <li>Ställ fram en liten skål med vatten och lite honung eller bröd och säg en enkel bön.</li>
-                        <li>Dra ett tarotkort (gärna med läggningen <em>Vägskälet</em>) och fråga vad Hekate vill belysa inför den kommande måncykeln.</li>
-                    </ol>
+                <!-- Altare & Korrespondenser -->
+                <div class="bg-mystic-900 border border-mystic-700/60 rounded-2xl p-5 sm:p-6 shadow-xl space-y-3">
+                    <h4 class="font-serif text-base font-semibold text-mystic-goldLight">Vad passar på ett Hekate-altare?</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                        <div class="p-3.5 rounded-xl bg-mystic-950 border border-mystic-800 space-y-1">
+                            <span class="uppercase tracking-wider text-mystic-gold font-semibold block">Ljus & Färger</span>
+                            <p class="text-slate-300 leading-relaxed"><strong>Svart</strong> (beskydd, natten, skuggarbete), <strong>Vitt</strong> (månljus, renhet, klarhet) och <strong>Rött</strong> (facklornas glöd, livskraft). Två ljus symboliserar hennes dubbla facklor.</p>
+                        </div>
+                        <div class="p-3.5 rounded-xl bg-mystic-950 border border-mystic-800 space-y-1">
+                            <span class="uppercase tracking-wider text-mystic-gold font-semibold block">Symboler & Föremål</span>
+                            <p class="text-slate-300 leading-relaxed">Antika nycklar, en skål för libationer (vatten/honung), Hekates hjul (<em>Strophalos</em>), hund- eller ormsymboler och din tarotlek.</p>
+                        </div>
+                        <div class="p-3.5 rounded-xl bg-mystic-950 border border-mystic-800 space-y-1">
+                            <span class="uppercase tracking-wider text-mystic-gold font-semibold block">Kristaller</span>
+                            <p class="text-slate-300 leading-relaxed"><strong>Svart Obsidian</strong>, <strong>Månsten</strong>, <strong>Labradorit</strong>, <strong>Svart Turmalin</strong>, <strong>Rökkvarts</strong> och <strong>Ametist</strong>.</p>
+                        </div>
+                        <div class="p-3.5 rounded-xl bg-mystic-950 border border-mystic-800 space-y-1">
+                            <span class="uppercase tracking-wider text-mystic-gold font-semibold block">Rökelse & Örter</span>
+                            <p class="text-slate-300 leading-relaxed">Frankincense (olibanum), myrra, gråbo (mugwort), rosmarin, lavendel, lagerblad och cederträ.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <!-- Böner & Åkallan -->
-            <div class="bg-mystic-900 border border-mystic-700/60 rounded-2xl p-5 sm:p-6 shadow-xl space-y-4">
-                <h3 class="font-serif text-base sm:text-lg font-semibold text-mystic-goldLight flex items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-mystic-gold"><path d="M12 3l1.9 5.8L20 11l-6.1 2.2L12 19l-1.9-5.8L4 11l6.1-2.2L12 3z"/></svg>
-                    <span>Böner & ord vid altaret</span>
-                </h3>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div class="p-4 rounded-xl bg-mystic-950 border border-mystic-gold/30 space-y-2">
-                        <span class="text-[11px] uppercase tracking-wider text-mystic-gold font-semibold block">När du tänder ljus</span>
-                        <p class="text-xs sm:text-sm text-slate-300 italic leading-relaxed">
-                            "Hekate Phosphoros, du som bär facklorna genom mörkret, jag tänder denna låga i respekt och värme. Lys upp min stig, beskydda mitt hem och ge mig mod att se sanningen klart."
-                        </p>
+            <!-- DEL 3: RITUALER & DEIPNON -->
+            <div id="hekate-sec-rituals" class="hekate-section hidden space-y-4">
+                <!-- Ritual 1: Deipnon -->
+                <article class="bg-mystic-900 border border-mystic-gold/40 rounded-2xl p-5 sm:p-6 shadow-xl space-y-3">
+                    <div class="flex items-start justify-between gap-2 border-b border-mystic-800 pb-3">
+                        <div>
+                            <span class="text-[11px] uppercase tracking-wider text-mystic-gold font-semibold">Månatlig huvudritual • Vid mörkermåne</span>
+                            <h3 class="font-serif text-base sm:text-lg font-bold text-white mt-0.5">1. Hekates Deipnon ("Hekates kvällsvard")</h3>
+                        </div>
+                        <span class="text-[11px] px-2.5 py-0.5 rounded-full bg-mystic-950 text-mystic-goldLight border border-mystic-700 shrink-0">Rening & Tacksamhet</span>
                     </div>
-                    <div class="p-4 rounded-xl bg-mystic-950 border border-mystic-gold/30 space-y-2">
-                        <span class="text-[11px] uppercase tracking-wider text-mystic-gold font-semibold block">Vid ett vägskäl eller inför tarot</span>
-                        <p class="text-xs sm:text-sm text-slate-300 italic leading-relaxed">
-                            "Hekate Enodia, väktare av vägskälen och bärare av nycklarna, stå vid min sida när jag står inför val. Låt min intuition vara skarp och visa mig den dörr som leder mot visdom."
-                        </p>
+                    <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                        I antikens Aten firades <em>Deipnon</em> den sista kvällen i månmånaden (mörkermånen). Syftet var att rena hemmet från månaden som gått och lämna en gåva till Hekate.
+                    </p>
+                    <ol class="text-xs sm:text-sm text-slate-300 space-y-1.5 list-decimal list-inside leading-relaxed">
+                        <li><strong>Rensa ut:</strong> Sopa eller torka golvet i riktning mot ytterdörren för att symboliskt föra ut gammal energi och stagnation.</li>
+                        <li><strong>Rena med rökelse:</strong> Tvätta händerna, tänd frankincense, myrra eller rosmarin och låt röken rena ditt altare och ytterdörren.</li>
+                        <li><strong>Ställ fram gåvan:</strong> Häll upp rent vatten (libation) och lägg fram en liten offergåva (t.ex. honung, bröd, dadlar, fikon eller olivolja) på en skål på altaret.</li>
+                        <li><strong>Avsluta med tystnad:</strong> Läs en bön, tacka för månaden som gått och töm ut vattnet i en blomkruka eller utomhus dagen efter.</li>
+                    </ol>
+                </article>
+
+                <!-- Ritual 2: Facklornas vägledning vid vägskäl -->
+                <article class="bg-mystic-900 border border-mystic-700/60 rounded-2xl p-5 sm:p-6 shadow-xl space-y-3">
+                    <div class="flex items-start justify-between gap-2 border-b border-mystic-800 pb-3">
+                        <div>
+                            <span class="text-[11px] uppercase tracking-wider text-mystic-gold font-semibold">När du står inför ett svårt val</span>
+                            <h3 class="font-serif text-base sm:text-lg font-bold text-white mt-0.5">2. Vägskälsritual med två ljus & tarot</h3>
+                        </div>
+                        <span class="text-[11px] px-2.5 py-0.5 rounded-full bg-mystic-950 text-slate-300 border border-mystic-700 shrink-0">Vägledning</span>
                     </div>
+                    <p class="text-xs text-mystic-goldLight font-medium">Du behöver: Två ljus (symboliserar Hekates två facklor), en nyckel och din tarotlek.</p>
+                    <ol class="text-xs sm:text-sm text-slate-300 space-y-1.5 list-decimal list-inside leading-relaxed">
+                        <li>Placera de två ljusen framför dig med nyckeln och tarotkortleken emellan dem.</li>
+                        <li>Tänd ljusen ett i taget och kalla på <em>Hekate Phosphoros</em> och <em>Enodia</em> att lysa upp det som varit dolt för dig.</li>
+                        <li>Blanda korten medan du fokuserar på ditt vägval och gör tre-kortsläggningen <strong>Vägskälet</strong> i fliken <em>Läggning</em>.</li>
+                        <li>Skriv ner dina insikter i dagboken innan du släcker ljusen (släck gärna med ljussläckare eller genom att nypa lågan istället för att blåsa).</li>
+                    </ol>
+                </article>
+
+                <!-- Ritual 3: Beskydd vid ytterdörren (Propylaia) -->
+                <article class="bg-mystic-900 border border-mystic-700/60 rounded-2xl p-5 sm:p-6 shadow-xl space-y-3">
+                    <div class="flex items-start justify-between gap-2 border-b border-mystic-800 pb-3">
+                        <div>
+                            <span class="text-[11px] uppercase tracking-wider text-mystic-gold font-semibold">Hemmets tröskel • Vid nymåne eller vid behov</span>
+                            <h3 class="font-serif text-base sm:text-lg font-bold text-white mt-0.5">3. Tröskelbeskydd med Hekate Propylaia</h3>
+                        </div>
+                        <span class="text-[11px] px-2.5 py-0.5 rounded-full bg-mystic-950 text-slate-300 border border-mystic-700 shrink-0">Beskydd</span>
+                    </div>
+                    <p class="text-xs text-mystic-goldLight font-medium">Du behöver: En nyckel (kan hängas diskret vid hallen), en nypa havssalt och ett litet glas vatten med en kvist rosmarin.</p>
+                    <ol class="text-xs sm:text-sm text-slate-300 space-y-1.5 list-decimal list-inside leading-relaxed">
+                        <li>Stå vid insidan av ytterdörren med nyckeln i handen.</li>
+                        <li>Doppa fingrarna i rosmarinvattnet och rita en liten cirkel eller ett kors på insidan av dörrkarmen (eller stänk några droppar på tröskeln).</li>
+                        <li>Be <em>Hekate Propylaia</em> att vaka över tröskeln så att endast trygghet, kärlek och goda avsikter släpps in i hemmet.</li>
+                    </ol>
+                </article>
+
+                <!-- Ritual 4: Skuggarbete & spegling -->
+                <article class="bg-mystic-900 border border-mystic-700/60 rounded-2xl p-5 sm:p-6 shadow-xl space-y-3">
+                    <div class="flex items-start justify-between gap-2 border-b border-mystic-800 pb-3">
+                        <div>
+                            <span class="text-[11px] uppercase tracking-wider text-mystic-gold font-semibold">Avtagande måne • Inre läkning</span>
+                            <h3 class="font-serif text-base sm:text-lg font-bold text-white mt-0.5">4. Skuggarbete med Svart Obsidian</h3>
+                        </div>
+                        <span class="text-[11px] px-2.5 py-0.5 rounded-full bg-mystic-950 text-slate-300 border border-mystic-700 shrink-0">Självinsikt</span>
+                    </div>
+                    <p class="text-xs text-mystic-goldLight font-medium">Du behöver: En bit Svart Obsidian (eller en mörk skål med vatten), ett svart ljus och papper & penna.</p>
+                    <ol class="text-xs sm:text-sm text-slate-300 space-y-1.5 list-decimal list-inside leading-relaxed">
+                        <li>Tänd det svarta ljuset i ett nedsläckt rum och håll obsidianen i handen.</li>
+                        <li>Fråga dig själv ärligt: <em>"Vilken rädsla eller gammal vana håller mig tillbaka just nu?"</em></li>
+                        <li>Skriv ner allt som kommer upp utan att döma dig själv. Avsluta med att tända ett vitt ljus som symbol för att du ser ditt mörker och väljer att växa igenom det.</li>
+                    </ol>
+                </article>
+            </div>
+
+            <!-- DEL 4: BÖNER, OFFERGÅVOR & ETIK -->
+            <div id="hekate-sec-prayers" class="hekate-section hidden space-y-4">
+                <!-- Böner -->
+                <div class="bg-mystic-900 border border-mystic-700/60 rounded-2xl p-5 sm:p-6 shadow-xl space-y-3">
+                    <h3 class="font-serif text-base sm:text-lg font-semibold text-mystic-goldLight">Böner & åkallan på svenska</h3>
+                    <div class="grid grid-cols-1 gap-3">
+                        <div class="p-4 rounded-xl bg-mystic-950 border border-mystic-gold/30 space-y-1.5">
+                            <span class="text-[11px] uppercase tracking-wider text-mystic-gold font-semibold block">När du tänder ljus vid altaret</span>
+                            <p class="text-xs sm:text-sm text-slate-300 italic leading-relaxed">
+                                "Hekate Phosphoros, du som bär facklorna genom natten, jag tänder denna låga i respekt, värme och öppenhet. Lys upp min stig, beskydda mitt hem och ge mig visdom att se sanningen klart."
+                            </p>
+                        </div>
+                        <div class="p-4 rounded-xl bg-mystic-950 border border-mystic-gold/30 space-y-1.5">
+                            <span class="text-[11px] uppercase tracking-wider text-mystic-gold font-semibold block">Vid ett vägskäl eller inför tarot</span>
+                            <p class="text-xs sm:text-sm text-slate-300 italic leading-relaxed">
+                                "Hekate Enodia och Kleidouchos, väktare av vägskälen och bärare av nycklarna, stå vid min sida när jag står inför val. Skärp min intuition och visa mig den dörr som leder mot styrka och klarhet."
+                            </p>
+                        </div>
+                        <div class="p-4 rounded-xl bg-mystic-950 border border-mystic-gold/30 space-y-1.5">
+                            <span class="text-[11px] uppercase tracking-wider text-mystic-gold font-semibold block">Vid Deipnon (Mörkermåne)</span>
+                            <p class="text-xs sm:text-sm text-slate-300 italic leading-relaxed">
+                                "Mörka moder och ljusbärerska, ta emot denna enkla gåva av vatten och bröd i tacksamhet. Jag lämnar den gångna månadens tyngd vid din tröskel och kliver med lättare hjärta in i det nya."
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Offergåvor & Djurvänlig etik -->
+                <div class="bg-mystic-900 border border-mystic-700/60 rounded-2xl p-5 sm:p-6 shadow-xl space-y-3">
+                    <h4 class="font-serif text-base font-semibold text-mystic-goldLight">Uppskattade offergåvor & viktig omtanke</h4>
+                    <ul class="text-xs sm:text-sm text-slate-300 space-y-2 list-disc list-inside leading-relaxed">
+                        <li><strong>På altaret inomhus:</strong> Rent kallt vatten, honung, olivolja, bröd, dadlar, fikon, granatäpple eller rökelse (myrra/frankincense).</li>
+                        <li><strong>Handlingar som hedrar Hekate:</strong> Hundar är Hekates heliga följeslagare – att skänka en gåva till ett hundhem, ta hand om djur, plocka skräp i naturen eller hjälpa någon i en utsatt situation räknas som mycket fina offerhandlingar.</li>
+                        <li><strong>Viktig säkerhetsregel utomhus:</strong> I antika texter nämns vitlök, lök och ägg som gåvor vid vägskäl. Om du lämnar gåvor utomhus idag – <em>lämna aldrig vitlök, lök, choklad, russin eller skräp i naturen</em>, eftersom det är giftigt för hundar och vilda djur. Häll istället ut rent vatten eller lägg blomblad utomhus, och ha matgåvor inomhus på altaret.</li>
+                    </ul>
                 </div>
             </div>
         </section>
@@ -1478,6 +1610,26 @@
             } else if (tab === 'crystals') {
                 renderCrystals();
             }
+        }
+
+        // Byt underflik inne i Hekate-guiden
+        function switchHekateSection(sectionKey) {
+            const sections = ['overview', 'start', 'rituals', 'prayers'];
+            sections.forEach(sec => {
+                const el = document.getElementById(`hekate-sec-${sec}`);
+                const btn = document.getElementById(`hekate-tab-${sec}`);
+                if (el) {
+                    if (sec === sectionKey) el.classList.remove('hidden');
+                    else el.classList.add('hidden');
+                }
+                if (btn) {
+                    if (sec === sectionKey) {
+                        btn.className = "hekate-subtab px-3 py-2 rounded-xl text-xs font-medium transition-all bg-mystic-700 text-mystic-goldLight shadow text-center";
+                    } else {
+                        btn.className = "hekate-subtab px-3 py-2 rounded-xl text-xs font-medium transition-all text-slate-400 hover:text-slate-200 text-center";
+                    }
+                }
+            });
         }
 
         // Hämta dagens lokala datum i formatet YYYY-MM-DD
