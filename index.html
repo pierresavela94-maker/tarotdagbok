@@ -87,7 +87,7 @@
             </div>
 
             <!-- Nedfällbar meny på mobil / Horisontell rad på större skärmar -->
-            <nav id="main-nav" class="hidden md:grid md:grid-cols-6 w-full bg-mystic-950 p-1.5 rounded-xl border border-mystic-700/60 gap-1 mt-3 shadow-xl md:shadow-none">
+            <nav id="main-nav" class="hidden md:grid md:grid-cols-7 w-full bg-mystic-950 p-1.5 rounded-xl border border-mystic-700/60 gap-1 mt-3 shadow-xl md:shadow-none">
                 <button onclick="switchTab('today')" id="tab-today" class="px-3 py-2.5 md:px-2 md:py-1.5 rounded-lg text-sm font-medium transition-all bg-mystic-700 text-mystic-goldLight shadow flex items-center justify-start md:justify-center gap-2.5 md:gap-1.5">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="3" width="12" height="18" rx="2"/><path d="M12 8l1.2 2.5L16 11l-2 2 .5 2.7L12 14.4l-2.5 1.3.5-2.7-2-2 2.8-.5L12 8z"/></svg>
                     <span>Läggning</span>
@@ -106,6 +106,10 @@
                 <button onclick="switchTab('crystals')" id="tab-crystals" class="px-3 py-2.5 md:px-2 md:py-1.5 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 transition-all flex items-center justify-start md:justify-center gap-2.5 md:gap-1.5">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 19 8 16 21 8 21 5 8 12 2"/><line x1="5" y1="8" x2="19" y2="8"/></svg>
                     <span>Kristaller</span>
+                </button>
+                <button onclick="switchTab('spells')" id="tab-spells" class="px-3 py-2.5 md:px-2 md:py-1.5 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 transition-all flex items-center justify-start md:justify-center gap-2.5 md:gap-1.5">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.8L20 11l-6.1 2.2L12 19l-1.9-5.8L4 11l6.1-2.2L12 3z"/><path d="M5 3v4M3 5h4"/></svg>
+                    <span>Spells</span>
                 </button>
                 <button onclick="switchTab('hekate')" id="tab-hekate" class="px-3 py-2.5 md:px-2 md:py-1.5 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 transition-all flex items-center justify-start md:justify-center gap-2.5 md:gap-1.5">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="15" cy="7.5" r="4"/><path d="M12 10.5L5 17.5v3h3v-2h2v-2h2"/></svg>
@@ -456,6 +460,53 @@
             </div>
         </section>
 
+        <!-- VY 4B: SPELLS & MAGI (WITCHCRAFT) -->
+        <section id="view-spells" class="hidden space-y-6">
+            <div class="px-1">
+                <h2 class="font-serif text-xl font-semibold text-mystic-goldLight">Spells & Vardagsmagi</h2>
+                <p class="text-xs text-slate-400 mt-0.5">Praktiska besvärjelser, spell jars och ritualer för beskydd, överflöd, lugn och rening.</p>
+            </div>
+
+            <!-- Snabbguide för hur spells fungerar -->
+            <div class="bg-mystic-900 border border-mystic-gold/40 rounded-2xl p-5 space-y-3 shadow-xl">
+                <h3 class="font-serif text-base font-semibold text-mystic-goldLight flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-mystic-gold shrink-0"><path d="M12 3l1.9 5.8L20 11l-6.1 2.2L12 19l-1.9-5.8L4 11l6.1-2.2L12 3z"/></svg>
+                    <span>Grunderna i praktisk magi</span>
+                </h3>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
+                    <div class="p-3 rounded-xl bg-mystic-950 border border-mystic-800">
+                        <span class="font-semibold text-mystic-gold block mb-0.5">1. Rening & Fokus</span>
+                        <p class="text-slate-300 leading-relaxed">Rena alltid glasburkar, ljus och kristaller med rökelse (t.ex. rosmarin eller salvia) innan du börjar, och grunda dig med tre djupa andetag.</p>
+                    </div>
+                    <div class="p-3 rounded-xl bg-mystic-950 border border-mystic-800">
+                        <span class="font-semibold text-mystic-gold block mb-0.5">2. Intention är nyckeln</span>
+                        <p class="text-slate-300 leading-relaxed">Örter och stenar är verktyg som hjälper ditt fokus – det är din tydliga intention och känsla som väcker magin till liv.</p>
+                    </div>
+                    <div class="p-3 rounded-xl bg-mystic-950 border border-mystic-800">
+                        <span class="font-semibold text-mystic-gold block mb-0.5">3. Brandsäkerhet</span>
+                        <p class="text-slate-300 leading-relaxed">Lämna aldrig brinnande ljus eller glödande örter obevakade, och använd alltid ett eldfast fat under ljusen.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sök & Filter för Spells -->
+            <div class="bg-mystic-900 border border-mystic-700/60 rounded-2xl p-4 sm:p-5 space-y-3 shadow-xl">
+                <input type="text" id="spell-search" oninput="renderSpells()" placeholder="Sök spell eller ingrediens (t.ex. Money jar, beskydd, kanel, salt, lagerblad)..." class="w-full bg-mystic-950 border border-mystic-700 rounded-xl px-4 py-2.5 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-mystic-gold">
+                <div id="spell-filters" class="flex flex-wrap gap-1.5">
+                    <button type="button" onclick="setSpellFilter('Alla')" class="spell-filter-btn px-3 py-1 rounded-full text-xs font-medium bg-mystic-700 text-mystic-goldLight border border-mystic-gold/40">Alla</button>
+                    <button type="button" onclick="setSpellFilter('Beskydd')" class="spell-filter-btn px-3 py-1 rounded-full text-xs font-medium bg-mystic-950 text-slate-400 border border-mystic-700 hover:text-slate-200">Beskydd</button>
+                    <button type="button" onclick="setSpellFilter('Överflöd & Pengar')" class="spell-filter-btn px-3 py-1 rounded-full text-xs font-medium bg-mystic-950 text-slate-400 border border-mystic-700 hover:text-slate-200">Överflöd & Pengar</button>
+                    <button type="button" onclick="setSpellFilter('Kärlek & Harmoni')" class="spell-filter-btn px-3 py-1 rounded-full text-xs font-medium bg-mystic-950 text-slate-400 border border-mystic-700 hover:text-slate-200">Kärlek & Harmoni</button>
+                    <button type="button" onclick="setSpellFilter('Rening & Frid')" class="spell-filter-btn px-3 py-1 rounded-full text-xs font-medium bg-mystic-950 text-slate-400 border border-mystic-700 hover:text-slate-200">Rening & Frid</button>
+                    <button type="button" onclick="setSpellFilter('Intuition & Klarhet')" class="spell-filter-btn px-3 py-1 rounded-full text-xs font-medium bg-mystic-950 text-slate-400 border border-mystic-700 hover:text-slate-200">Intuition & Klarhet</button>
+                </div>
+            </div>
+
+            <div id="spells-list" class="grid grid-cols-1 gap-4">
+                <!-- Fylls i dynamiskt av renderSpells() -->
+            </div>
+        </section>
+
         <!-- VY 5: HEKATE-GUIDE (STRUKTURERAD MED UNDERFLIKAR) -->
         <section id="view-hekate" class="hidden space-y-5">
             <div class="px-1">
@@ -711,7 +762,7 @@
                 <div class="bg-mystic-900 border border-mystic-700/60 rounded-2xl p-5 sm:p-6 shadow-xl space-y-3">
                     <h4 class="font-serif text-base font-semibold text-mystic-goldLight">Uppskattade offergåvor & viktig omtanke</h4>
                     <ul class="text-xs sm:text-sm text-slate-300 space-y-2 list-disc list-inside leading-relaxed">
-                        <li><strong>På altaret inomhus:</strong> Rent kallt vatten, honung, olivolja, bröd, dadlar, fikon, granatäpple eller rökelse (myrra/frankincense).</li>
+                        <li><strong>På altaret inomhus:</strong> Rött vin (en klassisk antik libation till Hekate – gillar man inte alkohol går druvjuice, granatäpplejuice eller honungsvatten lika bra), rent kallt vatten, honung, olivolja, bröd, dadlar, fikon eller rökelse (myrra/frankincense).</li>
                         <li><strong>Handlingar som hedrar Hekate:</strong> Hundar är Hekates heliga följeslagare – att skänka en gåva till ett hundhem, ta hand om djur, plocka skräp i naturen eller hjälpa någon i en utsatt situation räknas som mycket fina offerhandlingar.</li>
                         <li><strong>Viktig säkerhetsregel utomhus:</strong> I antika texter nämns vitlök, lök och ägg som gåvor vid vägskäl. Om du lämnar gåvor utomhus idag – <em>lämna aldrig vitlök, lök, choklad, russin eller skräp i naturen</em>, eftersom det är giftigt för hundar och vilda djur. Häll istället ut rent vatten eller lägg blomblad utomhus, och ha matgåvor inomhus på altaret.</li>
                     </ul>
@@ -1023,6 +1074,198 @@
         let activeHistoryFilter = "all";
         let activeCrystalCategory = "Alla";
         let activeCrystalColor = "Alla";
+        let activeSpellCategory = "Alla";
+
+        /**
+         * KOMPLETT DATABAS MED SPELLS & RITUALER (WITCHCRAFT)
+         */
+        const SPELL_GUIDE = [
+            {
+                title: "Money Jar (Överflöds- & Pengaburk)",
+                category: "Överflöd & Pengar",
+                moonTiming: "Tilltagande måne eller Fullmåne (gärna på en torsdag)",
+                summary: "En klassisk spell jar som drar till sig ekonomiskt flöde, nya möjligheter, tur och välstånd till dig och ditt hem.",
+                ingredients: [
+                    "En liten ren glasburk med lock",
+                    "Ris (basen – symboliserar rikedom och näring)",
+                    "Kanelstång eller malen kanel (snabbar på energin & attraherar tur)",
+                    "Basilika & lagerblad (skriv en önskan eller summa på lagerbladet)",
+                    "Kryddnejlika & muskot (låser in framgång)",
+                    "Några mynt (gärna putsade så de glänser)",
+                    "Små bitar av Citrin, Grön Aventurin eller Pyrit",
+                    "Ett grönt eller guldfärgat ljus att försegla locket med"
+                ],
+                steps: [
+                    "Rena glasburken genom att låta rökelse (t.ex. rosmarin eller palo santo) virvla inuti burken.",
+                    "Häll i ris i botten och varva sedan örterna, kryddorna, mynten och kristallerna medan du tydligt säger vad varje ingrediens ska bidra med.",
+                    "Skriv din intention på lagerbladet (t.ex. 'Pengar flödar lätt och oväntat till mig') och lägg ner det överst.",
+                    "Skruva på locket, tänd det gröna ljuset och droppa försiktigt smält vax över locket för att försegla burken.",
+                    "Ställ burken på ditt altare eller nära din plånbok/arbetsplats och skaka den lätt en gång i veckan för att hålla energin igång."
+                ]
+            },
+            {
+                title: "Witch's Protection Jar (Skyddsburk för hemmet)",
+                category: "Beskydd",
+                moonTiming: "Avtagande måne eller Mörkermåne (gärna på en lördag)",
+                summary: "Skapar en stark energimässig sköld runt dig och ditt hem som fångar upp och neutraliserar negativitet, avund och stress.",
+                ingredients: [
+                    "En liten glasburk med lock",
+                    "Svart salt eller grovt havssalt (renar och skapar gränser)",
+                    "Rosmarin & lagerblad (universalört för beskydd)",
+                    "Krossat äggskal (skapar ett skyddande skal runt hemmet)",
+                    "Svartpeppar eller chiliflakes (stöter bort oönskad energi)",
+                    "En järnspik eller en bit Svart Turmalin / Svart Obsidian",
+                    "Ett svart eller vitt ljus för försegling"
+                ],
+                steps: [
+                    "Rena burken med rökelse och fokusera på känslan av att ditt hem är helt tryggt och lugnt.",
+                    "Fyll burken lager för lager med salt, äggskal, rosmarin, svartpeppar och kristallen/järnspiken.",
+                    "Håll burken i båda händerna och säg: 'Endast kärlek, frid och goda avsikter får passera vår tröskel. Allt annat studsar bort.'",
+                    "Stäng locket och försegla med vax från det svarta eller vita ljuset.",
+                    "Placera burken nära ytterdörren (t.ex. i hallen eller på en hylla) – den behöver inte synas för att verka."
+                ]
+            },
+            {
+                title: "Kanel-blåsningen (Första dagen i månaden)",
+                category: "Överflöd & Pengar",
+                moonTiming: "Den 1:a i varje månad (oavsett månfas)",
+                summary: "En snabb, enkel och mycket populär vardagsritual för att blåsa in överflöd, tur och framgång genom ytterdörren vid varje månadsskifte.",
+                ingredients: [
+                    "En nypa malen kanel i din handflata"
+                ],
+                steps: [
+                    "Ställ dig på insidan av din ytterdörr på morgonen den 1:a i månaden med dörren öppen utåt.",
+                    "Lägg en nypa malen kanel i din högra handflata (eller din dominanta hand).",
+                    "Blås försiktigt kanelen inåt över tröskeln in i ditt hem medan du säger: 'När jag blåser denna kanel kommer välstånd till mitt hem. När jag blåser denna kanel kommer överflöd hit för att stanna.'",
+                    "Låt kanelen ligga kvar på golvet i minst ett dygn innan du sopar eller dammsuger upp den."
+                ]
+            },
+            {
+                title: "Hemgjort Svart Salt (Witches' Black Salt)",
+                category: "Beskydd",
+                moonTiming: "Avtagande måne eller Mörkermåne",
+                summary: "Ett oumbärligt basverktyg i häxkonst som används för att skydda trösklar, rena utrymmen och absorbra tung energi.",
+                ingredients: [
+                    "Grovt havssalt",
+                    "Aska från rökelse, bränt lagerblad eller eldstad (helt avsvalnad)",
+                    "Nymalen svartpeppar",
+                    "Torkad rosmarin (valfritt, mortlad)"
+                ],
+                steps: [
+                    "Blanda ungefär 3 delar havssalt med 1 del kall rökelseaska och en nypa svartpeppar i en skål eller mortel.",
+                    "Rör medurs (eller moturs om fokus ligger på att förvisa tung energi) medan du laddar saltet med intentionen att skydda och rena.",
+                    "Förvara i en lufttät glasburk.",
+                    "Användning: Strö en tunn linje längs fönsterbrädor och ytterdörren (kan sopas upp efter ett dygn), eller använd i skyddsburkar."
+                ]
+            },
+            {
+                title: "Spegelbeskydd (Return to Sender-spegel)",
+                category: "Beskydd",
+                moonTiming: "Fullmåne eller Avtagande måne",
+                summary: "Reflekterar tillbaka avundsjuka, drama och tung energi från omgivningen utan att du behöver ta in det i ditt eget energifält.",
+                ingredients: [
+                    "En liten fickspegel eller rund spegel",
+                    "Rökelse eller saltvatten för rening",
+                    "En bit Svart Obsidian eller Labradorit"
+                ],
+                steps: [
+                    "Tvätta eller rökelse-rena spegeln noggrant så att den är fri från gammal energi.",
+                    "Håll spegeln mot månljuset (eller framför ett vitt ljus) och visualisera att spegelytan blir en ogenomtränglig sköld av ljus.",
+                    "Säg: 'All energi som sänds mot mig studsar mjukt tillbaka dit den kom ifrån. Jag behåller mitt eget lugn.'",
+                    "Lägg spegeln med spegelsidan utåt i väskan eller vid ett fönster i hemmet."
+                ]
+            },
+            {
+                title: "Lagerblad för önskningar (Bay Leaf Manifestation)",
+                category: "Överflöd & Pengar",
+                moonTiming: "Nymåne eller Tilltagande måne",
+                summary: "En av de enklaste och mest effektiva små spellsen för att manifestera ett konkret mål eller en önskan.",
+                ingredients: [
+                    "Ett helt, torkat lagerblad",
+                    "En penna",
+                    "Ett ljus och en eldfast skål eller kittel"
+                ],
+                steps: [
+                    "Skriv din önskan kortfattat med 1–3 ord på lagerbladet (t.ex. 'Nytt jobb', 'Inre ro', 'Kreativt flöde').",
+                    "Håll bladet mellan händerna och föreställ dig känslan av att önskan redan har slått in.",
+                    "Tänd ena spetsen av lagerbladet i ljuslågan och lägg det direkt i den eldfasta skålen så att det brinner upp helt.",
+                    "Tacka universum och sprid askan utomhus i vinden (eller i en blomkruka) när den svalnat helt."
+                ]
+            },
+            {
+                title: "Self-Love & Hjärtvärme-burk (Sweetening & Love Jar)",
+                category: "Kärlek & Harmoni",
+                moonTiming: "Fullmåne eller Tilltagande måne (gärna på en fredag)",
+                summary: "Mjukar upp hjärtat, stärker självkärleken och bjuder in värme, harmoni och ömhet i dina nära relationer.",
+                ingredients: [
+                    "En liten glasburk med lock",
+                    "Honung eller socker (för att 'söta' energin och skapa värme)",
+                    "Torkade rosenblad & lavendel",
+                    "En nypa kanel (värme och passion)",
+                    "En liten bit Rosenkvarts eller Rhodokrosit",
+                    "Ett rosa eller vitt ljus"
+                ],
+                steps: [
+                    "Rena burken med rökelse och skriv ditt eget namn (eller intentionen 'Kärlek, värme & harmoni') på en liten papperslapp som du viker mot dig själv.",
+                    "Lägg lappen i burken tillsammans med rosenkvarts, rosenblad, lavendel och kanel.",
+                    "Ringla över lite honung medan du tänker på värme, förlåtelse och trygghet.",
+                    "Försegla locket med vax från det rosa eller vita ljuset och förvara burken i sovrummet."
+                ]
+            },
+            {
+                title: "Simmer Pot för hemmets harmoni (Köksmagi)",
+                category: "Rening & Frid",
+                moonTiming: "När som helst hemmet känns tungt eller vid årstidsskiften",
+                summary: "En väldoftande kokritual på spisen som rensar bort tung stämning och fyller hela bostaden med glädje, värme och beskydd.",
+                ingredients: [
+                    "En kastrull med vatten",
+                    "Skivor av apelsin eller citron (solenergi & rening)",
+                    "1–2 kanelstänger (värme & överflöd)",
+                    "En kvist rosmarin (beskydd & klarhet)",
+                    "Några kryddnejlikor eller stjärnanis (trygghet)"
+                ],
+                steps: [
+                    "Fyll en kastrull med vatten och lägg i ingredienserna en i taget med intentionen att fylla hemmet med ljus och harmoni.",
+                    "Låt det koka upp och sänk sedan värmen så att det sjuder försiktigt på låg värme (håll koll på vattennivån så det inte kokar torrt).",
+                    "Rör då och då medurs i kastrullen medan ångan sprider sig i hemmet.",
+                    "När det svalnat kan vattnet silas av och hällas ut i naturen eller användas för att torka av ytterdörrens tröskel."
+                ]
+            },
+            {
+                title: "Drömpåse för lugn sömn & klara drömmar",
+                category: "Intuition & Klarhet",
+                moonTiming: "Fullmåne eller Avtagande skära",
+                summary: "En liten tygpåse att lägga under kudden för att stilla oroliga tankar, sova djupt och ta emot budskap i drömmarna.",
+                ingredients: [
+                    "En liten påse i bomull, linne eller organza",
+                    "Torkad lavendel & kamomill (djup avslappning)",
+                    "En nypa gråbo / mugwort (stärker drömmar och intuition)",
+                    "En liten bit Ametist eller Månsten"
+                ],
+                steps: [
+                    "Blanda örterna i en skål och gnugga dem lätt mellan fingrarna så att de naturliga dofterna frigörs.",
+                    "Lägg örterna och ametisten/månstenen i tygpåsen.",
+                    "Håll påsen mot pannan (tredje ögat) innan du lägger dig och be om trygg sömn och tydliga drömmar.",
+                    "Lägg påsen under kudden eller på nattduksbordet (kläm lätt på den varannan vecka för att väcka doften)."
+                ]
+            },
+            {
+                title: "Ljusmagi med smorda ljus (Candle Dressing)",
+                category: "Intuition & Klarhet",
+                moonTiming: "Valfri fas beroende på ljusets färg",
+                summary: "Att 'klä' (smörja in) ett ljus med olja och örter förstärker din bön eller intention medan ljuset brinner ner.",
+                ingredients: [
+                    "Ett kronljus eller värmeljus (Vitt = allt, Svart = skydd, Grönt = överflöd, Rosa = kärlek)",
+                    "Några droppar olivolja, mandelolja eller jojobaolja",
+                    "Finmalda torkade örter (t.ex. rosmarin, lavendel eller kanel)"
+                ],
+                steps: [
+                    "Ta en droppe olja på fingrarna. För att <strong>dra till dig</strong> något (kärlek, tur, klarhet), smörj ljuset från veken och neråt mot basen. För att <strong>släppa eller förvisa</strong> något (stress, oro), smörj från basen och uppåt mot veken.",
+                    "Rulla ljuset lätt i de finmalda örterna (använd bara en mycket tunn nypa så att örterna inte tar eld i stora flammor).",
+                    "Sätt ljuset i en stadig, eldfast ljusstake och tänd det medan du uttalar din intention."
+                ]
+            }
+        ];
 
         /**
          * KOMPLETT DATABAS MED 36 KRISTALLER, EGENSKAPER, RENING & UPPLADDNING
@@ -1569,12 +1812,13 @@
 
         // Byt flik
         function switchTab(tab) {
-            const views = ['today', 'history', 'moon', 'crystals', 'hekate', 'settings'];
+            const views = ['today', 'history', 'moon', 'crystals', 'spells', 'hekate', 'settings'];
             const tabNames = {
                 today: 'Läggning',
                 history: 'Dagbok',
                 moon: 'Måne',
                 crystals: 'Kristaller',
+                spells: 'Spells',
                 hekate: 'Hekate',
                 settings: 'Synk'
             };
@@ -1609,6 +1853,8 @@
                 renderMoonView();
             } else if (tab === 'crystals') {
                 renderCrystals();
+            } else if (tab === 'spells') {
+                renderSpells();
             }
         }
 
@@ -1807,7 +2053,7 @@
                 const bannerHtml = selectedCard ? `
                     <div class="mt-3 p-3.5 rounded-xl bg-gradient-to-r from-mystic-800 to-mystic-950 border border-mystic-gold/40 flex flex-col sm:flex-row items-center justify-between gap-3">
                         <div class="flex items-center gap-3.5">
-                            <div class="w-11 h-14 rounded-lg bg-mystic-950 border border-mystic-gold flex items-center justify-center text-mystic-gold shadow-inner transition-transform duration-300 shrink-0" style="transform: ${slotState.isReversed ? 'rotate(180deg)' : 'rotate(0deg)'};">
+                            <div id="slot-card-icon-${idx}" class="w-11 h-14 rounded-lg bg-mystic-950 border border-mystic-gold flex items-center justify-center text-mystic-gold shadow-inner transition-transform duration-500 ease-out shrink-0" style="transform: ${slotState.isReversed ? 'rotate(180deg)' : 'rotate(0deg)'};">
                                 ${getCardSvg(selectedCard.id)}
                             </div>
                             <div>
@@ -1816,10 +2062,10 @@
                             </div>
                         </div>
                         <div class="flex items-center gap-1.5 bg-mystic-950 p-1 rounded-xl border border-mystic-700">
-                            <button type="button" onclick="setSlotOrientation(${idx}, false)" class="px-2.5 py-1 rounded-lg text-xs font-medium transition ${!slotState.isReversed ? 'bg-mystic-700 text-mystic-goldLight' : 'text-slate-400 hover:text-slate-200'}">
+                            <button type="button" id="slot-btn-up-${idx}" onclick="setSlotOrientation(${idx}, false)" class="px-2.5 py-1 rounded-lg text-xs font-medium transition ${!slotState.isReversed ? 'bg-mystic-700 text-mystic-goldLight' : 'text-slate-400 hover:text-slate-200'}">
                                 Rättvänt
                             </button>
-                            <button type="button" onclick="setSlotOrientation(${idx}, true)" class="px-2.5 py-1 rounded-lg text-xs font-medium transition ${slotState.isReversed ? 'bg-mystic-700 text-mystic-goldLight' : 'text-slate-400 hover:text-slate-200'}">
+                            <button type="button" id="slot-btn-rev-${idx}" onclick="setSlotOrientation(${idx}, true)" class="px-2.5 py-1 rounded-lg text-xs font-medium transition ${slotState.isReversed ? 'bg-mystic-700 text-mystic-goldLight' : 'text-slate-400 hover:text-slate-200'}">
                                 Upp & ner
                             </button>
                         </div>
@@ -1842,7 +2088,7 @@
                     const exBanner = exCard ? `
                         <div class="mt-2.5 p-3 rounded-xl bg-gradient-to-r from-mystic-800/80 to-mystic-950 border border-mystic-gold/30 flex flex-col sm:flex-row items-center justify-between gap-2.5">
                             <div class="flex items-center gap-3">
-                                <div class="w-9 h-12 rounded-lg bg-mystic-950 border border-mystic-gold/70 flex items-center justify-center text-mystic-gold shrink-0 transition-transform duration-300" style="transform: ${extra.isReversed ? 'rotate(180deg)' : 'rotate(0deg)'};">
+                                <div id="extra-card-icon-${idx}-${extraIdx}" class="w-9 h-12 rounded-lg bg-mystic-950 border border-mystic-gold/70 flex items-center justify-center text-mystic-gold shrink-0 transition-transform duration-500 ease-out" style="transform: ${extra.isReversed ? 'rotate(180deg)' : 'rotate(0deg)'};">
                                     ${getCardSvg(exCard.id, "w-6 h-6")}
                                 </div>
                                 <div>
@@ -1851,10 +2097,10 @@
                                 </div>
                             </div>
                             <div class="flex items-center gap-1.5 bg-mystic-950 p-1 rounded-xl border border-mystic-700">
-                                <button type="button" onclick="setExtraCardOrientation(${idx}, ${extraIdx}, false)" class="px-2 py-0.5 rounded-lg text-[11px] font-medium transition ${!extra.isReversed ? 'bg-mystic-700 text-mystic-goldLight' : 'text-slate-400 hover:text-slate-200'}">
+                                <button type="button" id="extra-btn-up-${idx}-${extraIdx}" onclick="setExtraCardOrientation(${idx}, ${extraIdx}, false)" class="px-2 py-0.5 rounded-lg text-[11px] font-medium transition ${!extra.isReversed ? 'bg-mystic-700 text-mystic-goldLight' : 'text-slate-400 hover:text-slate-200'}">
                                     Rättvänt
                                 </button>
-                                <button type="button" onclick="setExtraCardOrientation(${idx}, ${extraIdx}, true)" class="px-2 py-0.5 rounded-lg text-[11px] font-medium transition ${extra.isReversed ? 'bg-mystic-700 text-mystic-goldLight' : 'text-slate-400 hover:text-slate-200'}">
+                                <button type="button" id="extra-btn-rev-${idx}-${extraIdx}" onclick="setExtraCardOrientation(${idx}, ${extraIdx}, true)" class="px-2 py-0.5 rounded-lg text-[11px] font-medium transition ${extra.isReversed ? 'bg-mystic-700 text-mystic-goldLight' : 'text-slate-400 hover:text-slate-200'}">
                                     Upp & ner
                                 </button>
                             </div>
@@ -1940,7 +2186,16 @@
 
         function setSlotOrientation(slotIdx, reversed) {
             currentState.slots[slotIdx].isReversed = reversed;
-            renderSpreadSlots();
+            const iconBox = document.getElementById(`slot-card-icon-${slotIdx}`);
+            const btnUp = document.getElementById(`slot-btn-up-${slotIdx}`);
+            const btnRev = document.getElementById(`slot-btn-rev-${slotIdx}`);
+            if (iconBox) {
+                iconBox.style.transform = reversed ? 'rotate(180deg)' : 'rotate(0deg)';
+            }
+            if (btnUp && btnRev) {
+                btnUp.className = `px-2.5 py-1 rounded-lg text-xs font-medium transition ${!reversed ? 'bg-mystic-700 text-mystic-goldLight' : 'text-slate-400 hover:text-slate-200'}`;
+                btnRev.className = `px-2.5 py-1 rounded-lg text-xs font-medium transition ${reversed ? 'bg-mystic-700 text-mystic-goldLight' : 'text-slate-400 hover:text-slate-200'}`;
+            }
             if (currentState.isUnlocked) {
                 renderUnlockedMeanings();
             }
@@ -1994,7 +2249,16 @@
 
         function setExtraCardOrientation(slotIdx, extraIdx, reversed) {
             currentState.slots[slotIdx].extraCards[extraIdx].isReversed = reversed;
-            renderSpreadSlots();
+            const iconBox = document.getElementById(`extra-card-icon-${slotIdx}-${extraIdx}`);
+            const btnUp = document.getElementById(`extra-btn-up-${slotIdx}-${extraIdx}`);
+            const btnRev = document.getElementById(`extra-btn-rev-${slotIdx}-${extraIdx}`);
+            if (iconBox) {
+                iconBox.style.transform = reversed ? 'rotate(180deg)' : 'rotate(0deg)';
+            }
+            if (btnUp && btnRev) {
+                btnUp.className = `px-2 py-0.5 rounded-lg text-[11px] font-medium transition ${!reversed ? 'bg-mystic-700 text-mystic-goldLight' : 'text-slate-400 hover:text-slate-200'}`;
+                btnRev.className = `px-2 py-0.5 rounded-lg text-[11px] font-medium transition ${reversed ? 'bg-mystic-700 text-mystic-goldLight' : 'text-slate-400 hover:text-slate-200'}`;
+            }
             if (currentState.isUnlocked) {
                 renderUnlockedMeanings();
             }
@@ -2368,267 +2632,80 @@
         }
 
         // ==========================================
-        // MÅNKALENDER & MÅNFAS-BERÄKNING
+        // SPELLS & VARDAGSMAGI (WITCHCRAFT)
         // ==========================================
 
-        function getMoonPhaseInfo(dateObj = new Date()) {
-            const synodicMonth = 29.53058867;
-            // Känd nymåne som referenspunkt: 6 januari 2000 18:14 UTC
-            const knownNewMoon = Date.UTC(2000, 0, 6, 18, 14, 0);
-            const diffDays = (dateObj.getTime() - knownNewMoon) / (1000 * 60 * 60 * 24);
-            let age = diffDays % synodicMonth;
-            if (age < 0) age += synodicMonth;
-
-            const phaseRatio = age / synodicMonth; // 0.0 -> 1.0
-            const illumination = Math.round(((1 - Math.cos(2 * Math.PI * phaseRatio)) / 2) * 100);
-
-            let name = "";
-            let energy = "";
-            let ritualTip = "";
-            let isDarkMoon = false;
-
-            if (age >= 28.0 && age < 29.3) {
-                name = "Mörkermåne";
-                isDarkMoon = true;
-                energy = "Djup stillhet, rening, avslut och gränslandet mellan gammalt och nytt.";
-                ritualTip = "En kraftfull kväll för inre stillhet, rening och Hekates Deipnon. Rensa hemmet med rökelse, tänd ett svart eller vitt ljus och släpp taget om det du inte vill ta med in i nästa cykel.";
-            } else if (age < 1.2 || age >= 29.3) {
-                name = "Nymåne";
-                energy = "Nystart, tom duk, frösådd och inre fokus.";
-                ritualTip = "Skriv ner dina intentioner och mål för den nya måncykeln. Dra ett tarotkort för att se vilket tema som vill växa fram.";
-            } else if (age < 6.4) {
-                name = "Tilltagande skära";
-                energy = "Nyfikenhet, första steg, hopp och byggande.";
-                ritualTip = "Ta det första konkreta steget mot dina nymåneintentioner. Arbeta med Citrin, Karneol eller Grön Aventurin.";
-            } else if (age < 8.4) {
-                name = "Halvmåne i första kvarteret";
-                energy = "Handlingskraft, beslut, mod och genombrott.";
-                ritualTip = "Dags att fatta beslut och övervinna eventuella hinder. En bra dag för en 3-kortsläggning om vägval.";
-            } else if (age < 13.8) {
-                name = "Tilltagande halvmåne";
-                energy = "Förfining, tålamod, växande kraft och momentum.";
-                ritualTip = "Finjustera dina planer och vårda det du påbörjat. Fyll på med energi och fokus.";
-            } else if (age < 15.8) {
-                name = "Fullmåne";
-                energy = "Kulmen, stark intuition, klarhet och skörd.";
-                ritualTip = "Lägg ut dina kristaller och tarotkort i fönstret över natten för att ladda dem i fullmåneljuset. Gör större läggningar och fira dina framsteg.";
-            } else if (age < 21.1) {
-                name = "Avtagande halvmåne";
-                energy = "Tacksamhet, dela visdom och smälta insikter.";
-                ritualTip = "Reflektera över vad fullmånen belyste för dig och dela din värme med andra.";
-            } else if (age < 23.1) {
-                name = "Halvmåne i sista kvarteret";
-                energy = "Släppa taget, rensa ut och förlåta.";
-                ritualTip = "Rensa bort det som dränerar dig – både fysiskt i hemmet och mentalt. Reningsbad med havssalt eller rökelse passar utmärkt.";
-            } else {
-                name = "Avtagande skära (Balsamisk måne)";
-                energy = "Vila, drömmar, återhämtning och inre stillhet.";
-                ritualTip = "Sakta ner tempot, vila och var uppmärksam på dina drömmar inför den kommande mörkermånen.";
-            }
-
-            return { age, phaseRatio, illumination, name, energy, ritualTip, isDarkMoon, synodicMonth };
-        }
-
-        function renderMoonSvg(phaseRatio, sizeClass = "w-20 h-20") {
-            const r = 40;
-            const cx = 50;
-            const cy = 50;
-            const cosVal = Math.cos(2 * Math.PI * phaseRatio);
-            const rx = Math.abs(cosVal) * r;
-            const isWaxing = phaseRatio <= 0.5;
-            const isGibbous = phaseRatio > 0.25 && phaseRatio < 0.75;
-
-            let litPath = "";
-            if (phaseRatio < 0.03 || phaseRatio > 0.97) {
-                litPath = "";
-            } else if (phaseRatio > 0.46 && phaseRatio < 0.54) {
-                litPath = `<circle cx="${cx}" cy="${cy}" r="${r}" fill="#e2b963" fill-opacity="0.92" />`;
-            } else if (isWaxing) {
-                const sweepInner = isGibbous ? 1 : 0;
-                litPath = `<path d="M ${cx} ${cy - r} A ${r} ${r} 0 0 1 ${cx} ${cy + r} A ${rx} ${r} 0 0 ${sweepInner} ${cx} ${cy - r} Z" fill="#e2b963" fill-opacity="0.92" />`;
-            } else {
-                const sweepInner = isGibbous ? 0 : 1;
-                litPath = `<path d="M ${cx} ${cy - r} A ${r} ${r} 0 0 0 ${cx} ${cy + r} A ${rx} ${r} 0 0 ${sweepInner} ${cx} ${cy - r} Z" fill="#e2b963" fill-opacity="0.92" />`;
-            }
-
-            return `
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" class="${sizeClass}">
-                    <circle cx="${cx}" cy="${cy}" r="${r}" fill="#090714" stroke="#e2b963" stroke-width="2" stroke-opacity="0.65" />
-                    ${litPath}
-                </svg>
-            `;
-        }
-
-        function getUpcomingMoonDates() {
-            const results = [];
-            const now = new Date();
-            const targets = [
-                { key: "DarkMoon", label: "Nästa Mörkermåne", match: (age) => age >= 28.2 && age < 29.2 },
-                { key: "Nymåne", label: "Nästa Nymåne", match: (age) => age < 1.0 || age >= 29.4 },
-                { key: "Fullmåne", label: "Nästa Fullmåne", match: (age) => age >= 14.3 && age <= 15.3 }
-            ];
-
-            targets.forEach(t => {
-                for (let d = 0; d <= 32; d++) {
-                    const testDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() + d, 12, 0, 0);
-                    const info = getMoonPhaseInfo(testDate);
-                    if (t.match(info.age)) {
-                        const dateStr = `${testDate.getFullYear()}-${String(testDate.getMonth() + 1).padStart(2, '0')}-${String(testDate.getDate()).padStart(2, '0')}`;
-                        const daysText = d === 0 ? "Idag!" : (d === 1 ? "Imorgon" : `Om ${d} dagar`);
-                        results.push({ label: t.label, dateStr, daysText });
-                        break;
-                    }
-                }
-            });
-            return results;
-        }
-
-        function renderMoonView() {
-            const info = getMoonPhaseInfo(new Date());
-            const cardEl = document.getElementById('current-moon-card');
-            if (cardEl) {
-                const darkMoonBadge = info.isDarkMoon
-                    ? `<span class="inline-block text-[11px] px-2.5 py-0.5 rounded-full bg-purple-500/20 text-purple-200 border border-purple-400/40 mb-1">Tid för stillhet, rening & Hekates Deipnon</span>`
-                    : '';
-                cardEl.innerHTML = `
-                    <div class="flex flex-col sm:flex-row items-center gap-6">
-                        <div class="shrink-0 p-2 rounded-full bg-mystic-950 border border-mystic-700/80 shadow-inner">
-                            ${renderMoonSvg(info.phaseRatio, "w-24 h-24")}
-                        </div>
-                        <div class="space-y-2 text-center sm:text-left">
-                            ${darkMoonBadge}
-                            <div class="flex flex-wrap items-center justify-center sm:justify-start gap-2">
-                                <span class="text-xs uppercase tracking-wider text-mystic-gold font-semibold">Aktuell månfas</span>
-                                <span class="text-xs px-2.5 py-0.5 rounded-full bg-mystic-950 text-slate-300 border border-mystic-700">${info.illumination}% belyst • Dag ${Math.floor(info.age) + 1} av 29</span>
-                            </div>
-                            <h3 class="font-serif text-2xl font-bold text-white">${escapeHtml(info.name)}</h3>
-                            <p class="text-sm text-mystic-goldLight font-medium">${escapeHtml(info.energy)}</p>
-                            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed pt-1">${escapeHtml(info.ritualTip)}</p>
-                        </div>
-                    </div>
-                `;
-            }
-
-            const upcomingEl = document.getElementById('upcoming-moon-events');
-            if (upcomingEl) {
-                const events = getUpcomingMoonDates();
-                upcomingEl.innerHTML = events.map(ev => `
-                    <div class="p-4 rounded-xl bg-mystic-950 border border-mystic-800 flex items-center justify-between gap-3">
-                        <div>
-                            <span class="text-xs font-serif font-semibold text-mystic-goldLight block">${escapeHtml(ev.label)}</span>
-                            <span class="text-xs text-slate-400">${escapeHtml(ev.dateStr)}</span>
-                        </div>
-                        <span class="text-xs px-2.5 py-1 rounded-full bg-mystic-800 text-mystic-gold font-medium shrink-0">${escapeHtml(ev.daysText)}</span>
-                    </div>
-                `).join('');
-            }
-        }
-
-        // ==========================================
-        // KRISTALLGUIDE
-        // ==========================================
-
-        function setCrystalFilter(category) {
-            activeCrystalCategory = category;
-            document.querySelectorAll('.crystal-filter-btn').forEach(btn => {
+        function setSpellFilter(category) {
+            activeSpellCategory = category;
+            document.querySelectorAll('.spell-filter-btn').forEach(btn => {
                 if (btn.textContent.trim() === category) {
-                    btn.className = "crystal-filter-btn px-3 py-1 rounded-full text-xs font-medium bg-mystic-700 text-mystic-goldLight border border-mystic-gold/40";
+                    btn.className = "spell-filter-btn px-3 py-1 rounded-full text-xs font-medium bg-mystic-700 text-mystic-goldLight border border-mystic-gold/40";
                 } else {
-                    btn.className = "crystal-filter-btn px-3 py-1 rounded-full text-xs font-medium bg-mystic-950 text-slate-400 border border-mystic-700 hover:text-slate-200";
+                    btn.className = "spell-filter-btn px-3 py-1 rounded-full text-xs font-medium bg-mystic-950 text-slate-400 border border-mystic-700 hover:text-slate-200";
                 }
             });
-            renderCrystals();
+            renderSpells();
         }
 
-        function setCrystalColorFilter(color) {
-            activeCrystalColor = color;
-            const targetLabel = color === 'Alla' ? 'Alla färger' : color;
-            document.querySelectorAll('.crystal-color-btn').forEach(btn => {
-                const text = btn.textContent.trim();
-                const isMatch = text === targetLabel || (color === 'Gul & Orange' && text === 'Gul/Orange') || (color === 'Röd & Brun' && text === 'Röd/Brun') || (color === 'Svart & Grå' && text === 'Svart/Grå') || (color === 'Vit & Klar' && text === 'Vit/Klar');
-                if (isMatch) {
-                    btn.className = "crystal-color-btn px-2.5 py-1 rounded-full text-xs font-medium bg-mystic-700 text-mystic-goldLight border border-mystic-gold/40 flex items-center gap-1.5";
-                } else {
-                    btn.className = "crystal-color-btn px-2.5 py-1 rounded-full text-xs font-medium bg-mystic-950 text-slate-400 border border-mystic-700 hover:text-slate-200 flex items-center gap-1.5";
-                }
-            });
-            renderCrystals();
-        }
-
-        function renderCrystals() {
-            const listEl = document.getElementById('crystals-list');
+        function renderSpells() {
+            const listEl = document.getElementById('spells-list');
             if (!listEl) return;
-            const query = (document.getElementById('crystal-search')?.value || "").toLowerCase().trim();
+            const query = (document.getElementById('spell-search')?.value || "").toLowerCase().trim();
 
-            const filtered = CRYSTAL_GUIDE.filter(c => {
-                const matchesCat = activeCrystalCategory === "Alla" || c.category === activeCrystalCategory;
-                const matchesColor = activeCrystalColor === "Alla" || (Array.isArray(c.colors) && c.colors.includes(activeCrystalColor));
+            const filtered = SPELL_GUIDE.filter(sp => {
+                const matchesCat = activeSpellCategory === "Alla" || sp.category === activeSpellCategory;
                 const matchesQuery = !query ||
-                    c.name.toLowerCase().includes(query) ||
-                    c.keywords.toLowerCase().includes(query) ||
-                    c.purpose.toLowerCase().includes(query) ||
-                    c.chakra.toLowerCase().includes(query);
-                return matchesCat && matchesColor && matchesQuery;
+                    sp.title.toLowerCase().includes(query) ||
+                    sp.category.toLowerCase().includes(query) ||
+                    sp.summary.toLowerCase().includes(query) ||
+                    sp.ingredients.some(i => i.toLowerCase().includes(query)) ||
+                    sp.steps.some(st => st.toLowerCase().includes(query));
+                return matchesCat && matchesQuery;
             });
 
             if (filtered.length === 0) {
                 listEl.innerHTML = `
                     <div class="bg-mystic-900/60 border border-dashed border-mystic-700 rounded-2xl p-8 text-center space-y-2.5">
                         <div class="w-11 h-11 rounded-xl bg-mystic-800/80 border border-mystic-gold/40 flex items-center justify-center mx-auto text-mystic-gold">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><polygon points="12 2 19 8 16 21 8 21 5 8 12 2"/><line x1="5" y1="8" x2="19" y2="8"/><line x1="12" y1="2" x2="12" y2="21"/></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><path d="M12 3l1.9 5.8L20 11l-6.1 2.2L12 19l-1.9-5.8L4 11l6.1-2.2L12 3z"/></svg>
                         </div>
-                        <h3 class="font-serif text-base font-semibold text-mystic-goldLight">Ingen kristall matchade sökningen</h3>
-                        <p class="text-xs text-slate-400">Prova att återställa kategori- eller färgfiltret ovan.</p>
+                        <h3 class="font-serif text-base font-semibold text-mystic-goldLight">Ingen spell matchade sökningen</h3>
+                        <p class="text-xs text-slate-400">Prova att söka på t.ex. "jar", "kanel", "salt" eller klicka på "Alla".</p>
                     </div>
                 `;
                 return;
             }
 
-            listEl.innerHTML = filtered.map(c => {
-                const waterBadge = c.waterSafe
-                    ? `<span class="inline-flex items-center gap-1.5 text-[11px] px-2.5 py-0.5 rounded-full bg-sky-500/10 text-sky-300 border border-sky-500/30"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg><span>Tål kort vatten</span></span>`
-                    : `<span class="inline-flex items-center gap-1.5 text-[11px] px-2.5 py-0.5 rounded-full bg-rose-500/15 text-rose-300 border border-rose-500/40"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg><span>Ej i vatten</span></span>`;
+            listEl.innerHTML = filtered.map(sp => {
+                const ingredientsHtml = sp.ingredients.map(ing => `<li>${escapeHtml(ing)}</li>`).join('');
+                const stepsHtml = sp.steps.map(step => `<li>${step}</li>`).join('');
 
                 return `
-                    <article class="bg-mystic-900 border border-mystic-700/60 rounded-2xl p-5 shadow-lg space-y-3.5">
-                        <div class="flex items-start justify-between gap-3 border-b border-mystic-800 pb-3">
-                            <div class="flex items-center gap-3">
-                                <div class="w-11 h-11 rounded-xl bg-mystic-950 border border-mystic-700 flex items-center justify-center shrink-0" style="color: ${c.colorHex};">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" fill-opacity="0.2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
-                                        <polygon points="12 2 19 8 16 21 8 21 5 8 12 2"></polygon>
-                                        <line x1="5" y1="8" x2="19" y2="8"></line>
-                                        <line x1="12" y1="2" x2="12" y2="21"></line>
-                                    </svg>
+                    <article class="bg-mystic-900 border border-mystic-700/60 rounded-2xl p-5 sm:p-6 shadow-lg space-y-4">
+                        <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-2 border-b border-mystic-800 pb-3">
+                            <div>
+                                <div class="flex flex-wrap items-center gap-2 mb-1">
+                                    <span class="text-[11px] uppercase tracking-wider text-mystic-gold font-semibold">${escapeHtml(sp.category)}</span>
+                                    <span class="text-[11px] px-2.5 py-0.5 rounded-full bg-mystic-950 text-slate-300 border border-mystic-700">${escapeHtml(sp.moonTiming)}</span>
                                 </div>
-                                <div>
-                                    <h3 class="font-serif text-lg font-bold text-white">${escapeHtml(c.name)}</h3>
-                                    <p class="text-xs text-mystic-gold">${escapeHtml(c.category)} • ${escapeHtml(c.chakra)}</p>
-                                </div>
+                                <h3 class="font-serif text-lg font-bold text-white">${escapeHtml(sp.title)}</h3>
                             </div>
-                            ${waterBadge}
                         </div>
 
-                        <p class="text-xs text-mystic-goldLight font-medium flex items-center gap-1.5">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 text-mystic-gold shrink-0"><path d="M12 3l1.9 5.8L20 11l-6.1 2.2L12 19l-1.9-5.8L4 11l6.1-2.2L12 3z"/></svg>
-                            <span>${escapeHtml(c.keywords)}</span>
-                        </p>
-                        <p class="text-sm text-slate-300 leading-relaxed">${escapeHtml(c.purpose)}</p>
+                        <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">${escapeHtml(sp.summary)}</p>
 
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
-                            <div class="p-3 rounded-xl bg-mystic-950/80 border border-mystic-800">
-                                <span class="text-[11px] uppercase tracking-wider text-mystic-gold font-semibold flex items-center gap-1.5">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5"><path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"/></svg>
-                                    <span>Rening</span>
-                                </span>
-                                <p class="text-xs text-slate-300 mt-1 leading-relaxed">${escapeHtml(c.cleanse)}</p>
-                            </div>
-                            <div class="p-3 rounded-xl bg-mystic-950/80 border border-mystic-800">
-                                <span class="text-[11px] uppercase tracking-wider text-mystic-gold font-semibold flex items-center gap-1.5">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
-                                    <span>Uppladdning</span>
-                                </span>
-                                <p class="text-xs text-slate-300 mt-1 leading-relaxed">${escapeHtml(c.charge)}</p>
-                            </div>
+                        <div class="p-3.5 rounded-xl bg-mystic-950/80 border border-mystic-800 space-y-1.5">
+                            <span class="text-[11px] uppercase tracking-wider text-mystic-gold font-semibold block">Du behöver</span>
+                            <ul class="text-xs sm:text-sm text-slate-300 space-y-1 list-disc list-inside leading-relaxed">
+                                ${ingredientsHtml}
+                            </ul>
+                        </div>
+
+                        <div class="space-y-1.5">
+                            <span class="text-[11px] uppercase tracking-wider text-mystic-gold font-semibold block">Så gör du</span>
+                            <ol class="text-xs sm:text-sm text-slate-300 space-y-1.5 list-decimal list-inside leading-relaxed">
+                                ${stepsHtml}
+                            </ol>
                         </div>
                     </article>
                 `;
